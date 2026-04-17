@@ -1,0 +1,80 @@
+.py-xl {
+  padding: 6rem 0;
+}
+
+@media (max-width: 768px) {
+  .py-xl {
+    padding: 4rem 0;
+  }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: var(--color-slate);
+  margin-bottom: 1rem;
+}
+
+.section-header p {
+  color: var(--color-slate-light);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Laptop Referral Section */
+.laptop-referral {
+  padding: 4rem 2rem;
+  background-color: var(--color-cream);
+  margin-top: 2rem;
+}
+
+.laptop-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 4rem;
+  border-radius: 8px;
+}
+
+.laptop-text h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.laptop-text p {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.btn-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  transition: opacity 0.2s;
+}
+
+.btn-link:hover {
+  opacity: 0.8;
+}

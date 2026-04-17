@@ -1,0 +1,102 @@
+{
+  "products": [
+    {
+      "id": "SKIN-1001",
+      "name": "Botanical Revival Serum",
+      "category": "Serums",
+      "skinType": ["Dry", "Sensitive"],
+      "price": 65.00,
+      "images": {
+        "primary": "/assets/serum_texture.jpg",
+        "texture": "/assets/serum_texture.jpg"
+      },
+      "description": "A lightweight, fragrance-free serum powered by encapsulated hyaluronic acid and raw botanical extracts to replenish luminosity.",
+      "keyIngredients": ["Hyaluronic Acid", "Vitamin E", "Ceramides"],
+      "usageInstructions": "Apply 2-3 drops to damp skin morning and night.",
+      "badges": ["Vegan", "Cruelty-Free"]
+    },
+    {
+      "id": "SKIN-1002",
+      "name": "Restorative Moisture Cream",
+      "category": "Moisturizers",
+      "skinType": ["Dry", "Normal"],
+      "price": 85.00,
+      "images": {
+        "primary": "/assets/cream_texture.jpg",
+        "texture": "/assets/cream_texture.jpg"
+      },
+      "description": "An ultra-rich, velvety cream formulated to repair the skin's barrier and lock in intense hydration for 48 hours.",
+      "keyIngredients": ["Shea Butter", "Niacinamide", "Peptides"],
+      "usageInstructions": "Massage a dime-sized amount gently into the face and neck as the final step in your routine.",
+      "badges": ["Fragrance-Free", "Dermatologist Tested"]
+    },
+    {
+      "id": "SKIN-1003",
+      "name": "Radiance Renewal Cleanser",
+      "category": "Cleansers",
+      "skinType": ["All", "Oily", "Combination"],
+      "price": 38.00,
+      "images": {
+        "primary": "/assets/cream_texture.jpg",
+        "texture": "/assets/serum_texture.jpg"
+      },
+      "description": "A gentle, gel-to-milk cleanser that dissolves impurities without stripping the skin's natural moisture barrier.",
+      "keyIngredients": ["Green Tea Extract", "Aloe Vera", "Glycerin"],
+      "usageInstructions": "Massage onto damp skin in circular motions. Rinse with lukewarm water. Use morning and evening.",
+      "badges": ["Vegan", "Sulfate-Free"]
+    },
+    {
+      "id": "SKIN-1004",
+      "name": "Luminous Eye Elixir",
+      "category": "Eye Care",
+      "skinType": ["All", "Sensitive"],
+      "price": 72.00,
+      "images": {
+        "primary": "/assets/serum_texture.jpg",
+        "texture": "/assets/cream_texture.jpg"
+      },
+      "description": "A featherlight eye concentrate with caffeine and bakuchiol to visibly reduce dark circles and fine lines.",
+      "keyIngredients": ["Caffeine", "Bakuchiol", "Vitamin C"],
+      "usageInstructions": "Pat gently around the orbital bone using your ring finger, morning and evening.",
+      "badges": ["Cruelty-Free", "Ophthalmologist Tested"]
+    },
+    {
+      "id": "SKIN-1005",
+      "name": "Sage & Rose Facial Mist",
+      "category": "Toners",
+      "skinType": ["All", "Dry", "Sensitive"],
+      "price": 42.00,
+      "images": {
+        "primary": "/assets/cream_texture.jpg",
+        "texture": "/assets/serum_texture.jpg"
+      },
+      "description": "A soothing hydrating mist infused with wild sage extract and Bulgarian rose water to balance and prep the skin.",
+      "keyIngredients": ["Sage Extract", "Rose Water", "Panthenol"],
+      "usageInstructions": "Mist evenly over face after cleansing or throughout the day for an instant refresh.",
+      "badges": ["Vegan", "Alcohol-Free"]
+    },
+    {
+      "id": "SKIN-1006",
+      "name": "Overnight Renewal Mask",
+      "category": "Masks",
+      "skinType": ["Dry", "Normal", "Sensitive"],
+      "price": 58.00,
+      "images": {
+        "primary": "/assets/serum_texture.jpg",
+        "texture": "/assets/cream_texture.jpg"
+      },
+      "description": "A rich overnight sleeping mask that works with your skin's natural repair cycle to deliver a dewy, plumped complexion by morning.",
+      "keyIngredients": ["Retinol Alternative", "Squalane", "Probiotics"],
+      "usageInstructions": "Apply as the last step of your evening routine. Leave on overnight and rinse in the morning.",
+      "badges": ["Fragrance-Free", "Vegan"]
+    }
+  ],
+  "laptopReferrals": [
+    {
+      "id": "TECH-01",
+      "name": "Modern Creator Workstation",
+      "url": "https://example.com/laptops/creator-workstation",
+      "tagline": "The ultimate tool for designing your life."
+    }
+  ]
+}

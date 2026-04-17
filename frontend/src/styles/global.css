@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* Brand Colors — rhaysource */
+  --color-yellow: #F5C518;
+  --color-yellow-dark: #D97706;
+  --color-yellow-light: #FEF3C7;
+  --color-yellow-bg: #FFFBEB;
+
+  --color-blue: #1A56DB;
+  --color-blue-dark: #1e3a8a;
+  --color-blue-light: #BFDBFE;
+
+  /* Legacy aliases kept for backward compat */
+  --color-sage: #F5C518;
+  --color-sage-light: #FEF3C7;
+  --color-sage-dark: #D97706;
+  --color-cream: #FFFBEB;
+  --color-cream-light: #FFFFFF;
+  --color-cream-dark: #FEF3C7;
+
+  --color-slate: #111827;
+  --color-slate-light: #6B7280;
+  --color-background: #FFFFFF;
+  --color-surface: #FFFFFF;
+
+  --color-text: var(--color-slate);
+  --color-text-light: var(--color-slate-light);
+  --color-text-inverse: #ffffff;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Animations & Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease-in-out;
+  
+  /* Shadows */
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  /* Layout */
+  --layout-max-width: 1400px;
+  --sidebar-width: 400px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(44, 49, 53, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Base utility classes */
+.container {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
