@@ -33,36 +33,56 @@
 
 @media (max-width: 600px) {
   .product-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
 /* Laptop Referral Section */
 .laptop-referral {
-  padding: 4rem 2rem;
-  background-color: var(--color-cream);
-  margin-top: 2rem;
+  padding: 6rem 0;
+  background-color: var(--color-yellow-bg);
+  margin-top: 3rem;
+  overflow: hidden;
 }
 
 .laptop-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 4rem;
-  border-radius: 8px;
+  padding: 4rem;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  gap: 2rem;
 }
 
 .laptop-text h3 {
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  color: var(--color-blue);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .laptop-text p {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  opacity: 0.9;
+  color: var(--color-slate-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .laptop-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+  
+  .laptop-text {
+    max-width: 100%;
+  }
+
+  .laptop-text h3 {
+    font-size: 1.75rem;
+  }
 }
 
 .btn-link {

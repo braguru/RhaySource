@@ -1,38 +1,32 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import HeroSection from './components/features/HeroSection';
-import ProductCard from './components/features/ProductCard';
-import ContactForm from './components/features/ContactForm';
-import productsData from './data/products.json';
+import ScrollToTop from './components/ScrollToTop';
+import HomePage from './pages/HomePage';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import AboutPage from './pages/AboutPage';
+import { CartProvider } from './context/CartContext';
 import './App.css';
 
 function App() {
-  const { products } = productsData;
-
   return (
-    <>
-      <Navbar />
-      <main>
-        <HeroSection />
-        
-        <section className="container py-xl" id="skincare">
-          <div className="section-header">
-            <h2>The Daily Essentials</h2>
-            <p>Curated formulas engineered to support your skin barrier.</p>
-          </div>
-          
-          <div className="product-grid">
-            {products.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
-
-        <ContactForm />
-      </main>
-      <Footer />
-    </>
+    <CartProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/products/:slug" element={<ProductDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

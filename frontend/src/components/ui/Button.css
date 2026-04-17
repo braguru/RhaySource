@@ -12,12 +12,12 @@
 .btn-primary {
   background-color: var(--color-yellow);
   color: var(--color-slate);
-  box-shadow: 0 4px 14px rgba(245, 197, 24, 0.35);
+  box-shadow: 0 4px 14px rgba(254, 187, 0, 0.35);
 }
 
 .btn-primary:hover {
   background-color: var(--color-yellow-dark);
-  box-shadow: 0 6px 20px rgba(245, 197, 24, 0.45);
+  box-shadow: 0 6px 20px rgba(254, 187, 0, 0.45);
   transform: translateY(-2px);
 }
 

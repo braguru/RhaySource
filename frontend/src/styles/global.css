@@ -1,23 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@900&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Brand Colors — rhaysource */
-  --color-yellow: #F5C518;
-  --color-yellow-dark: #D97706;
-  --color-yellow-light: #FEF3C7;
-  --color-yellow-bg: #FFFBEB;
+  --color-yellow: #FEBB00;
+  --color-yellow-dark: #D4A000;
+  --color-yellow-light: #FFF3CC;
+  --color-yellow-bg: #FFFAE0;
 
-  --color-blue: #1A56DB;
-  --color-blue-dark: #1e3a8a;
-  --color-blue-light: #BFDBFE;
+  --color-blue: #013597;
+  --color-blue-dark: #012880;
+  --color-blue-light: #99B5EE;
 
   /* Legacy aliases kept for backward compat */
-  --color-sage: #F5C518;
-  --color-sage-light: #FEF3C7;
-  --color-sage-dark: #D97706;
-  --color-cream: #FFFBEB;
+  --color-sage: #FEBB00;
+  --color-sage-light: #FFF3CC;
+  --color-sage-dark: #D4A000;
+  --color-cream: #FFFAE0;
   --color-cream-light: #FFFFFF;
-  --color-cream-dark: #FEF3C7;
+  --color-cream-dark: #FFF3CC;
 
   --color-slate: #111827;
   --color-slate-light: #6B7280;
@@ -29,7 +29,7 @@
   --color-text-inverse: #ffffff;
 
   /* Typography */
-  --font-heading: 'Playfair Display', serif;
+  --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 
   /* Animations & Transitions */
@@ -51,6 +51,11 @@
   padding: 0;
 }
 
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-background);
@@ -68,10 +73,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .glass-dark {

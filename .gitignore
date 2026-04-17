@@ -15,3 +15,9 @@ backend/dist/
 .github/
 
 stitch-designs/
+.playwright-mcp/
+.playwright-video/
+.playwright-cache/
+.playwright-report/
+.playwright-trace/
+.playwright-screenshot/
