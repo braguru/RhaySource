@@ -12,12 +12,11 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-logo {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  color: var(--color-yellow);
-  letter-spacing: 0.05em;
+.footer-logo-img {
+  height: 32px;
+  width: auto;
   margin-bottom: 1rem;
+  filter: brightness(0) invert(1);
 }
 
 .footer-tagline {
@@ -41,7 +40,7 @@
 }
 
 .footer-socials a:hover {
-  color: var(--color-sage-light);
+  color: var(--color-yellow);
 }
 
 .footer-col h3 {
@@ -69,7 +68,7 @@
 }
 
 .footer-col ul a:hover {
-  color: var(--color-sage-light);
+  color: var(--color-yellow);
 }
 
 .footer-bottom {
@@ -95,7 +94,7 @@
 }
 
 .footer-tech-link:hover {
-  color: var(--color-sage-light);
+  color: var(--color-yellow);
 }
 
 @media (max-width: 900px) {
