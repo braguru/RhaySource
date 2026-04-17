@@ -1,38 +1,39 @@
-# Premium Skincare Application - Project Context
+# RhaySource Premium Skincare — Project Context
 
 ## Overview
-This repository contains a high-end, frontend-only web application heavily focused on a beautiful, luxury landing page for premium skincare products. As a secondary offering, the application subtly references laptop and electronics products via unobtrusive links or partner blocks. The backend-less architecture prioritizes static JSON data and direct third-party service integration for contact forms.
+RhaySource is a high-end, frontend-only e-commerce experience designed for premium skincare enthusiasts. The platform focuses on a luxury, minimalist aesthetic ("Minimalist Modern Luxury") with a clinical touch. It features a fully functional "Bag" (Cart) system that enables users to curate products and contact the vendor directly via WhatsApp or Email to finalize orders.
 
 ## Technology Stack
 - **Framework:** React 19 via Vite
 - **Language:** JavaScript (ESModules)
-- **Styling:** Vanilla CSS Custom Properties (`frontend/src/index.css`)
-- **Data:** Static JSON files (`frontend/src/data/products.json`)
-- **Linting:** ESLint Configuration natively integrated.
+- **Styling:** Vanilla CSS with a centralized Design Token system (`src/styles/global.css`)
+- **State Management:** React Context API (`CartContext`) with `localStorage` persistence
+- **Data:** Static JSON-based database (`src/data/products.json`)
+- **Assets:** Optimized product imagery located in `public/assets/products/`
 
 ## Architecture & Directory Structure
-The workspace is split into core folders:
 - `/frontend`: The main React/Vite web application.
-- `/stitch-designs`: A directory for generated/stored UI designs and tokens.
+- `/frontend/src/components/features`: Domain-specific components like `CartDrawer`, `ProductCard`, and `HeroSection`.
+- `/frontend/src/components/layout`: Structural components like `Navbar` (with integrated search) and `Footer`.
+- `/frontend/src/context`: Global state management for shopping basket logic.
+- `/frontend/src/pages`: Direct routing pages for Home, Shop, and Product Details.
+- `/frontend/src/utils`: Helper functions for slugs and data manipulation.
 
-Inside `/frontend/src`:
-- **`components/ui/`**: Universal, atomic UI components (Buttons, Modals, Inputs).
-- **`components/layout/`**: Structural components (Navigation, Footers, Hero wrappers).
-- **`components/features/`**: Domain-specific complex components (e.g., `ProductCard`, `ContactForm`).
-- **`hooks/`**: Shared custom logic (e.g., scroll triggers).
-- **`styles/`**: Additional CSS modules or design tokens.
-- **`data/`**: Static schema for the application (e.g., Google JSON-LD schema pattern).
+## Core Features & Workflows
+1. **Catalog Expansion:** The platform hosts a curated database of 50+ premium products from global brands (CeraVe, Beauty of Joseon, SKIN1004, etc.).
+2. **Localized Experience:** Pricing is standardized in **GH₵ (Ghana Cedis)** with a layout optimized for both desktop and mobile readability.
+3. **Cart & Order Flow:** 
+   - Users add items to a persistent "Bag".
+   - A slide-out `CartDrawer` allows quantity adjustments and order review.
+   - Ordering is handled via a generated WhatsApp message or pre-filled Email, containing a summarized list of items and total estimate.
+4. **Intelligent Discovery:** Features a live search overlay that indexes the entire product database and dynamic filtering by category (Serums, Sunscreens, Body Care, etc.).
 
-## Design & Theme Aesthetic
-The application uses strict CSS variables for a structured dark/light mode setup.
-- **Primary Aesthetics:** Premium "wow" factor, parallax scrolling, glassmorphism cards, and macro imagery.
-- **Color Palette Variables:** Built-in variables (`--text`, `--bg`, `--accent`) handling light and dark (`#16171d`) themes.
-- **Typography:** Modern typography stack with system-ui sans and mono fonts, scalable globally.
+## Environment Configuration
+The project relies on `.env` variables for vendor contact details:
+- `VITE_WHATSAPP_NUMBER`: The primary contact for order fulfillment.
+- `VITE_CONTACT_EMAIL`: The support email address.
 
-## Core Workflows
-1. **Catalog Browsing:** Users view Bestsellers and Categories driven by the static JSON product schema.
-2. **Laptop Referral:** A secondary funnel leading to tech/electronics visually separated from the luxury skincare immersion.
-3. **Contacting Retailer:** Secure, environment-variable-backed email integration (e.g., EmailJS).
-
-## Project Requirements Document
-Refer to `/requirements.md` in the workspace root for the full initial Product Requirements Document and the expected `products.json` schema.
+## Design Identity
+- **Aesthetic:** High-contrast minimalist design using "Outfit" for headings and "Inter" for body text.
+- **Visuals:** Uses glassmorphism (90% opacity), smooth Framer Motion animations, and a consistent golden-yellow and deep-blue brand palette.
+- **Responsiveness:** Mobile-first approach with custom body-scroll locking for overlays and drawers.
