@@ -109,6 +109,14 @@ export default function HomeLivingShopPage() {
         </div>
       </section>
 
+      {/* Mobile Filter Trigger — outside flex body for reliable sticky positioning */}
+      <div className="hl-mobile-controls hl-mobile-only">
+        <button className="hl-mobile-filter-btn" onClick={() => setIsFilterOpen(true)}>
+          <FiSliders />
+          <span>Filter by Category</span>
+        </button>
+      </div>
+
       {/* Body */}
       <div className="container hl-shop-body">
 
@@ -118,14 +126,6 @@ export default function HomeLivingShopPage() {
         </aside>
 
         <main className="hl-shop-main">
-          {/* Mobile Filter Trigger */}
-          <div className="hl-mobile-controls hl-mobile-only">
-            <button className="hl-mobile-filter-btn" onClick={() => setIsFilterOpen(true)}>
-              <FiSliders />
-              <span>Filter by Category</span>
-            </button>
-          </div>
-
           <motion.div layout className="hl-product-grid">
             <AnimatePresence mode="popLayout">
               {filtered.length > 0 ? (

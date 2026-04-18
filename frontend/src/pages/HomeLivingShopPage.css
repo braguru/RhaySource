@@ -251,33 +251,33 @@
 
 .hl-mobile-controls {
   position: sticky;
-  top: 85px; 
-  z-index: 100;
+  top: 70px; /* Precise docking with sticky navbar */
+  z-index: 1001; 
   padding: 1rem 0;
-  margin-bottom: 2rem;
-  display: none; 
   justify-content: center;
-  background: transparent; /* Entirely transparent background */
-  pointer-events: none;
+  border-bottom: 1px solid rgba(124, 158, 133, 0.05);
+  width: 100%;
+  pointer-events: none; /* Container is passthrough so it doesn't block cards */
 }
 
+/* Visibility handled by .hl-mobile-only utility */
+
 .hl-mobile-filter-btn {
-  pointer-events: auto;
   pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.75rem 2.5rem;
-  background: rgba(255, 255, 255, 0.6); /* Translucent floating feel */
+  background: rgba(255, 255, 255, 0.1); /* Minimal opacity for ghost/glass effect */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: #1a2e1f;
-  border: 1px solid rgba(124, 158, 133, 0.15);
+  border: 1.5px solid rgba(124, 158, 133, 0.2);
   border-radius: 50px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
 }
 
 /* Mobile Drawer */
@@ -285,7 +285,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 200;
+  z-index: 3000; /* Higher than sticky filter bar (1001) */
 }
 
 .hl-drawer {
@@ -296,7 +296,7 @@
   max-width: 320px;
   height: 100%;
   background: #ffffff;
-  z-index: 201;
+  z-index: 3001; /* Higher than backdrop */
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 24px rgba(0,0,0,0.1);
@@ -366,8 +366,8 @@
     padding-top: 0; 
     padding-bottom: 4rem; 
   }
-  .hl-shop-hero { 
-    margin-bottom: 5rem; /* Significant space for mobile */
+  .hl-shop-hero {
+    margin-bottom: 1rem;
   }
   .hl-shop-main {
     display: block; /* Ensure sticky container can travel */
@@ -376,7 +376,6 @@
   .hl-desktop-only { display: none; }
   .hl-mobile-only  { display: flex; }
   .hl-product-grid { grid-template-columns: repeat(2, 1fr); }
-  .hl-shop-hero { margin-bottom: 0; }
 }
 
 @media (max-width: 480px) {
