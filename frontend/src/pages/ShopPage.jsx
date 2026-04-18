@@ -123,17 +123,6 @@ export default function ShopPage() {
           <FilterContent />
         </aside>
 
-        {/* Mobile Filter Trigger */}
-        <div className="mobile-filter-bar container">
-          <button 
-            className="filter-toggle-btn"
-            onClick={() => setIsFilterDrawerOpen(true)}
-          >
-            <FiSliders />
-            <span>Filters & Sort</span>
-          </button>
-        </div>
-
         {/* Mobile Filter Drawer */}
         <AnimatePresence>
           {isFilterDrawerOpen && (
@@ -177,6 +166,16 @@ export default function ShopPage() {
         </AnimatePresence>
 
         <main className="shop-results">
+          {/* Mobile Filter Trigger — inside main content col, matches workspace sticky pattern */}
+          <div className="mobile-filter-bar">
+            <button
+              className="filter-toggle-btn"
+              onClick={() => setIsFilterDrawerOpen(true)}
+            >
+              <FiSliders />
+              <span>Filters & Sort</span>
+            </button>
+          </div>
           {filtered.length === 0 ? (
             <motion.div 
               className="shop-empty"

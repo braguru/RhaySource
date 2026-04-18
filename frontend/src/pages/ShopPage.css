@@ -105,21 +105,16 @@
   font-weight: 600;
 }
 
-/* Drawer Bar (Mobile) - Floating Icon Mode */
+/* Mobile Filter Bar */
 .mobile-filter-bar {
   display: none;
-  padding: 1.5rem 0 1.5rem;
-  background: transparent; /* Removed rectangular background */
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   position: sticky;
-  top: 85px; /* Added gap from the header when sticky */
-  z-index: 90;
-}
-
-.mobile-filter-bar .container {
-  display: flex;
+  top: 75px;
+  z-index: 100;
+  padding: 1.5rem 0;
+  margin-bottom: 1rem;
   justify-content: center;
+  background: transparent;
 }
 
 .filter-toggle-btn {
@@ -266,7 +261,7 @@
   }
 
   .mobile-filter-bar {
-    display: block;
+    display: flex;
   }
 
   .shop-body {
@@ -277,8 +272,12 @@
   .product-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
-    width: 100%; /* Ensure full width */
-    padding: 2rem 0 8rem; /* Added substantial bottom padding for mobile */
+    width: 100%;
+    padding: 0 0 8rem; /* Removed top padding as it's handled by the filter bar bottom padding */
+  }
+
+  .shop-results {
+    padding-top: 0;
   }
 }
 

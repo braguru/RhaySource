@@ -1,31 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiSearch, FiShoppingBag, FiMenu, FiX, FiArrowRight, FiChevronDown, FiCheck } from 'react-icons/fi';
+import { FiSearch, FiShoppingBag, FiMenu, FiX, FiArrowRight, FiChevronDown } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { useTechCart } from '../../context/TechCartContext';
+import { useHomeLivingCart } from '../../context/HomeLivingCartContext';
 import productsData from '../../data/products.json';
 import techData from '../../data/tech-products.json';
+import homeData from '../../data/home-products.json';
 import { toSlug } from '../../utils/slug';
 import logoFull from '../../assets/logos/logo-full.png';
 import logoIcon from '../../assets/logos/logo-icon.png';
 import './Navbar.css';
 
 const STORES = [
-  { name: 'Skincare',   path: '/',          label: 'Beauty & Wellness', accent: '#FEBB00' },
-  { name: 'Workspace',  path: '/workspace', label: 'Laptops & Tech',    accent: '#38bdf8' },
+  { name: 'Skincare',      path: '/',            label: 'Beauty & Wellness',    accent: '#FEBB00' },
+  { name: 'Home & Living', path: '/home-living', label: 'Home, Kitchen & More', accent: '#7c9e85' },
+  { name: 'Workspace',     path: '/workspace',   label: 'Laptops & Tech',       accent: '#38bdf8' },
 ];
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const isHome = pathname === '/';
-  const isWorkspace = pathname.startsWith('/workspace');
+
+  const isWorkspace  = pathname.startsWith('/workspace');
+  const isHomeLiving = pathname.startsWith('/home-living');
+  const isHome       = pathname === '/';
 
   const { cartCount, isCartOpen, toggleCart } = useCart();
   const { techCartCount, isTechCartOpen, toggleTechCart } = useTechCart();
+  const { homeCartCount, isHomeCartOpen, toggleHomeCart } = useHomeLivingCart();
 
-  const [menuOpen,    setMenuOpen]    = useState(false);
-  const [storesOpen,  setStoresOpen]  = useState(false);
+  const [menuOpen,     setMenuOpen]     = useState(false);
+  const [storesOpen,   setStoresOpen]   = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery,  setSearchQuery]  = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -33,22 +39,24 @@ const Navbar = () => {
   const searchInputRef = useRef(null);
   const storesRef      = useRef(null);
 
-  const activeCartCount  = isWorkspace ? techCartCount  : cartCount;
-  const activeIsCartOpen = isWorkspace ? isTechCartOpen : isCartOpen;
-  const activeToggleCart = isWorkspace ? toggleTechCart : toggleCart;
+  const activeCartCount  = isWorkspace ? techCartCount  : isHomeLiving ? homeCartCount  : cartCount;
+  const activeIsCartOpen = isWorkspace ? isTechCartOpen : isHomeLiving ? isHomeCartOpen : isCartOpen;
+  const activeToggleCart = isWorkspace ? toggleTechCart : isHomeLiving ? toggleHomeCart : toggleCart;
 
-  // close stores dropdown on outside click
+  const bagLabel = isWorkspace ? 'Workspace Bag' : isHomeLiving ? 'Home Bag' : 'Bag';
+
+  const homePath  = isWorkspace ? '/workspace' : isHomeLiving ? '/home-living' : '/';
+  const shopPath  = isWorkspace ? '/workspace/shop'  : isHomeLiving ? '/home-living/shop'  : '/shop';
+  const aboutPath = isWorkspace ? '/workspace/about' : '/about';
+
   useEffect(() => {
     const handler = (e) => {
-      if (storesRef.current && !storesRef.current.contains(e.target)) {
-        setStoresOpen(false);
-      }
+      if (storesRef.current && !storesRef.current.contains(e.target)) setStoresOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // close stores dropdown on route change
   useEffect(() => { setStoresOpen(false); setMenuOpen(false); }, [pathname]);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (searchQuery.trim().length > 1) {
-      const source = isWorkspace ? techData.products : productsData.products;
+      const source = isWorkspace ? techData.products : isHomeLiving ? homeData.products : productsData.products;
       const filtered = source.filter(p =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -67,27 +75,32 @@ const Navbar = () => {
     } else {
       setSearchResults([]);
     }
-  }, [searchQuery, isWorkspace]);
+  }, [searchQuery, isWorkspace, isHomeLiving]);
 
   const handleSearchClose = () => { setIsSearchOpen(false); setSearchQuery(''); };
 
   const handleResultClick = (product) => {
     const route = product.id.startsWith('TECH-')
-      ? '/workspace/shop'
+      ? `/workspace/products/${product.id}`
+      : product.id.startsWith('HOME-')
+      ? `/home-living/products/${product.id}`
       : `/products/${toSlug(product.name)}`;
     navigate(route);
     handleSearchClose();
   };
 
-  const shopPath  = isWorkspace ? '/workspace/shop'  : '/shop';
-  const aboutPath = isWorkspace ? '/workspace/about' : '/about';
+  const searchPlaceholder = isWorkspace
+    ? 'Search workstations...'
+    : isHomeLiving
+    ? 'Search home products...'
+    : 'Search solutions...';
 
   return (
     <header className={`navbar-wrapper ${isHome ? 'navbar-absolute' : 'navbar-sticky'} ${isWorkspace ? 'navbar-workspace' : ''}`}>
       <div className="container">
         <nav className="navbar glass">
 
-          <Link to={isWorkspace ? '/workspace' : '/'} className="navbar-brand">
+          <Link to={homePath} className="navbar-brand">
             <img src={logoFull} alt="RhaySource Ent." className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} />
             <img src={logoIcon} alt="RhaySource"      className={`navbar-logo-icon ${isWorkspace ? 'logo-tech' : ''}`} />
           </Link>
@@ -96,7 +109,9 @@ const Navbar = () => {
           <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>
 
             <li><Link to={shopPath}  onClick={() => setMenuOpen(false)}>Shop</Link></li>
-            <li><Link to={aboutPath} onClick={() => setMenuOpen(false)}>About</Link></li>
+            {!isHomeLiving && (
+              <li><Link to={aboutPath} onClick={() => setMenuOpen(false)}>About</Link></li>
+            )}
 
             {/* Our Stores dropdown — desktop */}
             <li className="stores-nav-item desktop-stores" ref={storesRef}>
@@ -113,7 +128,9 @@ const Navbar = () => {
                 <div className="stores-dropdown glass">
                   <div className="dropdown-label">Explore Ecosystems</div>
                   {STORES.map(store => {
-                    const isActive = store.path === '/' ? !isWorkspace : pathname.startsWith(store.path);
+                    const isActive = store.path === '/'
+                      ? !isWorkspace && !isHomeLiving
+                      : pathname.startsWith(store.path);
                     return (
                       <Link
                         key={store.path}
@@ -132,11 +149,13 @@ const Navbar = () => {
               )}
             </li>
 
-            {/* Our Stores — mobile (inline list, no dropdown) */}
+            {/* Our Stores — mobile */}
             <li className="mobile-stores-group">
               <span className="mobile-stores-label">Our Stores</span>
               {STORES.map(store => {
-                const isActive = store.path === '/' ? !isWorkspace : pathname.startsWith(store.path);
+                const isActive = store.path === '/'
+                  ? !isWorkspace && !isHomeLiving
+                  : pathname.startsWith(store.path);
                 return (
                   <Link
                     key={store.path}
@@ -173,7 +192,7 @@ const Navbar = () => {
                 )}
               </div>
               <span className="desktop-only-text">
-                {isWorkspace ? 'Workspace Bag' : 'Bag'} ({activeCartCount})
+                {bagLabel} ({activeCartCount})
               </span>
             </button>
             <button
@@ -193,7 +212,7 @@ const Navbar = () => {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder={isWorkspace ? 'Search workstations...' : 'Search solutions...'}
+                  placeholder={searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -218,8 +237,8 @@ const Navbar = () => {
                 <div className="search-results-dropdown no-results glass">
                   <div className="no-results-content">
                     <FiX className="no-results-icon" />
-                    <p className="no-results-title">No matching {isWorkspace ? 'workstations' : 'rituals'}</p>
-                    <p className="no-results-subtitle">Try adjusting your {isWorkspace ? 'specifications' : 'keywords'}.</p>
+                    <p className="no-results-title">No results found</p>
+                    <p className="no-results-subtitle">Try adjusting your search.</p>
                   </div>
                 </div>
               )}

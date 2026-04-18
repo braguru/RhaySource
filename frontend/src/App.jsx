@@ -11,24 +11,31 @@ import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { CartProvider, useCart } from './context/CartContext';
 import { TechCartProvider, useTechCart } from './context/TechCartContext';
+import { HomeLivingCartProvider, useHomeLivingCart } from './context/HomeLivingCartContext';
 import CartDrawer from './components/features/CartDrawer';
 import WorkspaceCartDrawer from './components/features/WorkspaceCartDrawer';
+import HomeLivingCartDrawer from './components/features/HomeLivingCartDrawer';
 import WorkspacePage from './pages/WorkspacePage';
 import WorkspaceShopPage from './pages/WorkspaceShopPage';
 import WorkspaceAboutPage from './pages/WorkspaceAboutPage';
+import WorkspaceProductDetailPage from './pages/WorkspaceProductDetailPage';
+import HomeLivingPage from './pages/HomeLivingPage';
+import HomeLivingShopPage from './pages/HomeLivingShopPage';
+import HomeLivingProductDetailPage from './pages/HomeLivingProductDetailPage';
 import './App.css';
 
 function AppContent() {
   const { isCartOpen, closeCart } = useCart();
   const { isTechCartOpen, closeTechCart } = useTechCart();
+  const { isHomeCartOpen, closeHomeCart } = useHomeLivingCart();
   const location = useLocation();
 
-  // Close drawers automatically when the route changes
   useEffect(() => {
     closeCart();
     closeTechCart();
-  }, [location.pathname, closeCart, closeTechCart]);
-  
+    closeHomeCart();
+  }, [location.pathname, closeCart, closeTechCart, closeHomeCart]);
+
   return (
     <>
       <ScrollToTop />
@@ -37,17 +44,25 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
+
           <Route path="/workspace" element={<WorkspacePage />} />
           <Route path="/workspace/shop" element={<WorkspaceShopPage />} />
           <Route path="/workspace/about" element={<WorkspaceAboutPage />} />
-          <Route path="/products/:slug" element={<ProductDetailPage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/workspace/products/:id" element={<WorkspaceProductDetailPage />} />
+
+          <Route path="/home-living" element={<HomeLivingPage />} />
+          <Route path="/home-living/shop" element={<HomeLivingShopPage />} />
+          <Route path="/home-living/products/:id" element={<HomeLivingProductDetailPage />} />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
       <WorkspaceCartDrawer />
+      <HomeLivingCartDrawer />
       <ScrollToTopButton />
     </>
   );
@@ -57,9 +72,11 @@ function App() {
   return (
     <CartProvider>
       <TechCartProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <HomeLivingCartProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </HomeLivingCartProvider>
       </TechCartProvider>
     </CartProvider>
   );

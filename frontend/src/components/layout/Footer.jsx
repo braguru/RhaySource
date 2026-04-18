@@ -7,12 +7,19 @@ import './Footer.css';
 const Footer = () => {
   const { pathname } = useLocation();
   const isWorkspace = pathname.startsWith('/workspace');
+  const isHomeLiving = pathname.startsWith('/home-living');
 
   const instagramUrl = import.meta.env.VITE_INSTAGRAM_URL || '#';
   const twitterUrl = import.meta.env.VITE_TWITTER_URL || '#';
   const youtubeUrl = import.meta.env.VITE_YOUTUBE_URL || '#';
   const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || '';
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '';
+
+  const getTagline = () => {
+    if (isWorkspace) return 'Expert-vetted workstations for creators, executives, and enterprise leaders.';
+    if (isHomeLiving) return 'Premium home essentials and curated pieces for modern living.';
+    return 'Plant-powered formulas for radiant, healthy skin. Vegan & cruelty-free.';
+  };
 
   return (
     <footer className={`footer ${isWorkspace ? 'footer-workspace' : ''}`}>
@@ -22,9 +29,7 @@ const Footer = () => {
             <img src={logoFull} alt="RhaySource Ent." className="footer-logo-img" />
           </Link>
           <p className="footer-tagline">
-            {isWorkspace
-              ? 'Expert-vetted workstations for creators, executives, and enterprise leaders.'
-              : 'Plant-powered formulas for radiant, healthy skin. Vegan & cruelty-free.'}
+            {getTagline()}
           </p>
           <div className="footer-socials">
             <a href={instagramUrl} aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FiInstagram /></a>
@@ -50,14 +55,28 @@ const Footer = () => {
                 <li><Link to="/workspace/about">Our Story</Link></li>
                 <li><Link to="/workspace/about">Why Workspace</Link></li>
                 <li><Link to="/shop">Skincare Store</Link></li>
+                <li><Link to="/home-living">Home Store</Link></li>
+              </ul>
+            </div>
+          </>
+        ) : isHomeLiving ? (
+          <>
+            <div className="footer-col">
+              <h3>Shop</h3>
+              <ul>
+                <li><Link to="/home-living/shop?category=Bathroom+%26+Cleaning">Bathroom</Link></li>
+                <li><Link to="/home-living/shop?category=Kitchen">Kitchen</Link></li>
+                <li><Link to="/home-living/shop?category=Home+Appliances">Appliances</Link></li>
+                <li><Link to="/home-living/shop?category=Home+%26+Furniture">Furniture</Link></li>
               </ul>
             </div>
             <div className="footer-col">
-              <h3>Support</h3>
+              <h3>Company</h3>
               <ul>
-                <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
-                <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
-                <li><Link to="/workspace/about#contact">Contact Us</Link></li>
+                <li><Link to="/about">Our Story</Link></li>
+                <li><Link to="/shop">Skincare Store</Link></li>
+                <li><Link to="/workspace">Workspace Store</Link></li>
+                <li><Link to="/home-living/shop">All Products</Link></li>
               </ul>
             </div>
           </>
@@ -77,22 +96,25 @@ const Footer = () => {
               <h3>Company</h3>
               <ul>
                 <li><Link to="/about">Our Story</Link></li>
-                <li><Link to="/about">Ingredients</Link></li>
-                <li><Link to="/about">Sustainability</Link></li>
+                <li><Link to="/workspace">Workspace Store</Link></li>
+                <li><Link to="/home-living">Home Store</Link></li>
                 <li><Link to="/shop">All Products</Link></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h3>Support</h3>
-              <ul>
-                <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
-                <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
-                <li><Link to="/about">Shipping &amp; Returns</Link></li>
-                <li><Link to="/about">FAQ</Link></li>
               </ul>
             </div>
           </>
         )}
+
+        <div className="footer-col">
+          <h3>Support</h3>
+          <ul>
+            <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
+            <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
+            <li><Link to={isWorkspace ? "/workspace/about" : isHomeLiving ? "/home-living/shop" : "/about"}>
+              {isWorkspace ? "Contact Us" : "Shipping & Returns"}
+            </Link></li>
+            <li><Link to="/about">FAQ</Link></li>
+          </ul>
+        </div>
       </div>
 
       <div className="footer-bottom container">

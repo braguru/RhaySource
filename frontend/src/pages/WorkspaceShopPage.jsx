@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiCheck, FiSearch } from 'react-icons/fi';
+import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch } from 'react-icons/fi';
 import techProducts from '../data/tech-products.json';
 import { useTechCart } from '../context/TechCartContext';
 import './WorkspacePage.css';
@@ -8,55 +9,57 @@ import './WorkspaceShopPage.css';
 
 const TechCard = ({ product }) => {
   const { addToTechCart } = useTechCart();
-  
+
   return (
-    <motion.div 
-      className="tech-card"
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="tech-card-image">
-        <img src={product.images.primary} alt={product.name} />
-        <div className="tech-badge">{product.category}</div>
-      </div>
-      
-      <div className="tech-card-body">
-        <div className="tech-card-header">
-          <div>
-            <p className="tech-brand">{product.brand}</p>
-            <h3 className="tech-name">{product.name}</h3>
-          </div>
-          <p className="tech-price">GH₵{product.price.toLocaleString()}</p>
+    <Link to={`/workspace/products/${product.id}`} className="tech-card-link">
+      <motion.div
+        className="tech-card"
+        layout
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="tech-card-image">
+          <img src={product.images.primary} alt={product.name} />
+          <div className="tech-badge">{product.category}</div>
         </div>
-        
-        <p className="tech-description">{product.description}</p>
-        
-        <div className="tech-specs-grid">
-          <div className="spec-item">
-            <FiCpu /> <span>{product.specs.cpu}</span>
+
+        <div className="tech-card-body">
+          <div className="tech-card-header">
+            <div>
+              <p className="tech-brand">{product.brand}</p>
+              <h3 className="tech-name">{product.name}</h3>
+            </div>
+            <p className="tech-price">GH₵{product.price.toLocaleString()}</p>
           </div>
-          <div className="spec-item">
-            <FiRam /> <span>{product.specs.ram}</span>
+
+          <p className="tech-description">{product.description}</p>
+
+          <div className="tech-specs-grid">
+            <div className="spec-item">
+              <FiCpu /> <span>{product.specs.cpu}</span>
+            </div>
+            <div className="spec-item">
+              <FiRam /> <span>{product.specs.ram}</span>
+            </div>
+            <div className="spec-item">
+              <FiHardDrive /> <span>{product.specs.storage}</span>
+            </div>
+            <div className="spec-item">
+              <FiMonitor /> <span>{product.specs.display}</span>
+            </div>
           </div>
-          <div className="spec-item">
-            <FiHardDrive /> <span>{product.specs.storage}</span>
-          </div>
-          <div className="spec-item">
-            <FiMonitor /> <span>{product.specs.display}</span>
-          </div>
+
+          <button
+            className="tech-add-btn"
+            onClick={(e) => { e.preventDefault(); addToTechCart(product); }}
+          >
+            Equip Workspace
+          </button>
         </div>
-        
-        <button 
-          className="tech-add-btn"
-          onClick={() => addToTechCart(product)}
-        >
-          Equip Workspace
-        </button>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 };
 
