@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FiX, FiShoppingBag, FiTrash2, FiMinus, FiPlus, FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import './CartDrawer.css';
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateQuantity, cartTotal, clearCart, cartCount } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -84,7 +86,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   <div className="empty-icon">🌿</div>
                   <h3>Your bag is empty</h3>
                   <p>Start exploring our botanical solutions to find your perfect match.</p>
-                  <button className="btn btn-primary" onClick={onClose}>
+                  <button className="btn btn-primary" onClick={() => { onClose(); navigate('/shop'); }}>
                     Explore Shop
                   </button>
                 </div>
