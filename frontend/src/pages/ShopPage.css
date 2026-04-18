@@ -108,7 +108,7 @@
 /* Drawer Bar (Mobile) - Floating Icon Mode */
 .mobile-filter-bar {
   display: none;
-  padding: 1.5rem 0 0.5rem;
+  padding: 1.5rem 0 1.5rem;
   background: transparent; /* Removed rectangular background */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -249,12 +249,14 @@
 .shop-results {
   flex-grow: 1;
   min-height: 600px;
+  padding-top: 2rem;
 }
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 4rem 2.5rem;
+  padding-bottom: 6rem;
 }
 
 /* Mobile Responsive Adjustments */
@@ -276,7 +278,7 @@
     grid-template-columns: 1fr;
     gap: 3rem;
     width: 100%; /* Ensure full width */
-    padding: 2rem 0;
+    padding: 2rem 0 8rem; /* Added substantial bottom padding for mobile */
   }
 }
 

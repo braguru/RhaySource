@@ -10,17 +10,24 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { CartProvider, useCart } from './context/CartContext';
+import { TechCartProvider, useTechCart } from './context/TechCartContext';
 import CartDrawer from './components/features/CartDrawer';
+import WorkspaceCartDrawer from './components/features/WorkspaceCartDrawer';
+import WorkspacePage from './pages/WorkspacePage';
+import WorkspaceShopPage from './pages/WorkspaceShopPage';
+import WorkspaceAboutPage from './pages/WorkspaceAboutPage';
 import './App.css';
 
 function AppContent() {
   const { isCartOpen, closeCart } = useCart();
+  const { isTechCartOpen, closeTechCart } = useTechCart();
   const location = useLocation();
 
-  // Close cart drawer automatically when the route changes
+  // Close drawers automatically when the route changes
   useEffect(() => {
     closeCart();
-  }, [location.pathname, closeCart]);
+    closeTechCart();
+  }, [location.pathname, closeCart, closeTechCart]);
   
   return (
     <>
@@ -30,6 +37,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/workspace" element={<WorkspacePage />} />
+          <Route path="/workspace/shop" element={<WorkspaceShopPage />} />
+          <Route path="/workspace/about" element={<WorkspaceAboutPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -37,6 +47,7 @@ function AppContent() {
       </main>
       <Footer />
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      <WorkspaceCartDrawer />
       <ScrollToTopButton />
     </>
   );
@@ -45,9 +56,11 @@ function AppContent() {
 function App() {
   return (
     <CartProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <TechCartProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </TechCartProvider>
     </CartProvider>
   );
 }

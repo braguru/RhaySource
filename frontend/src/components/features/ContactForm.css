@@ -60,12 +60,34 @@
   box-shadow: 0 0 0 2px rgba(26, 86, 219, 0.15);
 }
 
-.form-status {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: var(--color-sage-dark);
-  text-align: center;
+.contact-form-dark {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
 }
+
+.contact-form-dark .form-group label {
+  color: #94a3b8;
+}
+
+.contact-form-dark .form-group input,
+.contact-form-dark .form-group textarea {
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.contact-form-dark .form-group input::placeholder,
+.contact-form-dark .form-group textarea::placeholder {
+  color: #475569;
+}
+
+.contact-form-dark .form-group input:focus,
+.contact-form-dark .form-group textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+
 
 @media (max-width: 768px) {
   .contact-container {
