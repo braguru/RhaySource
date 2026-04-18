@@ -2,6 +2,7 @@ import React from 'react';
 import { FiMail, FiPhone, FiMapPin, FiMessageCircle, FiHeart, FiSearch, FiAward } from 'react-icons/fi';
 import ContactForm from '../components/features/ContactForm';
 import { motion } from 'framer-motion';
+import rhyeaFull from '../assets/logos/rhyea-ful-logo.png';
 import './AboutPage.css';
 
 const values = [
@@ -30,11 +31,19 @@ export default function AboutPage() {
     <div className="about-page">
       <section className="about-hero">
         <div className="container about-hero-content">
+          <motion.div 
+            className="about-brand-area"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img src={rhyeaFull} alt="Rhyea" className="about-brand-logo" />
+          </motion.div>
           <motion.p 
             className="about-eyebrow"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             Our Philosophy
           </motion.p>
@@ -52,7 +61,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            RhaySource was born out of an uncompromising obsession with quality and a simple, heart-felt belief: 
+            Rhyea was born out of an uncompromising obsession with quality and a simple, heart-felt belief: 
             skincare is a profound act of self-care. It’s the quiet moment in your morning and the soothing 
             ritual of your evening. We don't just sell products; we curate the tools for your most radiant self.
           </motion.p>
@@ -70,9 +79,9 @@ export default function AboutPage() {
                 gatekeepers.
               </p>
               <p>
-                Today, RhaySource is a bridge. We are a team of enthusiasts who spend our nights 
+                Today, Rhyea is a bridge. We are a team of enthusiasts who spend our nights 
                 researching ingredient synergies and our days ensuring that the best dermatological 
-                advancements are available to you, right here. We believe everyone deserves premium 
+                advancement are available to you, right here. We believe everyone deserves premium 
                 care, backed by science and delivered with passion.
               </p>
             </div>

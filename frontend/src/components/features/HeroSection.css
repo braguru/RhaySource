@@ -39,14 +39,16 @@
   padding: 2.75rem 0;
 }
 
-.hero-eyebrow {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--color-blue);
-  margin-bottom: 1.1rem;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
+.hero-brand-logo {
+  margin-bottom: 0.75rem; /* Reduced from 2rem */
+  display: flex;
+}
+
+.rhyea-hero-logo {
+  height: 64px; /* Increased from 48px */
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
 .hero-title {
@@ -135,9 +137,13 @@
     margin-right: auto;
   }
 
-  .hero-eyebrow {
-    color: var(--color-yellow);
-    text-shadow: none;
+  .hero-brand-logo {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .rhyea-hero-logo {
+    height: 48px;
   }
 
   .hero-text-block {

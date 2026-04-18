@@ -54,7 +54,7 @@ const Footer = () => {
               <ul>
                 <li><Link to="/workspace/about">Our Story</Link></li>
                 <li><Link to="/workspace/about">Why Workspace</Link></li>
-                <li><Link to="/shop">Skincare Store</Link></li>
+                <li><Link to="/shop">Rhyea Store</Link></li>
                 <li><Link to="/home-living">Home Store</Link></li>
               </ul>
             </div>
@@ -74,7 +74,7 @@ const Footer = () => {
               <h3>Company</h3>
               <ul>
                 <li><Link to="/about">Our Story</Link></li>
-                <li><Link to="/shop">Skincare Store</Link></li>
+                <li><Link to="/shop">Rhyea Store</Link></li>
                 <li><Link to="/workspace">Workspace Store</Link></li>
                 <li><Link to="/home-living/shop">All Products</Link></li>
               </ul>
@@ -98,7 +98,7 @@ const Footer = () => {
                 <li><Link to="/about">Our Story</Link></li>
                 <li><Link to="/workspace">Workspace Store</Link></li>
                 <li><Link to="/home-living">Home Store</Link></li>
-                <li><Link to="/shop">All Products</Link></li>
+                <li><Link to="/shop">Rhyea Store</Link></li>
               </ul>
             </div>
           </>
