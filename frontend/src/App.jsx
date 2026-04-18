@@ -3,6 +3,7 @@ import { useLocation, BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopButton from './components/ScrollToTopButton';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -36,6 +37,7 @@ function AppContent() {
       </main>
       <Footer />
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      <ScrollToTopButton />
     </>
   );
 }
