@@ -5,7 +5,6 @@
 .about-hero {
   background: linear-gradient(to bottom, #fcfcfc, #f7f7f7);
   padding: 8rem 0 6rem;
-  border-bottom: 5px solid var(--color-yellow-light);
 }
 
 .about-hero-content {
