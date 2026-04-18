@@ -1131,6 +1131,1014 @@
         "Expert Value",
         "Bundle"
       ]
+    },
+    {
+      "id": "SKIN-1146",
+      "name": "Vaseline Healthy Hands Stronger Nails (75ml)",
+      "category": "Hand Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 45.0,
+      "images": {
+        "primary": "/assets/products/vaseline-healthy-hands.jpg",
+        "texture": "/assets/products/vaseline-healthy-hands.jpg"
+      },
+      "description": "A deep moisturizing hand and nail cream that strengthens nails by 50% in 2 weeks. Non-greasy and fast absorbing.",
+      "keyIngredients": [
+        "Keratin",
+        "Vitamin E"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1147",
+      "name": "Vaseline Healthy Bright SPF 50+ (300ml)",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 185.0,
+      "images": {
+        "primary": "/assets/products/vaseline-bright-spf50.jpg",
+        "texture": "/assets/products/vaseline-bright-spf50.jpg"
+      },
+      "description": "Daily protection from UV rays with a lightweight, non-sticky formula that brightens skin tone.",
+      "keyIngredients": [
+        "SPF 50+",
+        "Niacinamide",
+        "Vitamin C"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1148",
+      "name": "Skin by Zaron Men Body Lotion",
+      "category": "Men's Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 150.0,
+      "images": {
+        "primary": "/assets/products/skin-by-zaron-men-lotion.jpg",
+        "texture": "/assets/products/skin-by-zaron-men-lotion.jpg"
+      },
+      "description": "Specially formulated for men's skin to provide 24-hour hydration and improved skin texture.",
+      "keyIngredients": [
+        "Shea Butter",
+        "Vitamin E"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1149",
+      "name": "Skin by Zaron Men Body Wash",
+      "category": "Men's Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 95.0,
+      "images": {
+        "primary": "/assets/products/skin-by-zaron-men-wash.jpg",
+        "texture": "/assets/products/skin-by-zaron-men-wash.jpg"
+      },
+      "description": "Refreshing and invigorating body wash designed for men. Leaves skin feeling clean and masculine.",
+      "keyIngredients": [
+        "Menthol",
+        "Coco Glucoside"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1150",
+      "name": "Skin by Zaron Men Face Wash",
+      "category": "Men's Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 85.0,
+      "images": {
+        "primary": "/assets/products/skin-by-zaron-men-face-wash.jpg",
+        "texture": "/assets/products/skin-by-zaron-men-face-wash.jpg"
+      },
+      "description": "Gentle facial cleanser for men that removes impurities without drying out the skin.",
+      "keyIngredients": [
+        "Aloe Vera",
+        "Salicylic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1151",
+      "name": "Method Body Wash Collection",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 110.0,
+      "images": {
+        "primary": "/assets/products/method-body-wash-variants.jpg",
+        "texture": "/assets/products/method-body-wash-variants.jpg"
+      },
+      "description": "Premium naturally derived body washes in Bergamot, Berry, and Island scents. Eco-friendly and sulfate-free.",
+      "keyIngredients": [
+        "Plant-based",
+        "Paraben-free"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1152",
+      "name": "EOS Shea Better Body Lotion Collection",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 140.0,
+      "images": {
+        "primary": "/assets/products/eos-shea-better-lotion-variants.jpg",
+        "texture": "/assets/products/eos-shea-better-lotion-variants.jpg"
+      },
+      "description": "Ultra-moisturizing 24-hour hydration body lotions in Vanilla, Jasmine, and Pomegranate scents.",
+      "keyIngredients": [
+        "7 Nourishing Oils",
+        "Shea Butter"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1153",
+      "name": "Arden Kids & Teens Shower Gel",
+      "category": "Kids Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 75.0,
+      "images": {
+        "primary": "/assets/products/arden-kids-shower-gel.jpg",
+        "texture": "/assets/products/arden-kids-shower-gel.jpg"
+      },
+      "description": "Gentle and fun shower gel for children. Tear-free and dermatologically tested.",
+      "keyIngredients": [
+        "Mild Cleansers"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1154",
+      "name": "Arden Kids & Teens Strawberry Lotion",
+      "category": "Kids Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 85.0,
+      "images": {
+        "primary": "/assets/products/arden-kids-strawberry-lotion.jpg",
+        "texture": "/assets/products/arden-kids-strawberry-lotion.jpg"
+      },
+      "description": "Sweet strawberry scented lotion that keeps young skin soft and hydrated all day.",
+      "keyIngredients": [
+        "Fruit Extracts",
+        "Glycerin"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1155",
+      "name": "Arden Kids & Teens Blue Raspberry SPF 50",
+      "category": "Sun Protection",
+      "skinType": [
+        "All"
+      ],
+      "price": 120.0,
+      "images": {
+        "primary": "/assets/products/arden-kids-blue-raspberry-spf50.jpg",
+        "texture": "/assets/products/arden-kids-blue-raspberry-spf50.jpg"
+      },
+      "description": "High protection sunscreen for active kids. Water-resistant and easy to apply.",
+      "keyIngredients": [
+        "SPF 50",
+        "Zinc Oxide"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1156",
+      "name": "Nivea Care Body Lotion Collection",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 95.0,
+      "images": {
+        "primary": "/assets/products/nivea-lotion-variants.jpg",
+        "texture": "/assets/products/nivea-lotion-variants.jpg"
+      },
+      "description": "The classic Nivea nourishment for all skin types. Includes Repair & Care and Cocoa Butter variants.",
+      "keyIngredients": [
+        "Deep Moisture Serum",
+        "Almond Oil"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1157",
+      "name": "Aqua Rich Hydrating Bright Set",
+      "category": "Sets",
+      "skinType": [
+        "All"
+      ],
+      "price": 450.0,
+      "images": {
+        "primary": "/assets/products/aqua-rich-hydrating-set.jpg",
+        "texture": "/assets/products/aqua-rich-hydrating-set.jpg"
+      },
+      "description": "A complete hydration system designed to brighten and plump the skin with deep moisture.",
+      "keyIngredients": [
+        "Hyaluronic Acid",
+        "Brightening Actives"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1158",
+      "name": "PanOxyl 10% Benzoyl Peroxide Acne Wash",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 210.0,
+      "images": {
+        "primary": "/assets/products/panoxyl-10-acne-wash.jpg",
+        "texture": "/assets/products/panoxyl-10-acne-wash.jpg"
+      },
+      "description": "Maximum strength acne wash that kills bacteria on contact. Recommended for back and body acne.",
+      "keyIngredients": [
+        "10% Benzoyl Peroxide"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1159",
+      "name": "Advanced Purity Brightening Lotion Range",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 160.0,
+      "images": {
+        "primary": "/assets/products/advanced-purity-lotions.jpg",
+        "texture": "/assets/products/advanced-purity-lotions.jpg"
+      },
+      "description": "High-performance brightening lotions targeting uneven skin tone and dark spots.",
+      "keyIngredients": [
+        "Vitamin C",
+        "Niacinamide",
+        "Kojic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1160",
+      "name": "Aqua Rich Bright + Balance Set",
+      "category": "Sets",
+      "skinType": [
+        "All"
+      ],
+      "price": 480.0,
+      "images": {
+        "primary": "/assets/products/aqua-rich-bright-balance-set.jpg",
+        "texture": "/assets/products/aqua-rich-bright-balance-set.jpg"
+      },
+      "description": "Balances skin pH while providing intensive brightening results with a professional formula.",
+      "keyIngredients": [
+        "Balance Complex",
+        "Brightening Extracts"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1161",
+      "name": "Egyptian Molato Whitening Soap",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 85.0,
+      "images": {
+        "primary": "/assets/products/egyptian-molato-soap.jpg",
+        "texture": "/assets/products/egyptian-molato-soap.jpg"
+      },
+      "description": "Traditional Egyptian formula for deep cleansing and intensive skin brightening.",
+      "keyIngredients": [
+        "Herbal Extracts",
+        "Molato Base"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1162",
+      "name": "Olay 24HR Moisturizing Body Lotion Range",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 175.0,
+      "images": {
+        "primary": "/assets/products/olay-24hr-body-lotions.jpg",
+        "texture": "/assets/products/olay-24hr-body-lotions.jpg"
+      },
+      "description": "Premium hydration that lasts 24 hours. Available in Hyaluronic, Retinol, and Niacinamide versions.",
+      "keyIngredients": [
+        "Vitamin B3",
+        "Peptides"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1163",
+      "name": "Premium Fair Plus & Pro Lab Lotion Mix",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 220.0,
+      "images": {
+        "primary": "/assets/products/luxury-lotions-mix.jpg",
+        "texture": "/assets/products/luxury-lotions-mix.jpg"
+      },
+      "description": "A professional-level luxury lotion mix for advanced skin brightening and smoothing.",
+      "keyIngredients": [
+        "Fair Plus complex",
+        "Pro Lab Formula"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1164",
+      "name": "Toke African Natural Soap (Orange)",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 65.0,
+      "images": {
+        "primary": "/assets/products/toke-natural-soap.jpg",
+        "texture": "/assets/products/toke-natural-soap.jpg"
+      },
+      "description": "A natural, citrus-infused African black soap that cleanses and revitalizes the skin.",
+      "keyIngredients": [
+        "Orange Peel",
+        "African Black Soap"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1165",
+      "name": "Clini-Tone Deep Moisturizing Glow Range",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 155.0,
+      "images": {
+        "primary": "/assets/products/clini-tone-deep-moisturizing.jpg",
+        "texture": "/assets/products/clini-tone-deep-moisturizing.jpg"
+      },
+      "description": "Intensive moisture for a healthy glow. Formulated for dry to very dry skin types.",
+      "keyIngredients": [
+        "Glow Serum",
+        "Botanical Oils"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1166",
+      "name": "Kuu Spa Turmeric Salt Scrub",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 95.0,
+      "images": {
+        "primary": "/assets/products/kuu-spa-turmeric-salt-scrub.jpg",
+        "texture": "/assets/products/kuu-spa-turmeric-salt-scrub.jpg"
+      },
+      "description": "Revitalizing salt scrub with turmeric to exfoliate and brighten the skin's surface.",
+      "keyIngredients": [
+        "Turmeric",
+        "Natural Salt"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1167",
+      "name": "Ezanic Azelaic Acid Gel 20%",
+      "category": "Treatments",
+      "skinType": [
+        "All"
+      ],
+      "price": 130.0,
+      "images": {
+        "primary": "/assets/products/ezanic-azelaic-acid-gel.jpg",
+        "texture": "/assets/products/ezanic-azelaic-acid-gel.jpg"
+      },
+      "description": "Clinical strength azelaic acid to treat acne, rosacea, and post-inflammatory hyperpigmentation.",
+      "keyIngredients": [
+        "20% Azelaic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1168",
+      "name": "Face Facts Facial Serum Collection",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 320.0,
+      "images": {
+        "primary": "/assets/products/face-facts-serums-set.jpg",
+        "texture": "/assets/products/face-facts-serums-set.jpg"
+      },
+      "description": "A curated set of 8 targeted serums for every skin concern from hydration to anti-aging.",
+      "keyIngredients": [
+        "Complete Routine"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1169",
+      "name": "Chilly Ciclo Intimate Wash",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 85.0,
+      "images": {
+        "primary": "/assets/products/chilly-ciclo-wash.jpg",
+        "texture": "/assets/products/chilly-ciclo-wash.jpg"
+      },
+      "description": "Specially formulated intimate wash with protection and fresh feel during the cycle.",
+      "keyIngredients": [
+        "Antibacterial agents"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1170",
+      "name": "Uncover Aloe Invisible Sunscreen SPF 50+",
+      "category": "Sun Protection",
+      "skinType": [
+        "All"
+      ],
+      "price": 245.0,
+      "images": {
+        "primary": "/assets/products/uncover-aloe-sunscreen.jpg",
+        "texture": "/assets/products/uncover-aloe-sunscreen.jpg"
+      },
+      "description": "No white cast, lightweight sunscreen that leaves a natural finish. Perfect for melanin-rich skin.",
+      "keyIngredients": [
+        "Aloe Vera",
+        "SPF 50+"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1171",
+      "name": "Pacci Pristine Sun Haven Aqua Sunscreen",
+      "category": "Sun Protection",
+      "skinType": [
+        "All"
+      ],
+      "price": 230.0,
+      "images": {
+        "primary": "/assets/products/pacci-pristine-sun-haven.jpg",
+        "texture": "/assets/products/pacci-pristine-sun-haven.jpg"
+      },
+      "description": "A watery, weightless sunscreen that provides high protection without blocking pores.",
+      "keyIngredients": [
+        "Aqua Base",
+        "UVA/UVB Filters"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1172",
+      "name": "Chilly Delicato & Lenitivo Intimate Washes",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 90.0,
+      "images": {
+        "primary": "/assets/products/chilly-delicato-lenitivo.jpg",
+        "texture": "/assets/products/chilly-delicato-lenitivo.jpg"
+      },
+      "description": "Gentle intimate cleansers for sensitive skin with soothing properties.",
+      "keyIngredients": [
+        "Aloe Vera",
+        "Soothing Agent"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1173",
+      "name": "Face Facts Ceramide Barrier Gel Cream",
+      "category": "Moisturizers",
+      "skinType": [
+        "All"
+      ],
+      "price": 110.0,
+      "images": {
+        "primary": "/assets/products/face-facts-ceramide-gel-cream.jpg",
+        "texture": "/assets/products/face-facts-ceramide-gel-cream.jpg"
+      },
+      "description": "A lightweight gel-cream that restores the skin's barrier and locks in moisture.",
+      "keyIngredients": [
+        "Ceramides",
+        "Hyaluronic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1174",
+      "name": "Palmer's Skin Success Fade Milk",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 165.0,
+      "images": {
+        "primary": "/assets/products/palmers-fade-milk.jpg",
+        "texture": "/assets/products/palmers-fade-milk.jpg"
+      },
+      "description": "Corrects dark spots and evens skin tone with a unique blend of Vitamin C and Retinol.",
+      "keyIngredients": [
+        "Synovea",
+        "Retinol",
+        "Vitamin C"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1175",
+      "name": "Dove Body Wash with Glow Serum",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 105.0,
+      "images": {
+        "primary": "/assets/products/dove-body-wash-serum.jpg",
+        "texture": "/assets/products/dove-body-wash-serum.jpg"
+      },
+      "description": "A moisturizing shower gel infused with serum ingredients for radiant skin after one wash.",
+      "keyIngredients": [
+        "Niacinamide",
+        "Glow Serum"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1176",
+      "name": "Gluta White Glutathione Shower Bath",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 135.0,
+      "images": {
+        "primary": "/assets/products/gluta-white-shower-bath.jpg",
+        "texture": "/assets/products/gluta-white-shower-bath.jpg"
+      },
+      "description": "Powerful antioxidant body wash that brightens and protects the skin's surface.",
+      "keyIngredients": [
+        "Glutathione",
+        "Vitamin C"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1177",
+      "name": "Skeenpoint Fade Out Face Cream",
+      "category": "Moisturizers",
+      "skinType": [
+        "All"
+      ],
+      "price": 125.0,
+      "images": {
+        "primary": "/assets/products/skeenpoint-fade-out.jpg",
+        "texture": "/assets/products/skeenpoint-fade-out.jpg"
+      },
+      "description": "Fast-acting face cream designed to fade hyperpigmentation and reveal clear skin.",
+      "keyIngredients": [
+        "Clarifying Agents"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1178",
+      "name": "Face Facts Ceramide Gentle Cleanser",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 95.0,
+      "images": {
+        "primary": "/assets/products/face-facts-hydrating-cleanser.jpg",
+        "texture": "/assets/products/face-facts-hydrating-cleanser.jpg"
+      },
+      "description": "Cleanses without stripping the skin's natural oils. Ideal for dry and sensitive skin.",
+      "keyIngredients": [
+        "Ceramides",
+        "Vitamin E"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1179",
+      "name": "Face Facts Ceramide Foaming Cleanser",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 95.0,
+      "images": {
+        "primary": "/assets/products/face-facts-foaming-cleanser.jpg",
+        "texture": "/assets/products/face-facts-foaming-cleanser.jpg"
+      },
+      "description": "Deeply cleanses pores while maintaining the skin barrier. For normal to oily skin.",
+      "keyIngredients": [
+        "Ceramides",
+        "Niacinamide"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1180",
+      "name": "Beauty Formulas Niacinamide Illuminating Serum",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 115.0,
+      "images": {
+        "primary": "/assets/products/beauty-formulas-niacinamide-serum.jpg",
+        "texture": "/assets/products/beauty-formulas-niacinamide-serum.jpg"
+      },
+      "description": "Brightens the complexion and improves skin texture with 10% niacinamide.",
+      "keyIngredients": [
+        "Niacinamide",
+        "B3"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1181",
+      "name": "Skeenpoint Glow Booster Face Cream",
+      "category": "Moisturizers",
+      "skinType": [
+        "All"
+      ],
+      "price": 130.0,
+      "images": {
+        "primary": "/assets/products/skeenpoint-glow-booster.jpg",
+        "texture": "/assets/products/skeenpoint-glow-booster.jpg"
+      },
+      "description": "A rich cream that boosts natural radiance and provides intensive overnight repair.",
+      "keyIngredients": [
+        "Glow Booster",
+        "Shea Butter"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1182",
+      "name": "Estelin Turmeric & Vitamin C Serum",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 145.0,
+      "images": {
+        "primary": "/assets/products/estelin-vit-c-serum.jpg",
+        "texture": "/assets/products/estelin-vit-c-serum.jpg"
+      },
+      "description": "Brightens skin and reduces inflammation with a potent blend of turmeric and Vitamin C.",
+      "keyIngredients": [
+        "Turmeric",
+        "Vitamin C"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1183",
+      "name": "Beauty Formulas Vitamin C Glowing Serum",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 115.0,
+      "images": {
+        "primary": "/assets/products/beauty-formulas-glowing-serum.jpg",
+        "texture": "/assets/products/beauty-formulas-glowing-serum.jpg"
+      },
+      "description": "Visibly brightens and revitalizes tired skin for a fresh, healthy appearance.",
+      "keyIngredients": [
+        "Vitamin C",
+        "Antioxidants"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1184",
+      "name": "Face Facts Retinol Facial Serum",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 120.0,
+      "images": {
+        "primary": "/assets/products/face-facts-retinol-serum.jpg",
+        "texture": "/assets/products/face-facts-retinol-serum.jpg"
+      },
+      "description": "Targets fine lines and promotes cell turnover for smoother, younger-looking skin.",
+      "keyIngredients": [
+        "Retinol",
+        "Vitamin E"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1185",
+      "name": "Beauty Formulas Brightening Vit C Facial Wash",
+      "category": "Cleansers",
+      "skinType": [
+        "All"
+      ],
+      "price": 85.0,
+      "images": {
+        "primary": "/assets/products/beauty-formulas-vit-c-wash.jpg",
+        "texture": "/assets/products/beauty-formulas-vit-c-wash.jpg"
+      },
+      "description": "Daily revitalizing face wash that awakens the skin with Vitamin C.",
+      "keyIngredients": [
+        "Vitamin C",
+        "Exfoliating Beads"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1186",
+      "name": "Face Facts Vitamin C Facial Serum",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 115.0,
+      "images": {
+        "primary": "/assets/products/face-facts-vit-c-serum.jpg",
+        "texture": "/assets/products/face-facts-vit-c-serum.jpg"
+      },
+      "description": "Helps brighten and illuminate skin for a more radiant complexion.",
+      "keyIngredients": [
+        "Vitamin C",
+        "Betaine"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1187",
+      "name": "Clini-Tone Multi-Formula Glow Range",
+      "category": "Body Care",
+      "skinType": [
+        "All"
+      ],
+      "price": 185.0,
+      "images": {
+        "primary": "/assets/products/clini-tone-glow-ranges.jpg",
+        "texture": "/assets/products/clini-tone-glow-ranges.jpg"
+      },
+      "description": "Advanced body care collection including Mild Lightening, Butter Milk, and Vitamin C ranges.",
+      "keyIngredients": [
+        "Lactic Acid",
+        "Kojic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1188",
+      "name": "NINE LESS Targeted Serum Collection",
+      "category": "Serums",
+      "skinType": [
+        "All"
+      ],
+      "price": 420.0,
+      "images": {
+        "primary": "/assets/products/nine-less-serums.jpg",
+        "texture": "/assets/products/nine-less-serums.jpg"
+      },
+      "description": "A set of high-potency serums: Kojic, Tranexamic, Niacinamide, and Azelaic.",
+      "keyIngredients": [
+        "High Actives"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
+    },
+    {
+      "id": "SKIN-1189",
+      "name": "Bright & Clear Targeted Face Cream Range",
+      "category": "Moisturizers",
+      "skinType": [
+        "All"
+      ],
+      "price": 150.0,
+      "images": {
+        "primary": "/assets/products/bright-clear-creams.jpg",
+        "texture": "/assets/products/bright-clear-creams.jpg"
+      },
+      "description": "Clinically formulated creams targeting specific skin imperfections for a flawless finish.",
+      "keyIngredients": [
+        "Tranexamic Acid",
+        "Kojic Acid"
+      ],
+      "usageInstructions": "Apply as directed on the packaging for best results.",
+      "badges": [
+        "New Arrival",
+        "Verified"
+      ]
     }
   ]
 }

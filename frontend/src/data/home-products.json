@@ -1,0 +1,395 @@
+{
+  "products": [
+    {
+      "id": "HOME-001",
+      "name": "Hibbent Portable Bidet",
+      "brand": "Hibbent",
+      "category": "Bathroom & Cleaning",
+      "price": 375,
+      "description": "Large 500ml capacity manual squeeze bottle designed for comfort and precision. Includes a discreet travel bag and extended nozzle for ease of use wherever you go.",
+      "specs": {
+        "Capacity": "500ml",
+        "Material": "Medical-grade EVA",
+        "Accessories": "Travel bag included",
+        "Nozzle": "60° angled design"
+      },
+      "images": {
+        "primary": "/assets/home/bathroom/hibbent-portable-bidet.jpg"
+      }
+    },
+    {
+      "id": "HOME-002",
+      "name": "Diatomaceous Earth Bath Mat",
+      "brand": "StoneCare",
+      "category": "Bathroom & Cleaning",
+      "price": 525,
+      "description": "A natural, hard-stone mat that absorbs moisture instantly and dries in minutes. Antimicrobial and slip-resistant, it eliminates dampness and odors from your bathroom floor.",
+      "specs": {
+        "Material": "Natural Diatomaceous Earth",
+        "Dry Time": "< 1 minute",
+        "Safety": "Non-slip underlay included",
+        "Maintenance": "Zero-wash technology"
+      },
+      "images": {
+        "primary": "/assets/home/bathroom/diatomaceous-earth-bath-mat.jpg"
+      }
+    },
+    {
+      "id": "HOME-003",
+      "name": "Luxury Spin Mop & Bucket System",
+      "brand": "CleanMaster",
+      "category": "Bathroom & Cleaning",
+      "price": 675,
+      "description": "High-efficiency 360-degree rotating mop with a dual-chamber bucket for effective wringing. Features locking wheels for easy mobility across all hard floor surfaces.",
+      "specs": {
+        "Mop Head": "Microfiber 360° rotation",
+        "Bucket": "Dual-chamber wringing system",
+        "Mobility": "360° locking wheels",
+        "Handle": "Stainless steel telescopic"
+      },
+      "images": {
+        "primary": "/assets/home/bathroom/spin-mop-bucket-system.jpg"
+      }
+    },
+    {
+      "id": "HOME-004",
+      "name": "Compressed Travel Towels (4-Pack)",
+      "brand": "Voyager",
+      "category": "Bathroom & Cleaning",
+      "price": 225,
+      "description": "Space-saving disposable bath towels that expand when dampened. Ultra-absorbent and lightweight, making them perfect for camping, gym, or international travel.",
+      "specs": {
+        "Quantity": "4 towels per pack",
+        "Expanded Size": "70 x 140 cm",
+        "Material": "Plant-based fiber",
+        "Weight": "15g per coin"
+      },
+      "images": {
+        "primary": "/assets/home/bathroom/compressed-towels-travel.jpg"
+      }
+    },
+    {
+      "id": "HOME-005",
+      "name": "Foldable Multi-Layer Drying Rack",
+      "brand": "SpaceWise",
+      "category": "Bathroom & Cleaning",
+      "price": 900,
+      "description": "Heavy-duty stainless steel laundry rack with three tiers of drying space. Foldable design for easy storage when not in use, suitable for large loads of laundry.",
+      "specs": {
+        "Material": "Grade-A Stainless Steel",
+        "Weight Capacity": "50 kg",
+        "Levels": "3 tiers + shoe rack",
+        "Folded Thickness": "10 cm"
+      },
+      "images": {
+        "primary": "/assets/home/bathroom/folding-laundry-drying-rack.jpg"
+      }
+    },
+    {
+      "id": "HOME-006",
+      "name": "Entryway Coat & Shoe Organizer",
+      "brand": "Lazzaro",
+      "category": "Home & Furniture",
+      "price": 1800,
+      "description": "Minimalist matte black metal frame featuring 4 storage tiers for shoes and 8 heavy-duty hooks for coats, bags, and hats. Includes a top shelf for added storage.",
+      "specs": {
+        "Height": "155 cm",
+        "Width": "60 cm",
+        "Material": "Carbon steel",
+        "Shoes": "Holds up to 16 pairs"
+      },
+      "images": {
+        "primary": "/assets/home/furniture&home/entryway-coat-shoe-rack.jpg"
+      }
+    },
+    {
+      "id": "HOME-007",
+      "name": "Floral Geometric Art Area Rug",
+      "brand": "Artisan",
+      "category": "Home & Furniture",
+      "price": 2700,
+      "description": "Premium large-format rug featuring a modern abstract floral pattern with marble accents. Soft-touch pile provides luxury comfort for living rooms and bedrooms.",
+      "specs": {
+        "Pattern": "Geometric marble art",
+        "Material": "Silky-soft polyester",
+        "Backing": "Non-slip rubber",
+        "Pile Height": "12 mm"
+      },
+      "images": {
+        "primary": "/assets/home/furniture&home/geometric-art-living-room-rug.jpg"
+      }
+    },
+    {
+      "id": "HOME-008",
+      "name": "KeLeDi Cordless Handheld Vacuum",
+      "brand": "KeLeDi",
+      "category": "Home Appliances",
+      "price": 1125,
+      "description": "High-suction cordless vacuum with a 2-in-1 stick and handheld design. Features a 5-stage HEPA filtration system and a 100° rotating handle for easy maneuverability.",
+      "specs": {
+        "Suction": "4800 Pa",
+        "Runtime": "30 minutes",
+        "Filter": "HEPA H13",
+        "Weight": "600g (handheld mode)"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/keledi-cordless-handheld-vacuum.jpg"
+      }
+    },
+    {
+      "id": "HOME-009",
+      "name": "Portable Hands-Free Neck Fan",
+      "brand": "Breeze",
+      "category": "Home Appliances",
+      "price": 450,
+      "description": "Ergonomic, bladeless neck fan designed for ultimate hands-free cooling. Safe for all hair types with 3 adjustable speeds and whisper-quiet operation.",
+      "specs": {
+        "Battery": "4000 mAh",
+        "Runtime": "Up to 12 hours",
+        "Speeds": "3-stage adjustable",
+        "Port": "USB-C charging"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/portable-hands-free-neck-fan.jpg"
+      }
+    },
+    {
+      "id": "HOME-010",
+      "name": "Mini Travel Steam Iron",
+      "brand": "JetSet",
+      "category": "Home Appliances",
+      "price": 600,
+      "description": "Ultra-compact travel iron with a 180° rotatable handle and rapid-heat steam function. Ceramic soleplate ensures smooth gliding over all fabric types.",
+      "specs": {
+        "Functions": "Dry / Steam / Spray",
+        "Water Tank": "50 ml",
+        "Heat Up": "30 seconds",
+        "Voltage": "Dual voltage 110-240V"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/mini-travel-steam-iron.jpg"
+      }
+    },
+    {
+      "id": "HOME-011",
+      "name": "H2O USB Ultrasonic Humidifier",
+      "brand": "H2O",
+      "category": "Home Appliances",
+      "price": 375,
+      "description": "Sleek cool-mist humidifier with 7-color ambient lighting. Quiet ultrasonic technology makes it ideal for bedside use to maintain optimal air humidity.",
+      "specs": {
+        "Modes": "Continuous / Intermittent",
+        "Light": "7-color LED",
+        "Power": "USB powered",
+        "Safety": "Auto-shutoff sensor"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/h2o-usb-humidifier.jpg"
+      }
+    },
+    {
+      "id": "HOME-012",
+      "name": "Aurora Water Spray Mop",
+      "brand": "Aurora",
+      "category": "Home Appliances",
+      "price": 525,
+      "description": "Ergonomic spray mop with an integrated 350ml tank and precision mist trigger. 360-degree rotating head reaches deep into corners and under furniture.",
+      "specs": {
+        "Head": "360° rotation",
+        "Tank": "350 ml refillable",
+        "Pad": "Reusable Microfiber",
+        "Compatible": "Wood, Tile, Marble"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/aurora-spray-mop.jpg"
+      }
+    },
+    {
+      "id": "HOME-013",
+      "name": "Slivers Criest Deluxe Dry Iron",
+      "brand": "Slivers Criest",
+      "category": "Home Appliances",
+      "price": 750,
+      "description": "Premium 1000W dry iron with 5 speed heat adjustment. Featuring a super-lightweight design with an indicator light and precision tip for tight corners.",
+      "specs": {
+        "Power": "1000 W",
+        "Heat Settings": "5 variable levels",
+        "Indicator": "Auto-off light",
+        "Voltage": "220V 50Hz"
+      },
+      "images": {
+        "primary": "/assets/home/homeAppliances/slivers-criest-dry-iron.jpg"
+      }
+    },
+    {
+      "id": "HOME-014",
+      "name": "Wooden X-Frame Dish Rack",
+      "brand": "Bambuh",
+      "category": "Kitchen",
+      "price": 675,
+      "description": "Eco-friendly bamboo X-frame dish rack with black powder-coated wire shelves. Includes a large drainage mat and heavy-duty slots for plates and bowls.",
+      "specs": {
+        "Material": "Bamboo + Carbon steel",
+        "Tiers": "2 layers",
+        "Capacity": "16 plates + 10 bowls",
+        "Foldable": "Yes, for storage"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/wooden-dish-drying-rack.jpg"
+      }
+    },
+    {
+      "id": "HOME-015",
+      "name": "Round Non-Slip Cutting Boards",
+      "brand": "ProChef",
+      "category": "Kitchen",
+      "price": 450,
+      "description": "Stylishly designed circular cutting boards with textured surfaces to prevent slipping. Featuring convenient hanging handles for space-saving organization.",
+      "specs": {
+        "Quantity": "2 - piece set",
+        "Material": "Food-grade HDPE",
+        "Shape": "Circular with handle",
+        "Features": "Non - slip texture"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/non-slip-round-cutting-boards.jpg"
+      }
+    },
+    {
+      "id": "HOME-016",
+      "name": "Classic Belgian Waffle Maker",
+      "brand": "Gourmet",
+      "category": "Kitchen",
+      "price": 825,
+      "description": "Traditional non-stick waffle iron for even browning and easy release. Compact, vertical-storage design with a cool-touch handle for family-safe use.",
+      "specs": {
+        "Grid": "Non-stick Belgian style",
+        "Capacity": "4 large waffles",
+        "Heat Index": "Adjustable",
+        "Storage": "Vertical space-saving"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/belgian-waffle-maker-iron.jpg"
+      }
+    },
+    {
+      "id": "HOME-017",
+      "name": "Over-Sink Kitchen Organizer",
+      "brand": "SpaceWise",
+      "category": "Kitchen",
+      "price": 1650,
+      "description": "Heavy-duty 95cm stainless steel rack that fits directly over the sink. Includes dedicated modules for knives, hooks, detergent, and cutting boards.",
+      "specs": {
+        "Width": "95 cm",
+        "Material": "Anti-rust Carbon steel",
+        "Weight Capacity": "40 kg",
+        "Modules": "8 detachable components"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/over-sink-kitchen-organizer.jpg"
+      }
+    },
+    {
+      "id": "HOME-018",
+      "name": "Stainless Steel Vacuum Flasks",
+      "brand": "Thermosport",
+      "category": "Kitchen",
+      "price": 600,
+      "description": "Double-walled vacuum insulated flasks in a professional 5-color set. Keeps beverages hot for 12 hours or cold for up to 24 hours with a leak-proof cap.",
+      "specs": {
+        "Material": "18/8 Stainless Steel",
+        "Insulation": "Double-wall vacuum",
+        "Quantity": "Set of 5 colors",
+        "BPA Free": "Yes"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/stainless-steel-vacuum-flasks.jpg"
+      }
+    },
+    {
+      "id": "HOME-019",
+      "name": "Rolling Kitchen Storage Rack",
+      "brand": "Movables",
+      "category": "Kitchen",
+      "price": 1275,
+      "description": "5-tier mobile storage rack with breathable mesh baskets and locking wheels. Perfect for organizing vegetables, fruits, and bulky pantry items.",
+      "specs": {
+        "Levels": "5 tiers",
+        "Baskets": "Breathable mesh",
+        "Wheels": "360° locking casters",
+        "Material": "Powder-coated iron"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/rolling-vegetable-storage-rack.jpg"
+      }
+    },
+    {
+      "id": "HOME-020",
+      "name": "Collapsible Sink Cutting Board",
+      "brand": "VersaTool",
+      "category": "Kitchen",
+      "price": 375,
+      "description": "4-in-1 kitchen tool that acts as a cutting board, rinsing basket, and storage bowl. Collapsible design saves up to 70% of storage space.",
+      "specs": {
+        "Folded Height": "3 cm",
+        "Unfolded Height": "13 cm",
+        "Plug": "Built-in drain plug",
+        "Material": "Premium PP + TPE"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/collapsible-cutting-board-sink.jpg"
+      }
+    },
+    {
+      "id": "HOME-021",
+      "name": "Evryealth 19-Piece Kitchen Set",
+      "brand": "Evryealth",
+      "category": "Kitchen",
+      "price": 1425,
+      "description": "Full culinary set including premium silicone utensils with wooden handles and high-precision chef knives. Heat-resistant and non-stick safe.",
+      "specs": {
+        "Pieces": "19-piece full set",
+        "Material": "Silicone + Wood + Steel",
+        "Heat Level": "< 230°C",
+        "Includes": "Utensils, Knives, Scissor"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/evryealth-19pcs-utensil-set.jpg"
+      }
+    },
+    {
+      "id": "HOME-022",
+      "name": "Rotating Vegetable Basket",
+      "brand": "EasyPrep",
+      "category": "Kitchen",
+      "price": 300,
+      "description": "Dual-layer colander and fruit basket with a rotating pivot for easy rinsing and draining. Inner basket remains horizontal during pour to prevent spills.",
+      "specs": {
+        "Material": "Food-safe Polypropylene",
+        "Pivot": "360° rotating system",
+        "Design": "Detachable 2-in-1",
+        "Drainage": "High-flow side vents"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/rotating-vegetable-basket-colander.jpg"
+      }
+    },
+    {
+      "id": "HOME-023",
+      "name": "Electric Sandwich & Panini Maker",
+      "brand": "QuickGrill",
+      "category": "Kitchen",
+      "price": 675,
+      "description": "Rapid-heat sandwich press with non-stick coated plates. Features an easy-lock handle and indicator lights for perfectly toasted paninis in minutes.",
+      "specs": {
+        "Plates": "Non-stick teflon",
+        "Power": "750 W",
+        "Safety": "Cool-touch handle",
+        "Indicator": "Power ON / Ready lights"
+      },
+      "images": {
+        "primary": "/assets/home/kitchen/electric-sandwich-panini-maker.jpg"
+      }
+    }
+  ]
+}

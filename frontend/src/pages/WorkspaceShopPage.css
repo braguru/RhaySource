@@ -20,3 +20,10 @@
   font-size: 0.9rem;
   color: #94a3b8;
 }
+
+/* Whole card is a link */
+.tech-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
