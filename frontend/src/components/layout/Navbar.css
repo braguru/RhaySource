@@ -65,6 +65,171 @@
   display: flex;
   gap: 2.5rem;
   list-style: none;
+  align-items: center;
+}
+
+/* ── Our Stores Dropdown ─────────────────────────────── */
+.stores-nav-item {
+  position: relative;
+}
+
+.mobile-stores-group {
+  display: none;
+}
+
+.stores-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-slate);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0;
+}
+
+.stores-trigger:hover {
+  color: var(--color-sage-dark);
+}
+
+.stores-chevron {
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.stores-trigger.open .stores-chevron {
+  transform: rotate(180deg);
+}
+
+.stores-dropdown {
+  position: absolute;
+  top: calc(100% + 18px);
+  right: -20px; /* Slight offset for better visual balance */
+  min-width: 320px; /* Expanded for a more premium feel */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  z-index: 500;
+  animation: dropIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.dropdown-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--color-slate-light);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.5rem 1rem 1rem;
+  opacity: 0.5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  margin-bottom: 0.5rem;
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.store-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem; /* Increased gap */
+  padding: 1rem 1.25rem; /* Expanded internal spacing */
+  border-radius: 14px;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 4px;
+}
+
+.store-item:last-child {
+  margin-bottom: 0;
+}
+
+.store-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+  transform: translateX(4px);
+}
+
+.store-item.active {
+  background: rgba(1, 53, 151, 0.04);
+}
+
+/* Store Dot Removed */
+
+.store-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.store-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  letter-spacing: 0.01em;
+}
+
+.store-label {
+  font-size: 0.72rem;
+  color: var(--color-slate-light);
+  letter-spacing: 0.02em;
+}
+
+.store-check {
+  font-size: 0.85rem;
+  color: var(--color-blue);
+  flex-shrink: 0;
+}
+
+/* workspace dark dropdown */
+.navbar-workspace .stores-trigger {
+  color: #94a3b8;
+}
+
+.navbar-workspace .stores-trigger:hover {
+  color: #38bdf8;
+}
+
+.navbar-workspace .stores-dropdown {
+  background: rgba(15, 23, 42, 0.94);
+  border-color: rgba(56, 189, 248, 0.2);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-workspace .dropdown-label {
+  color: #475569;
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.navbar-workspace .store-item:hover {
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.navbar-workspace .store-item.active {
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.navbar-workspace .store-name {
+  color: #f1f5f9;
+}
+
+.navbar-workspace .store-label {
+  color: #94a3b8;
 }
 
 .navbar-links a {
@@ -181,6 +346,7 @@
     left: 0;
     width: 100%;
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(16px);
@@ -203,6 +369,51 @@
     font-size: 1rem;
   }
 
+  /* Hide desktop stores dropdown on mobile */
+  .desktop-stores {
+    display: none;
+  }
+
+  /* Show mobile stores group */
+  .mobile-stores-group {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .mobile-stores-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-slate-light);
+    padding: 0.85rem 2rem 0.4rem;
+  }
+
+  .mobile-store-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-slate);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0.25rem 1rem;
+    border-radius: 12px;
+  }
+
+  .mobile-store-link.active {
+    background: color-mix(in srgb, var(--active-color) 8%, transparent);
+    color: var(--active-color);
+    font-weight: 700;
+  }
+
+  .mobile-store-name {
+    flex: 1;
+  }
+
   .navbar-wrapper {
     padding: 0 1rem;
     position: relative;
@@ -222,6 +433,38 @@
   .mobile-menu-btn {
     display: flex;
   }
+}
+
+@media (max-width: 768px) {
+  .navbar-workspace .navbar-links {
+    background: rgba(12, 13, 18, 0.98);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  }
+
+  .navbar-workspace .navbar-links li {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .navbar-workspace .mobile-stores-label {
+    color: #475569;
+  }
+
+  .navbar-workspace .mobile-store-link {
+    color: #94a3b8;
+  }
+
+  .navbar-workspace .mobile-store-link.active {
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+  }
+}
+
+.navbar-workspace .navbar-links a {
+  color: #e2e8f0;
+}
+
+.navbar-workspace .navbar-links a:hover {
+  color: #38bdf8;
 }
 
 @media (max-width: 600px) {
@@ -421,4 +664,146 @@
     right: 1rem;
     padding: 1rem;
   }
+}
+/* ── Workspace / Tech Specific Adjustments ──────────────────────── */
+
+.navbar-workspace {
+  background: #0f172a !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.navbar-workspace .navbar {
+  background: transparent;
+  border: none;
+}
+
+.navbar-workspace .navbar-links a {
+  color: #94a3b8;
+}
+
+.navbar-workspace .navbar-links a:hover {
+  color: #38bdf8;
+}
+
+/* Workspace Text Logo */
+.logo-workspace-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.logo-ws-rs {
+  background: #38bdf8;
+  color: #0c0d12;
+  font-size: 0.9rem;
+  font-weight: 900;
+  padding: 0.3rem 0.45rem;
+  border-radius: 6px;
+}
+
+.logo-ws-name {
+  color: #f8fafc;
+  font-size: 1.2rem;
+}
+
+.logo-ws-ent {
+  color: #38bdf8;
+  font-size: 1.2rem;
+}
+
+.logo-tech {
+  filter: grayscale(1) brightness(2) contrast(1.2);
+  transition: filter 0.3s ease;
+}
+
+.cart-btn-tech {
+  color: #f8fafc !important;
+}
+
+.cart-btn-tech:hover {
+  color: #38bdf8 !important;
+}
+
+.badge-tech {
+  background: #38bdf8 !important;
+  color: #0c0d12 !important;
+  border-color: #0f172a !important;
+}
+
+.navbar-workspace .icon-btn {
+  color: #94a3b8;
+}
+
+.navbar-workspace .icon-btn:hover {
+  color: #38bdf8;
+}
+
+.navbar-workspace .search-overlay {
+  background: #1e293b;
+  border-color: rgba(56, 189, 248, 0.2);
+  color: #f8fafc;
+}
+
+.navbar-workspace .search-input-wrapper {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.navbar-workspace .search-input-wrapper input {
+  color: #f8fafc;
+}
+
+.navbar-workspace .search-results-dropdown {
+  background: #1e293b;
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.navbar-workspace .search-result-item:hover {
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.navbar-workspace .result-name {
+  color: #f8fafc;
+}
+
+.navbar-workspace .result-category {
+  color: #38bdf8;
+}
+
+/* ── Search Empty State ─────────────────────────────── */
+.no-results-content {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.no-results-icon {
+  font-size: 2.5rem;
+  color: var(--color-slate-light);
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-results-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-slate);
+  margin-bottom: 0.5rem;
+}
+
+.no-results-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-slate-light);
+}
+
+.navbar-workspace .no-results-title {
+  color: #f8fafc;
+}
+
+.navbar-workspace .no-results-icon {
+  color: #38bdf8;
 }

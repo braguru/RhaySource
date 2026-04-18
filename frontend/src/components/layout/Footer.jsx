@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi';
 import logoFull from '../../assets/logos/logo-full.png';
 import './Footer.css';
 
 const Footer = () => {
+  const { pathname } = useLocation();
+  const isWorkspace = pathname.startsWith('/workspace');
+
   const instagramUrl = import.meta.env.VITE_INSTAGRAM_URL || '#';
   const twitterUrl = import.meta.env.VITE_TWITTER_URL || '#';
   const youtubeUrl = import.meta.env.VITE_YOUTUBE_URL || '#';
@@ -12,14 +15,16 @@ const Footer = () => {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '';
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${isWorkspace ? 'footer-workspace' : ''}`}>
       <div className="container footer-grid">
         <div className="footer-brand">
-          <Link to="/" className="footer-logo-link">
+          <Link to={isWorkspace ? '/workspace' : '/'} className="footer-logo-link">
             <img src={logoFull} alt="RhaySource Ent." className="footer-logo-img" />
           </Link>
           <p className="footer-tagline">
-            Plant-powered formulas for radiant, healthy skin. Vegan &amp; cruelty-free.
+            {isWorkspace
+              ? 'Expert-vetted workstations for creators, executives, and enterprise leaders.'
+              : 'Plant-powered formulas for radiant, healthy skin. Vegan & cruelty-free.'}
           </p>
           <div className="footer-socials">
             <a href={instagramUrl} aria-label="Instagram" target="_blank" rel="noopener noreferrer"><FiInstagram /></a>
@@ -28,36 +33,66 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-col">
-          <h3>Shop</h3>
-          <ul>
-            <li><Link to="/shop?category=Serums">Serums</Link></li>
-            <li><Link to="/shop?category=Moisturizers">Moisturizers</Link></li>
-            <li><Link to="/shop?category=Cleansers">Cleansers</Link></li>
-            <li><Link to="/shop?category=Eye+Care">Eye Care</Link></li>
-            <li><Link to="/shop?category=Masks">Masks</Link></li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h3>Company</h3>
-          <ul>
-            <li><Link to="/about">Our Story</Link></li>
-            <li><Link to="/about">Ingredients</Link></li>
-            <li><Link to="/about">Sustainability</Link></li>
-            <li><Link to="/shop">All Products</Link></li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
-          <h3>Support</h3>
-          <ul>
-            <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
-            <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
-            <li><Link to="/about">Shipping &amp; Returns</Link></li>
-            <li><Link to="/about">FAQ</Link></li>
-          </ul>
-        </div>
+        {isWorkspace ? (
+          <>
+            <div className="footer-col">
+              <h3>Shop</h3>
+              <ul>
+                <li><Link to="/workspace/shop?category=Laptops">Laptops</Link></li>
+                <li><Link to="/workspace/shop?category=Desktops">Desktops</Link></li>
+                <li><Link to="/workspace/shop?category=Accessories">Accessories</Link></li>
+                <li><Link to="/workspace/shop">All Products</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h3>Company</h3>
+              <ul>
+                <li><Link to="/workspace/about">Our Story</Link></li>
+                <li><Link to="/workspace/about">Why Workspace</Link></li>
+                <li><Link to="/shop">Skincare Store</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h3>Support</h3>
+              <ul>
+                <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
+                <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
+                <li><Link to="/workspace/about#contact">Contact Us</Link></li>
+              </ul>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="footer-col">
+              <h3>Shop</h3>
+              <ul>
+                <li><Link to="/shop?category=Serums">Serums</Link></li>
+                <li><Link to="/shop?category=Moisturizers">Moisturizers</Link></li>
+                <li><Link to="/shop?category=Cleansers">Cleansers</Link></li>
+                <li><Link to="/shop?category=Eye+Care">Eye Care</Link></li>
+                <li><Link to="/shop?category=Masks">Masks</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h3>Company</h3>
+              <ul>
+                <li><Link to="/about">Our Story</Link></li>
+                <li><Link to="/about">Ingredients</Link></li>
+                <li><Link to="/about">Sustainability</Link></li>
+                <li><Link to="/shop">All Products</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h3>Support</h3>
+              <ul>
+                <li><a href={`mailto:${contactEmail}`}>Email Us</a></li>
+                <li><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp Support</a></li>
+                <li><Link to="/about">Shipping &amp; Returns</Link></li>
+                <li><Link to="/about">FAQ</Link></li>
+              </ul>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="footer-bottom container">

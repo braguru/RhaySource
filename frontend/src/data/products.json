@@ -1132,13 +1132,5 @@
         "Bundle"
       ]
     }
-  ],
-  "laptopReferrals": [
-    {
-      "id": "TECH-01",
-      "name": "Modern Creator Workstation",
-      "url": "https://example.com/laptops/creator-workstation",
-      "tagline": "The ultimate tool for designing your life."
-    }
   ]
 }

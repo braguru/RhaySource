@@ -2,7 +2,28 @@
   background-color: var(--color-slate);
   color: rgba(255, 255, 255, 0.75);
   padding: 5rem 0 0;
-  margin-top: 3rem; /* Adjusted for better balance */
+}
+
+.footer-workspace {
+  background-color: #080a0f;
+  border-top: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.footer-workspace .footer-col h3 {
+  color: #38bdf8;
+}
+
+.footer-workspace .footer-col ul a,
+.footer-workspace .footer-col ul Link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-workspace .footer-col ul a:hover {
+  color: #38bdf8;
+}
+
+.footer-workspace .footer-socials a:hover {
+  color: #38bdf8;
 }
 
 .footer-grid {

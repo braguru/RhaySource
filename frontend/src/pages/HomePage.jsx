@@ -144,7 +144,7 @@ export default function HomePage() {
               <h3>Equip Your Workspace</h3>
               <p>Discover our curated collection of premium laptops designed for high-performance creative workflows and enterprise leadership.</p>
             </div>
-            <a href="https://example.com/laptops" className="btn btn-primary">Explore Tech Essentials</a>
+            <Link to="/workspace" className="btn btn-primary">Explore Tech Essentials</Link>
           </motion.div>
         </div>
       </section>

@@ -28,7 +28,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
   const contactEmail = import.meta.env.VITE_CONTACT_EMAIL;
 
   const generateOrderMessage = () => {
-    let message = "Hello RhaySource! 👋 I'm interested in ordering the following items:\n\n";
+    let message = "Hello Rhyea! 👋 I'm interested in ordering the following items:\n\n";
     cart.forEach((item, index) => {
       message += `${index + 1}. ${item.name} (${item.quantity}x) - GH₵${(item.price * item.quantity).toFixed(2)}\n`;
     });
