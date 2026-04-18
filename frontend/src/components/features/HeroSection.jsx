@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import Button from '../ui/Button';
+import rhyeaFull from '../../assets/logos/rhyea-ful-logo.png';
+import rhyeaIcon from '../../assets/logos/rhyea.png';
 import './HeroSection.css';
 
 const textContainer = {
@@ -34,7 +36,7 @@ export default function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, ease: 'easeOut' }}
       >
-        <img src="/assets/images/hero-model.jpg" alt="RhaySource skincare" />
+        <img src="/assets/images/hero-model.jpg" alt="Rhyea skincare" />
       </motion.div>
 
       {/* Hero text */}
@@ -45,9 +47,12 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          <motion.p variants={textItem} className="hero-eyebrow">
-            rhaysource skincare
-          </motion.p>
+          <motion.div variants={textItem} className="hero-brand-logo">
+            <picture>
+              <source media="(max-width: 480px)" srcSet={rhyeaIcon} />
+              <img src={rhyeaFull} alt="Rhyea" className="rhyea-hero-logo" />
+            </picture>
+          </motion.div>
 
           <motion.h2 variants={textItem} className="hero-title">
             PRESTIGE<br />

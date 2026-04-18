@@ -5,7 +5,7 @@
   background-size: cover;
   background-position: center 20%;
   border-bottom: 1px solid rgba(124, 158, 133, 0.15);
-  margin-bottom: 0;
+  margin-bottom: 3rem; /* Use margin to force physical space between sections */
   text-align: left; /* Left align consistent with landing page */
 }
 
@@ -13,8 +13,14 @@
 .hl-shop-body {
   display: flex;
   gap: 4rem;
-  padding-top: 3rem;
-  padding-bottom: 6rem;
+  padding-top: 0; /* Space now handled by hero margin */
+  padding-bottom: 4rem;
+}
+
+.hl-shop-main {
+  flex: 1;
+  padding-bottom: 6rem; /* Reduced from 15rem for a more balanced look */
+  min-height: 40vh; 
 }
 
 .hl-sidebar {
@@ -245,27 +251,33 @@
 
 .hl-mobile-controls {
   position: sticky;
-  top: 75px;
+  top: 85px; 
   z-index: 100;
-  padding: 1.5rem 0;
-  margin-bottom: 1rem;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  display: none; 
   justify-content: center;
-  background: transparent;
+  background: transparent; /* Entirely transparent background */
+  pointer-events: none;
 }
 
 .hl-mobile-filter-btn {
+  pointer-events: auto;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.75rem 2rem;
-  background: #ffffff;
+  padding: 0.75rem 2.5rem;
+  background: rgba(255, 255, 255, 0.6); /* Translucent floating feel */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #1a2e1f;
-  border: 1px solid #e8ede9;
+  border: 1px solid rgba(124, 158, 133, 0.15);
   border-radius: 50px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
 }
 
 /* Mobile Drawer */
@@ -348,7 +360,19 @@
     background-size: cover;
     background-position: center;
   }
-  .hl-shop-body { flex-direction: column; gap: 0; padding-top: 0; }
+  .hl-shop-body { 
+    flex-direction: column; 
+    gap: 0; 
+    padding-top: 0; 
+    padding-bottom: 4rem; 
+  }
+  .hl-shop-hero { 
+    margin-bottom: 5rem; /* Significant space for mobile */
+  }
+  .hl-shop-main {
+    display: block; /* Ensure sticky container can travel */
+    padding-bottom: 8rem; /* Reduced from 18rem */
+  }
   .hl-desktop-only { display: none; }
   .hl-mobile-only  { display: flex; }
   .hl-product-grid { grid-template-columns: repeat(2, 1fr); }

@@ -42,7 +42,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
   };
 
   const handleEmailOrder = () => {
-    const subject = encodeURIComponent("New Order Inquiry - RhaySource");
+    const subject = encodeURIComponent("New Order Inquiry - Rhyea");
     const body = generateOrderMessage();
     const url = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
     window.location.href = url;

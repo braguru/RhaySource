@@ -9,6 +9,20 @@
 
 .about-hero-content {
   max-width: 800px;
+  text-align: left; /* Editorial left-alignment */
+}
+
+.about-brand-area {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.about-brand-logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
 }
 
 .about-eyebrow {
