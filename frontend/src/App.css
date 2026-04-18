@@ -98,3 +98,14 @@
 .btn-link:hover {
   opacity: 0.8;
 }
+
+/* Global content padding */
+main {
+  padding-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-bottom: 2rem;
+  }
+}

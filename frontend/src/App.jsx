@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import AboutPage from './pages/AboutPage';
+import NotFoundPage from './pages/NotFoundPage';
 import { CartProvider } from './context/CartContext';
 import './App.css';
 
@@ -22,6 +23,8 @@ function App() {
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/products/:slug" element={<ProductDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
+            {/* Catch-all route for 404 */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <Footer />
