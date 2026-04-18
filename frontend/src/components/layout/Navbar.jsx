@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiSearch, FiShoppingBag, FiMenu, FiX, FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
-import CartDrawer from '../features/CartDrawer';
 import productsData from '../../data/products.json';
 import { toSlug } from '../../utils/slug';
 import logoFull from '../../assets/logos/logo-full.png';
@@ -13,11 +12,10 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isHome = pathname === '/';
-  const { cartCount } = useCart();
+  const { cartCount, isCartOpen, toggleCart } = useCart();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const searchInputRef = useRef(null);
@@ -72,13 +70,18 @@ const Navbar = () => {
             >
               <FiSearch />
             </button>
-            <button 
-              aria-label="Cart" 
-              className="icon-btn cart-btn"
-              onClick={() => setIsCartOpen(true)}
+            <button
+              aria-label="Cart"
+              className={`icon-btn cart-btn ${isCartOpen ? 'active' : ''}`}
+              onClick={toggleCart}
             >
-              <FiShoppingBag />
-              <span>Bag ({cartCount})</span>
+              <div className="cart-icon-wrapper">
+                <FiShoppingBag />
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+              </div>
+              <span className="desktop-only-text">Bag ({cartCount})</span>
             </button>
             <button
               className="icon-btn mobile-menu-btn"
@@ -129,8 +132,6 @@ const Navbar = () => {
           </div>
         </nav>
       </div>
-
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };
