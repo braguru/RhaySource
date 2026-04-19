@@ -31,11 +31,11 @@ async function migrate() {
   }
 
   try {
-    // 1. Fetch all products pointing to local assets
+    // 1. Fetch all products pointing to local assets (not starting with http)
     const { data: products, error } = await supabase
       .from('products')
       .select('id, name, image_url')
-      .ilike('image_url', '/assets/%');
+      .not('image_url', 'ilike', 'http%');
 
     if (error) throw error;
     if (!products || products.length === 0) {
@@ -46,10 +46,13 @@ async function migrate() {
     console.log(`📦 Found ${products.length} pieces to migrate.`);
 
     for (const product of products) {
-      // Determine the correct subfolder from the current image_url path
-      // e.g., /assets/products/img.jpg or /assets/home/img.jpg
+      const isSrcAsset = product.image_url.startsWith('/src/assets');
       const relativePath = product.image_url.slice(1); // remove leading slash
-      const localPath = path.resolve(__dirname, '../../frontend/public', relativePath);
+      
+      // Resolve path differently for /src/assets vs /assets (public)
+      const localPath = isSrcAsset
+        ? path.resolve(__dirname, '../../frontend', relativePath)
+        : path.resolve(__dirname, '../../frontend/public', relativePath);
       
       console.log(`📤 Uploading: ${product.name}...`);
       
