@@ -1,120 +1,103 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../lib/supabase';
+import { useProductStore } from '../store/useProductStore';
 
 /**
- * Hook to fetch products for a specific store slug or all products
+ * Hook to fetch products for a specific store slug or all products.
+ * Now uses a global session cache (Zustand) to avoid constant DB hits.
  */
 export function useProducts(storeSlug = null) {
-  const [products, setProducts] = useState([]);
-  const [store, setStore] = useState(null); // Metadata for the requested store
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    products: allProducts,
+    stores: cachedStores,
+    loading,
+    error,
+    fetchAllProducts,
+    fetchStoreMetadata
+  } = useProductStore();
 
-  const fetchProducts = useCallback(async () => {
-    setLoading(true);
-    try {
-      // 1. Fetch products with store join
-      let query = supabase
-        .from('products')
-        .select('*, stores(slug, is_active)');
-
-      // 2. Fetch store metadata if a slug is provided
-      if (storeSlug) {
-        const { data: storeData } = await supabase
-          .from('stores')
-          .select('*')
-          .eq('slug', storeSlug)
-          .single();
-        if (storeData) setStore(storeData);
-      }
-      const { data, error: err } = await query.order('sort_order', { ascending: true });
-
-      if (err) throw err;
-      
-      // Filter by storeSlug if provided AND ensure store is active for public site
-      const filteredData = data.filter(p => {
-        const isActive = p.stores?.is_active !== false; // Default to true if not present, but usually explicit
-        const matchesSlug = !storeSlug || p.stores?.slug === storeSlug;
-        return isActive && matchesSlug;
-      });
-
-      setProducts(filteredData);
-    } catch (err) {
-      console.error('Error fetching products:', err);
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  }, [storeSlug]);
-
+  // 1. Trigger fetch on mount/slug change if needed
   useEffect(() => {
-    fetchProducts();
+    fetchAllProducts();
+    if (storeSlug && !cachedStores[storeSlug]) {
+      fetchStoreMetadata(storeSlug);
+    }
+  }, [storeSlug, fetchAllProducts, fetchStoreMetadata, cachedStores]);
 
-    // Set up Realtime subscription
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*', // Listen to INSERT, UPDATE, and DELETE
-          schema: 'public',
-          table: 'products'
-        },
-        () => {
-          console.log('✨ Realtime update detected, refreshing pieces...');
-          fetchProducts();
-        }
-      )
-      .subscribe();
+  // 2. Filter products locally based on storeSlug
+  const filteredProducts = useMemo(() => {
+    return allProducts.filter(p => {
+      const isActive = p.stores?.is_active !== false;
+      const matchesSlug = !storeSlug || p.stores?.slug === storeSlug;
+      return isActive && matchesSlug;
+    });
+  }, [allProducts, storeSlug]);
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [fetchProducts]);
-
-  return { products, store, loading, error, refetch: fetchProducts };
+  return { 
+    products: filteredProducts, 
+    store: storeSlug ? cachedStores[storeSlug] : null, 
+    loading, 
+    error, 
+    refetch: () => fetchAllProducts(true) 
+  };
 }
 
 /**
- * Hook to fetch a single product by ID or Slug
+ * Hook to fetch a single product by ID or Slug.
+ * Efficiently uses the global shop session cache if available.
  */
 export function useProduct(idOrSlug) {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { products: allProducts, fetchAllProducts, updateProductInCache } = useProductStore();
+  const [localProduct, setLocalProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // 1. Try to find product in the global store's existing catalog
+  const cachedProduct = useMemo(() => {
+    if (!idOrSlug) return null;
+    return allProducts.find(p => p.id === idOrSlug || p.id === parseInt(idOrSlug) || p.slug === idOrSlug);
+  }, [allProducts, idOrSlug]);
 
   useEffect(() => {
     async function fetchProduct() {
-      if (!idOrSlug) return;
+      if (!idOrSlug || cachedProduct) return;
+      
       setLoading(true);
       try {
-        // Try filtering by ID if it's a UUID, otherwise by slug
         const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
-        
         let query = supabase.from('products').select('*, stores(*)').eq('stores.is_active', true);
         
         if (isUuid) {
           query = query.eq('id', idOrSlug);
         } else {
-          // Note: Products currently don't have a slug column in schema.sql, 
-          // but this logic supports it if added later.
           query = query.eq('slug', idOrSlug);
         }
 
         const { data, error: err } = await query.single();
-
         if (err) throw err;
-        setProduct(data);
+        
+        setLocalProduct(data);
+        // Optional: Update the global cache if this was a fresh discovery
+        updateProductInCache(data);
       } catch (err) {
-        console.error('Error fetching product:', err);
-        setError(err);
+        console.error('❌ Hook Error: Failed to fetch product:', err.message);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchProduct();
-  }, [idOrSlug]);
+    // If global store is empty, trigger the initial fetch
+    if (allProducts.length === 0) {
+      fetchAllProducts();
+    } else {
+      fetchProduct();
+    }
+  }, [idOrSlug, cachedProduct, allProducts.length, fetchAllProducts, updateProductInCache]);
 
-  return { product, loading, error };
+  return { 
+    product: cachedProduct || localProduct, 
+    loading: loading || (allProducts.length === 0 && !cachedProduct), 
+    error 
+  };
 }
