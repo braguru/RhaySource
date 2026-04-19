@@ -136,6 +136,15 @@ A protected route in the existing React app. The vendor never sees a separate UR
 
 The frontend currently reads from JSON files. After migration it reads from Supabase. This is the only breaking change to existing pages.
 
+### SEO & Initial Data Fetching
+Since the current app is a pure React SPA, moving from local JSON to Supabase (fetched at runtime) introduces async rendering.
+- **Risk:** Search engines might see empty pages before JS executes and fetches products.
+- **Recommendation:** Ensure proper meta tags in `index.html` and consider a `sitemap.xml` generator. Long-term, evaluate Vite SSR or Next.js if SEO becomes critical.
+
+### Loading UX
+Local JSON has effectively 0ms latency. DB fetches introduce a 200ms–800ms delay.
+- **Recommendation:** Use Skeleton Loaders instead of simple "Loading..." spinners to maintain the premium, editorial feel during the shift.
+
 ### Data fetching pattern (before)
 ```js
 import products from '../data/home-products.json';
@@ -154,9 +163,18 @@ const { data: products } = await supabase
 
 A shared `useProducts(storeSlug)` hook will be created so each shop page just calls one hook — no duplication.
 
-### Image URLs
-Currently: `/src/assets/home/product.png` (local, committed to repo)  
+### Image URLs & Fallbacks
+Currently: `/src/assets/home/product.png` (local, committed to repo)
 After: `https://res.cloudinary.com/rhaysource/image/upload/...` (Cloudinary CDN, auto-optimized)
+
+**Graceful Migration Logic:**
+To handle the transition period (Phase 4/5) where some images are local and some are remote, implement fallback logic in `ProductCard` or `useProducts`:
+```js
+const getImageUrl = (path) => {
+  if (path.startsWith('http')) return path; // Cloudinary
+  return `/src/assets/${path}`; // Local fallback
+};
+```
 
 No template changes needed — `product.image_url` replaces `product.images.primary`.
 
