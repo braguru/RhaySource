@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useNotification } from './NotificationContext';
 
 const CartContext = createContext();
 
@@ -11,24 +12,39 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
+  const { addNotification } = useNotification();
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('rhaysource_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('rhaysource_cart', JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product) => {
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+  const toggleCart = useCallback(() => setIsCartOpen(prev => !prev), []);
+
+  const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
       if (existingItem) {
         return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [...prevCart, { ...product, quantity }];
+    });
+
+    addNotification({
+      title: product.brand || 'SKINCARE',
+      message: `${product.name} added to your Bag`,
+      image: product.image_url || product.images?.primary,
+      type: 'skincare',
+      onCloseCart: openCart
     });
   };
 
@@ -54,12 +70,6 @@ export const CartProvider = ({ children }) => {
 
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const openCart = useCallback(() => setIsCartOpen(true), []);
-  const closeCart = useCallback(() => setIsCartOpen(false), []);
-  const toggleCart = useCallback(() => setIsCartOpen(prev => !prev), []);
 
   return (
     <CartContext.Provider

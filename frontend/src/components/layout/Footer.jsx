@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi';
+import { useSettings } from '../../hooks/useSettings';
 import logoFull from '../../assets/logos/logo-full.png';
 import './Footer.css';
 
@@ -9,6 +10,10 @@ const Footer = () => {
   const isWorkspace = pathname.startsWith('/workspace');
   const isHomeLiving = pathname.startsWith('/home-living');
 
+  const { settings } = useSettings();
+  const brandName = settings.branding?.brand_name || 'RhaySource';
+  const editorialTagline = settings.branding?.tagline;
+
   const instagramUrl = import.meta.env.VITE_INSTAGRAM_URL || '#';
   const twitterUrl = import.meta.env.VITE_TWITTER_URL || '#';
   const youtubeUrl = import.meta.env.VITE_YOUTUBE_URL || '#';
@@ -16,6 +21,8 @@ const Footer = () => {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '';
 
   const getTagline = () => {
+    // Priority: Editorial Tagline from Settings > Niche Taglines
+    if (editorialTagline) return editorialTagline;
     if (isWorkspace) return 'Expert-vetted workstations for creators, executives, and enterprise leaders.';
     if (isHomeLiving) return 'Premium home essentials and curated pieces for modern living.';
     return 'Plant-powered formulas for radiant, healthy skin. Vegan & cruelty-free.';
@@ -26,7 +33,7 @@ const Footer = () => {
       <div className="container footer-grid">
         <div className="footer-brand">
           <Link to={isWorkspace ? '/workspace' : '/'} className="footer-logo-link">
-            <img src={logoFull} alt="RhaySource Ent." className="footer-logo-img" />
+            <img src={logoFull} alt={brandName} className="footer-logo-img" />
           </Link>
           <p className="footer-tagline">
             {getTagline()}
@@ -118,7 +125,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom container">
-        <p className="footer-copy">&copy; {new Date().getFullYear()} rhaysource. All rights reserved.</p>
+        <p className="footer-copy">&copy; {new Date().getFullYear()} {brandName.toLowerCase()}. All rights reserved.</p>
       </div>
     </footer>
   );

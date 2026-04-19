@@ -5,6 +5,8 @@ import { FiX, FiShoppingBag, FiTrash2, FiMinus, FiPlus, FiArrowRight } from 'rea
 import { useCart } from '../../context/CartContext';
 import './CartDrawer.css';
 
+const PLACEHOLDER_IMAGE = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg';
+
 const CartDrawer = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateQuantity, cartTotal, clearCart, cartCount } = useCart();
   const navigate = useNavigate();
@@ -94,7 +96,11 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 cart.map((item) => (
                   <div key={item.id} className="cart-item">
                     <div className="item-image">
-                      <img src={item.images.primary} alt={item.name} />
+                      <img 
+                        src={item.image_url || item.images?.primary || PLACEHOLDER_IMAGE} 
+                        alt={item.name} 
+                        onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }}
+                      />
                     </div>
                     <div className="item-details">
                       <div className="item-row">

@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { FiDroplet, FiSun, FiFeather, FiEye, FiWind, FiMoon, FiArrowRight } from 'react-icons/fi';
 import HeroSection from '../components/features/HeroSection';
 import ProductCard from '../components/features/ProductCard';
-import productsData from '../data/products.json';
+import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
+import { useProducts } from '../hooks/useProducts';
 import './HomePage.css';
 
 const categoryMeta = {
@@ -17,12 +18,11 @@ const categoryMeta = {
 };
 
 export default function HomePage() {
-  const { products } = productsData;
+  const { products, loading } = useProducts('skincare');
   const categories = Object.keys(categoryMeta);
   
-  // Select 4 diverse real products for the "Daily Essentials" section
-  const featuredIds = ['SKIN-1101', 'SKIN-1104', 'SKIN-1105', 'SKIN-1110'];
-  const featured = products.filter(p => featuredIds.includes(p.id));
+  // Filter for featured products (exactly 3 as per design)
+  const featured = products.filter(p => p.is_featured).slice(0, 3);
 
   const containerFade = {
     hidden: { opacity: 0, y: 30 },
@@ -89,9 +89,13 @@ export default function HomePage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
           >
-            {featured.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {loading ? (
+              [...Array(4)].map((_, i) => <ProductCardSkeleton key={i} i={i} />)
+            ) : (
+              featured.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
           </motion.div>
           
           <div className="home-featured-cta">

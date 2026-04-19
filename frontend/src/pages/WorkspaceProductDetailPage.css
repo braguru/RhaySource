@@ -327,4 +327,23 @@
   .wpdp-price {
     font-size: 1.3rem;
   }
+
+  /* Specification Table Mobile Fix */
+  .wpdp-spec-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1.25rem;
+  }
+
+  .wpdp-spec-label {
+    min-width: auto;
+  }
+
+  .wpdp-spec-value {
+    text-align: left;
+    color: #f8fafc;
+    font-size: 0.95rem;
+    padding-left: 1.6rem; /* Align with text under icon */
+  }
 }

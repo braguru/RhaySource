@@ -136,6 +136,16 @@ A protected route in the existing React app. The vendor never sees a separate UR
 
 The frontend currently reads from JSON files. After migration it reads from Supabase. This is the only breaking change to existing pages.
 
+### SEO & Initial Data Fetching
+Since the current app is a pure React SPA, moving from local JSON to Supabase (fetched at runtime) introduces async rendering.
+- **Risk:** Search engines might see empty pages before JS executes and fetches products.
+- **Recommendation:** Ensure proper meta tags in `index.html` and consider a `sitemap.xml` generator. Long-term, evaluate Vite SSR or Next.js if SEO becomes critical.
+
+### Loading UX & Perception
+Local JSON has effectively 0ms latency. DB fetches introduce a 200ms–800ms delay.
+- **Recommendation:** Implement **Skeleton Loaders** (UI placeholders that mimic content structure) *before* flipping the switch to the live DB. This prevents the "blank screen jump" and maintains the premium feel.
+- **Priority:** These should be built in Phase 3/4 so they are ready as soon as the data fetch logic changes.
+
 ### Data fetching pattern (before)
 ```js
 import products from '../data/home-products.json';
@@ -154,9 +164,18 @@ const { data: products } = await supabase
 
 A shared `useProducts(storeSlug)` hook will be created so each shop page just calls one hook — no duplication.
 
-### Image URLs
-Currently: `/src/assets/home/product.png` (local, committed to repo)  
+### Image URLs & Fallbacks
+Currently: `/src/assets/home/product.png` (local, committed to repo)
 After: `https://res.cloudinary.com/rhaysource/image/upload/...` (Cloudinary CDN, auto-optimized)
+
+**Graceful Migration Logic:**
+To handle the transition period (Phase 4/5) where some images are local and some are remote, implement fallback logic in `ProductCard` or `useProducts`:
+```js
+const getImageUrl = (path) => {
+  if (path.startsWith('http')) return path; // Cloudinary
+  return `/src/assets/${path}`; // Local fallback
+};
+```
 
 No template changes needed — `product.image_url` replaces `product.images.primary`.
 
@@ -196,9 +215,10 @@ No template changes needed — `product.image_url` replaces `product.images.prim
 - [ ] Delete `src/data/*.json` files once all pages are migrated and verified
 - [ ] Upload all existing product images to Cloudinary, update DB records with URLs
 
-### Phase 5 — Data migration
+### Phase 5 — Data migration & Validation
 - [ ] Upload all product images to Cloudinary (can use Cloudinary's bulk upload tool)
 - [ ] Insert all current JSON product data into Supabase `products` table
+- [ ] **Data Validation Step:** Run a script to compare Supabase `jsonb` specs against existing JSON files to ensure no keys were lost or renamed during migration.
 - [ ] Verify all product pages render correctly from DB
 - [ ] Remove JSON data files from repo
 

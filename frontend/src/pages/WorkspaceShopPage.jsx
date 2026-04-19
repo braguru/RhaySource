@@ -2,10 +2,13 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch } from 'react-icons/fi';
-import techProducts from '../data/tech-products.json';
+import ProductCard from '../components/features/ProductCard';
+import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
+import { useProducts } from '../hooks/useProducts';
 import { useTechCart } from '../context/TechCartContext';
 import './WorkspacePage.css';
 import './WorkspaceShopPage.css';
+import './ShopPage.css';
 
 const TechCard = ({ product }) => {
   const { addToTechCart } = useTechCart();
@@ -21,7 +24,11 @@ const TechCard = ({ product }) => {
         transition={{ duration: 0.3 }}
       >
         <div className="tech-card-image">
-          <img src={product.images.primary} alt={product.name} />
+          <img 
+            src={product.image_url || product.images?.primary || 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'} 
+            alt={product.name} 
+            onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
+          />
           <div className="tech-badge">{product.category}</div>
         </div>
 
@@ -67,7 +74,10 @@ export default function WorkspaceShopPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeBrand, setActiveBrand] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { products } = techProducts;
+  const { products, store, loading } = useProducts('workspace');
+
+  // Maintenance Mode Protection
+  const isMaintenance = store && store.is_active === false;
 
   // Lock scroll when filter drawer is open
   useEffect(() => {
@@ -114,6 +124,15 @@ export default function WorkspaceShopPage() {
     });
   }, [activeCategory, activeBrand, products]);
 
+  // Best Sellers: ALL featured items matching current filters
+  const bestSellers = useMemo(() => {
+    return filteredProducts.filter(p => p.is_featured);
+  }, [filteredProducts]);
+
+  // Main grid: deduplicated — excludes products already shown in Best Sellers
+  const bestSellerIds = useMemo(() => new Set(bestSellers.map(p => p.id)), [bestSellers]);
+  const mainProducts = useMemo(() => filteredProducts.filter(p => !bestSellerIds.has(p.id)), [filteredProducts, bestSellerIds]);
+
   const FilterContent = () => (
     <>
       <div className="tech-filter-group">
@@ -125,7 +144,9 @@ export default function WorkspaceShopPage() {
               className={`tech-filter-link ${activeCategory === cat ? 'active' : ''}`}
               onClick={() => setActiveCategory(cat)}
             >
-              <span className="filter-text">{cat}</span>
+              <span className="filter-text">
+                {typeof cat === 'object' ? (cat?.name || 'Workspace') : cat}
+              </span>
               <span className="filter-count">[{categoryCounts[cat] || 0}]</span>
             </button>
           ))}
@@ -149,6 +170,23 @@ export default function WorkspaceShopPage() {
       </div>
     </>
   );
+
+  if (isMaintenance) {
+    return (
+      <div className="workspace-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0b0c' }}>
+        <div className="container" style={{ textAlign: 'center', padding: '10rem 2rem' }}>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+            <p className="workspace-eyebrow" style={{ color: '#38bdf8' }}>Access Refused</p>
+            <h1 className="workspace-title">Workspace <span>Offline</span></h1>
+            <p className="workspace-subtitle" style={{ maxWidth: '600px', margin: '1.5rem auto' }}>
+              The Professional Workspace shop is currently offline for catalog synchronization. Please check back later.
+            </p>
+            <Link to="/" className="ws-primary-btn" style={{ marginTop: '2rem' }}>Return to Hub</Link>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="workspace-page">
@@ -188,13 +226,37 @@ export default function WorkspaceShopPage() {
             </button>
           </div>
 
+          {/* Best Sellers Section — sits OUTSIDE the product grid */}
+          {!loading && bestSellers.length > 0 && (
+            <div className="shop-best-sellers tech-best-sellers">
+              <div className="best-sellers-header">
+                <h2 className="best-sellers-title">Best Sellers</h2>
+                <p className="best-sellers-subtitle">
+                  {activeCategory !== 'All' ? `Top picks in ${activeCategory}` : 'Most trusted tools in our arsenal'}
+                </p>
+              </div>
+              <div className="best-sellers-grid">
+                {bestSellers.map(product => (
+                  <div key={product.id} className="best-seller-item">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+              <hr className="best-sellers-divider tech-divider" />
+            </div>
+          )}
+
           <motion.div layout className="tech-product-grid">
             <AnimatePresence mode="popLayout">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map(product => (
-                  <TechCard key={product.id} product={product} />
+              {loading ? (
+                <div className="workspace-shop-grid">
+                  {[...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)}
+                </div>
+              ) : mainProducts.length > 0 ? (
+                mainProducts.map(product => (
+                  <ProductCard key={product.id} product={product} />
                 ))
-              ) : (
+              ) : bestSellers.length === 0 ? (
                 <motion.div 
                   className="no-tech-results"
                   initial={{ opacity: 0 }}
@@ -210,10 +272,11 @@ export default function WorkspaceShopPage() {
                     </button>
                   </div>
                 </motion.div>
-              )}
+              ) : null}
             </AnimatePresence>
           </motion.div>
         </main>
+
       </div>
 
       {/* Mobile Tech Filter Drawer Expansion */}

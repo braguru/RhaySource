@@ -3,6 +3,8 @@ import { FiX, FiShoppingBag, FiMinus, FiPlus, FiTrash2, FiMessageCircle, FiMail 
 import { useHomeLivingCart } from '../../context/HomeLivingCartContext';
 import './HomeLivingCartDrawer.css';
 
+const PLACEHOLDER_IMAGE = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg';
+
 export default function HomeLivingCartDrawer() {
   const {
     homeCart, homeCartTotal,
@@ -67,7 +69,13 @@ export default function HomeLivingCartDrawer() {
           ) : (
             homeCart.map(item => (
               <div key={item.id} className="hl-cart-item">
-                <img src={item.images.primary} alt={item.name} />
+                  <div className="item-image">
+                    <img 
+                      src={item.image_url || item.images?.primary || PLACEHOLDER_IMAGE} 
+                      alt={item.name} 
+                      onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }}
+                    />
+                  </div>
                 <div className="hl-item-info">
                   <h4>{item.name}</h4>
                   <p className="hl-item-price">GH₵{item.price.toLocaleString()}</p>

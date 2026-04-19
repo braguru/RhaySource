@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowRight, FiShield, FiTruck, FiStar, FiDroplet, FiGrid, FiSettings, FiLayout } from 'react-icons/fi';
-import homeProducts from '../data/home-products.json';
+
 import { useHomeLivingCart } from '../context/HomeLivingCartContext';
+import { useProducts } from '../hooks/useProducts';
 import './HomeLivingPage.css';
 
 const CATEGORIES = [
@@ -44,9 +45,34 @@ const TRUST_ITEMS = [
 ];
 
 export default function HomeLivingPage() {
-  const { products } = homeProducts;
+  const { products: liveProducts, store, loading } = useProducts('home-living');
   const { addToHomeCart } = useHomeLivingCart();
-  const featured = products.slice(0, 4);
+  
+  // Maintenance Mode Protection
+  const isMaintenance = store && store.is_active === false;
+
+  // Use live data exclusively (Remove static JSON fallback)
+  const displayProducts = liveProducts;
+
+  // Show only DB-tagged Best Sellers (max 3) — no static fallback
+  const featured = displayProducts.filter(p => p.is_featured).slice(0, 3);
+
+  if (isMaintenance) {
+    return (
+      <div className="hl-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="container" style={{ textAlign: 'center', padding: '10rem 2rem' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <p className="hl-eyebrow" style={{ color: 'var(--studio-accent)' }}>Operational Status: Offline</p>
+            <h1 className="hl-hero-title">Collection Under <span>Maintenance</span></h1>
+            <p className="hl-hero-subtitle" style={{ maxWidth: '600px', margin: '1.5rem auto' }}>
+              The Home & Living collection is temporarily offline as we curate new arrivals. Please return shortly or explore our other ecosystems.
+            </p>
+            <Link to="/" className="hl-hero-btn" style={{ marginTop: '2rem' }}>Return to Hub</Link>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="hl-page">
@@ -127,10 +153,12 @@ export default function HomeLivingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
-                <Link to={`/home-living/products/${product.id}`} className="hl-featured-image-link">
+                <Link to={`/home-living/products/${product.slug || product.id}`} className="hl-featured-image-link">
                   <div className="hl-featured-image">
-                    <img src={product.images.primary} alt={product.name} />
-                    <span className="hl-featured-badge">{product.category}</span>
+                    <img src={product.image_url || product.images?.primary} alt={product.name} />
+                    <span className="hl-featured-badge">
+                      {typeof product.category === 'object' ? (product.category?.name || 'Home & Living') : product.category}
+                    </span>
                   </div>
                 </Link>
                 <div className="hl-featured-info">

@@ -1,0 +1,273 @@
+/* RhaySource Studio — Branded Luxury Theme (Blue, Yellow, White) */
+:root {
+  --studio-bg: #ffffff;
+  --studio-surface: #fcfcfc;
+  --studio-sidebar: #ffffff; /* Premium White */
+  --studio-sidebar-width: 280px; /* FIXED: Restore width to prevent overlap */
+  --studio-sidebar-text: #1a1a1b;
+  --studio-accent: #FEBB00; /* Branded Yellow */
+  --studio-accent-hover: #D4A000;
+  --studio-text: #1a1a1b;
+  --studio-text-muted: #64748b;
+  --studio-border: #e2e8f0;
+  --studio-border-hover: #cbd5e1;
+  --studio-radius: 8px;
+  --studio-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-main {
+  background: var(--studio-bg);
+  min-height: 100vh;
+  color: var(--studio-text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  text-align: left;
+}
+
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Minimalist Clean Surfaces (No Shadows) */
+.studio-glass {
+  background: #ffffff;
+  border: 1px solid var(--studio-border);
+  border-radius: var(--studio-radius);
+  transition: var(--studio-transition);
+}
+
+.studio-glass:hover {
+  border-color: var(--studio-border-hover);
+  background: var(--studio-surface);
+}
+
+/* Typography */
+.studio-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--studio-text);
+  letter-spacing: -0.02em;
+}
+
+.studio-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--studio-text-muted);
+}
+
+/* Forms */
+.studio-input,
+.studio-select {
+  background: #ffffff;
+  border: 1px solid var(--studio-border);
+  color: var(--studio-text);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  width: 100%;
+  outline: none;
+  transition: var(--studio-transition);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+.studio-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.studio-input:focus,
+.studio-select:focus {
+  border-color: var(--studio-accent);
+  box-shadow: 0 0 0 2px rgba(254, 187, 0, 0.1);
+}
+
+.studio-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Buttons (No Shadows) */
+.studio-btn-primary {
+  background: var(--studio-accent);
+  color: #000;
+  border: 1px solid var(--studio-accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: var(--studio-transition);
+}
+
+.studio-btn-primary:hover {
+  background: var(--studio-accent-hover);
+  border-color: var(--studio-accent-hover);
+}
+
+.studio-btn-icon {
+  background: #ffffff;
+  border: 1px solid var(--studio-border);
+  color: var(--studio-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  transition: var(--studio-transition);
+}
+
+.studio-btn-icon:hover {
+  border-color: var(--studio-text);
+  background: #f8fafc;
+}
+
+/* Google Sign-In Button */
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid var(--studio-border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: var(--studio-transition);
+  color: var(--studio-text);
+}
+
+.google-btn:hover {
+  background: #f8fafc;
+  border-color: var(--studio-border-hover);
+  transform: translateY(-1px);
+}
+
+.google-btn:active {
+  transform: translateY(0);
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Sidebar Branding & Navigation */
+.studio-sidebar-logo {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.studio-nav-item {
+  color: var(--studio-text-muted);
+  display: flex;
+  alignItems: center;
+  gap: 12px;
+  padding: 0.875rem 1.5rem;
+  margin: 0.25rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  transition: var(--studio-transition);
+}
+
+.studio-nav-item:hover {
+  background: rgba(1, 53, 151, 0.03);
+  color: var(--studio-sidebar-text);
+}
+
+.studio-nav-item.active {
+  background: var(--studio-accent);
+  color: #000;
+  font-weight: 600;
+}
+
+/* Stat Cards (No shadows) */
+.stat-card {
+  border: 1px solid var(--studio-border);
+  background: #ffffff;
+}
+
+.stat-card:hover {
+  border-color: var(--studio-sidebar);
+}
+
+/* Tables (No shadows) */
+.studio-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.studio-table th {
+  text-align: left;
+  padding: 1rem;
+  background: #fcfcfc;
+  color: var(--studio-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--studio-border);
+}
+
+.studio-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--studio-border);
+  color: var(--studio-text);
+}
+
+/* Badges */
+.studio-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-featured {
+  background: rgba(254, 187, 0, 0.1);
+  color: #D4A000;
+  font-weight: 700;
+}
+
+/* Loading Animations */
+.upload-spinner, .upload-spinner-small {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--studio-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.upload-spinner {
+  width: 40px;
+  height: 40px;
+}
+
+.upload-spinner-small {
+  width: 24px;
+  height: 24px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
