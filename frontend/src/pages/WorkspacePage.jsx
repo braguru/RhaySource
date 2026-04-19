@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiShield, FiZap, FiTarget, FiBox } from 'react-icons/fi';
-import techProducts from '../data/tech-products.json';
+
+import { useProducts } from '../hooks/useProducts';
 import './WorkspacePage.css';
 import './WorkspaceHome.css';
 
@@ -42,9 +43,33 @@ const FeatureItem = ({ icon: Icon, title, text }) => (
 );
 
 export default function WorkspacePage() {
-  const { products } = techProducts;
-  // Feature top 3 best sellers (or just first 3 for demo)
-  const bestSellers = products.slice(0, 3);
+  const { products: liveProducts, store, loading } = useProducts('workspace');
+  
+  // Maintenance Mode Protection
+  const isMaintenance = store && store.is_active === false;
+
+  // Use live data exclusively (Remove static JSON fallback)
+  const displayProducts = liveProducts;
+  
+  // Show only DB-tagged Best Sellers (max 3) — no static fallback
+  const bestSellers = displayProducts.filter(p => p.is_featured).slice(0, 3);
+
+  if (isMaintenance) {
+    return (
+      <div className="workspace-page workspace-home" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0b0c' }}>
+        <div className="container" style={{ textAlign: 'center', padding: '10rem 2rem' }}>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+            <p className="ws-hero-eyebrow" style={{ color: '#38bdf8' }}>Operational Status: Offline</p>
+            <h1 className="ws-hero-title">Collection Under <span>Maintenance</span></h1>
+            <p className="ws-hero-subtitle" style={{ maxWidth: '600px', margin: '1.5rem auto' }}>
+              The Professional Workspace collection is temporarily offline for catalog optimization. Please return shortly or explore our Beauty & Home ecosystems.
+            </p>
+            <Link to="/" className="ws-primary-btn" style={{ marginTop: '2rem' }}>Return to Hub</Link>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="workspace-page workspace-home">
@@ -152,13 +177,13 @@ export default function WorkspacePage() {
                 whileHover={{ y: -10 }}
               >
                 <div className="ws-h-image">
-                  <img src={product.images.primary} alt={product.name} />
+                  <img src={product.image_url || product.images?.primary} alt={product.name} />
                 </div>
                 <div className="ws-h-info">
                   <p className="ws-h-brand">{product.brand}</p>
                   <h3>{product.name}</h3>
-                  <p className="ws-h-price">GH₵{product.price.toLocaleString()}</p>
-                  <Link to="/workspace/shop" className="ws-h-cta">
+                  <p className="ws-h-price">GH₵{Number(product.price).toLocaleString('en-GH', { minimumFractionDigits: 2 })}</p>
+                  <Link to={`/workspace/products/${product.slug || product.id}`} className="ws-h-cta">
                     View Details
                   </Link>
                 </div>

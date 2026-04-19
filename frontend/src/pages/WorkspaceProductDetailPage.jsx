@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiCpu, FiHardDrive, FiMonitor, FiMessageSquare, FiLayers } from 'react-icons/fi';
-import techProducts from '../data/tech-products.json';
+import { FiArrowLeft, FiCpu, FiLayers, FiHardDrive, FiMonitor, FiMessageSquare } from 'react-icons/fi';
+import { useProduct, useProducts } from '../hooks/useProducts';
+import ProductDetailSkeleton from '../components/features/skeletons/ProductDetailSkeleton';
 import { useTechCart } from '../context/TechCartContext';
 import './WorkspacePage.css';
 import './WorkspaceProductDetailPage.css';
@@ -26,12 +27,17 @@ const SPEC_LABELS = {
 export default function WorkspaceProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { product, loading, error } = useProduct(id);
+  const { products: allTechProducts } = useProducts('workspace');
   const { addToTechCart } = useTechCart();
-  const { products } = techProducts;
 
-  const product = products.find(p => p.id === id);
+  // Define related products based on category
+  const related = allTechProducts.filter(p => 
+    p.category === product?.category && p.id !== product?.id
+  ).slice(0, 4);
 
-  if (!product) {
+  if (loading) return <ProductDetailSkeleton />;
+  if (error || !product) {
     return (
       <div className="workspace-page">
         <div className="container wpdp-not-found">
@@ -44,9 +50,7 @@ export default function WorkspaceProductDetailPage() {
     );
   }
 
-  const related = products
-    .filter(p => p.id !== product.id && p.category === product.category)
-    .slice(0, 3);
+  const mainImage = product.image_url || (product.images && product.images.primary);
 
   const whatsappMsg = encodeURIComponent(
     `Hi RhaySource, I'm interested in the ${product.name} (${product.id}). Please share availability and pricing.`
@@ -68,10 +72,12 @@ export default function WorkspaceProductDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="wpdp-image-wrap">
-              <img src={product.images.primary} alt={product.name} />
+            <div className="tech-detail-image">
+              <img src={mainImage} alt={product.name} />
             </div>
-            <div className="wpdp-category-pill">{product.category}</div>
+            <div className="wpdp-category-pill">
+              {typeof product.category === 'object' ? (product.category?.name || 'Workspace') : product.category}
+            </div>
           </motion.div>
 
           {/* Info Panel */}
@@ -91,15 +97,25 @@ export default function WorkspaceProductDetailPage() {
             <div className="wpdp-specs-block">
               <h2 className="wpdp-specs-title">Technical Specifications</h2>
               <div className="wpdp-specs-table">
-                {Object.entries(product.specs).map(([key, value]) => (
-                  <div key={key} className="wpdp-spec-row">
-                    <div className="wpdp-spec-label">
-                      {SPEC_ICONS[key]}
-                      <span>{SPEC_LABELS[key] || key}</span>
-                    </div>
-                    <div className="wpdp-spec-value">{value}</div>
-                  </div>
-                ))}
+                {(() => {
+                  const rawSpecs = product.specs || {};
+                  // If specs contains a nested specs object, use that (fixes data structure bugs)
+                  const displaySpecs = rawSpecs.specs && typeof rawSpecs.specs === 'object' ? rawSpecs.specs : rawSpecs;
+                  
+                  return Object.entries(displaySpecs)
+                    .filter(([key]) => !['brand', 'store_slug', 'id', 'created_at'].includes(key))
+                    .map(([key, value]) => (
+                      <div key={key} className="wpdp-spec-row">
+                        <div className="wpdp-spec-label">
+                          {SPEC_ICONS[key]}
+                          <span>{SPEC_LABELS[key] || key}</span>
+                        </div>
+                        <div className="wpdp-spec-value">
+                          {typeof value === 'object' ? JSON.stringify(value) : value}
+                        </div>
+                      </div>
+                    ));
+                })()}
               </div>
             </div>
 
@@ -125,14 +141,18 @@ export default function WorkspaceProductDetailPage() {
         </div>
 
         {/* Related Products */}
-        {related.length > 0 && (
+        {related && related.length > 0 && (
           <section className="wpdp-related">
-            <h2 className="wpdp-related-title">More in <span>{product.category}</span></h2>
+            <h2 className="wpdp-related-title">More in <span>{typeof product.category === 'object' ? (product.category?.name || 'Collection') : product.category}</span></h2>
             <div className="wpdp-related-grid">
               {related.map(p => (
                 <Link key={p.id} to={`/workspace/products/${p.id}`} className="wpdp-related-card">
-                  <div className="wpdp-related-image">
-                    <img src={p.images.primary} alt={p.name} />
+                  <div className="related-product-image">
+                    <img 
+                      src={p.image_url || p.images?.primary || 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'} 
+                      alt={p.name} 
+                      onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
+                    />
                   </div>
                   <div className="wpdp-related-info">
                     <p className="wpdp-related-brand">{p.brand}</p>

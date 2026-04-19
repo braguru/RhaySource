@@ -29,11 +29,11 @@
   transform: scale(1.05);
 }
 
-.product-image-container:hover .primary {
+.has-texture:hover .primary {
   opacity: 0;
 }
 
-.product-image-container:hover .texture {
+.has-texture:hover .texture {
   opacity: 1;
   transform: scale(1);
 }

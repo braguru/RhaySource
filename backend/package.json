@@ -1,0 +1,16 @@
+{
+  "name": "rhaysource-backend",
+  "version": "1.0.0",
+  "description": "Backend services for RhaySource",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node db/seed.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "cloudinary": "^2.5.1",
+    "dotenv": "^16.4.7"
+  }
+}

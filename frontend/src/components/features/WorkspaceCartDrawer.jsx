@@ -3,6 +3,8 @@ import { FiX, FiShoppingCart, FiMinus, FiPlus, FiTrash2, FiMessageCircle, FiMail
 import { useTechCart } from '../../context/TechCartContext';
 import './WorkspaceCartDrawer.css';
 
+const PLACEHOLDER_IMAGE = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg';
+
 export default function WorkspaceCartDrawer() {
   const {
     techCart,
@@ -65,7 +67,13 @@ export default function WorkspaceCartDrawer() {
           ) : (
             techCart.map(item => (
               <div key={item.id} className="tech-cart-item">
-                <img src={item.images.primary} alt={item.name} />
+                  <div className="item-image">
+                    <img 
+                      src={item.image_url || item.images?.primary || PLACEHOLDER_IMAGE} 
+                      alt={item.name} 
+                      onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }}
+                    />
+                  </div>
                 <div className="tech-item-info">
                   <h4>{item.name}</h4>
                   <p className="tech-item-price">GH₵{item.price.toLocaleString()}</p>

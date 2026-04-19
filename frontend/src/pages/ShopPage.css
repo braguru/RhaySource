@@ -286,3 +286,121 @@
     font-size: 2.25rem;
   }
 }
+
+/* ============================================================
+   Best Sellers Section — Shared across all store shop pages
+   ============================================================ */
+.shop-best-sellers {
+  margin-bottom: 3rem;
+}
+
+.best-sellers-header {
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.best-sellers-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-slate);
+  margin-bottom: 0.25rem;
+}
+
+.best-sellers-title::before {
+  content: '★ ';
+  font-size: 1rem;
+  color: var(--color-yellow-dark, #b8860b);
+  vertical-align: middle;
+}
+
+.best-sellers-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-slate-light);
+  letter-spacing: 0.01em;
+}
+
+.best-sellers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 3rem 2.5rem;
+}
+
+.best-seller-item {
+  position: relative;
+}
+
+.best-seller-item::before {
+  content: 'Best Seller';
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  background: var(--color-yellow-dark, #b8860b);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+}
+
+.best-sellers-divider {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  margin: 3rem 0 2.5rem;
+}
+
+/* Tech Store Overrides */
+.tech-best-sellers .best-sellers-title {
+  color: #f8fafc;
+}
+
+.tech-best-sellers .best-sellers-title::before {
+  color: #38bdf8;
+}
+
+.tech-best-sellers .best-sellers-subtitle {
+  color: #94a3b8;
+}
+
+.tech-best-sellers .best-sellers-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.tech-divider {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.tech-best-sellers .best-seller-item::before {
+  background: #38bdf8;
+  color: #0a0b0c;
+}
+
+/* Home & Living Store Overrides */
+.hl-best-sellers .best-sellers-title {
+  color: var(--hl-text, #2d3748);
+}
+
+.hl-best-sellers .best-sellers-title::before {
+  color: #7c9e85;
+}
+
+.hl-best-sellers .best-seller-item::before {
+  background: #7c9e85;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .best-sellers-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .best-sellers-title {
+    font-size: 1.3rem;
+  }
+}
+

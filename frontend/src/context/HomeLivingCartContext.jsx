@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useNotification } from './NotificationContext';
 
 const HomeLivingCartContext = createContext();
 
@@ -9,6 +10,7 @@ export const useHomeLivingCart = () => {
 };
 
 export const HomeLivingCartProvider = ({ children }) => {
+  const { addNotification } = useNotification();
   const [homeCart, setHomeCart] = useState(() => {
     const saved = localStorage.getItem('rhaysource_home_cart');
     return saved ? JSON.parse(saved) : [];
@@ -19,13 +21,27 @@ export const HomeLivingCartProvider = ({ children }) => {
     localStorage.setItem('rhaysource_home_cart', JSON.stringify(homeCart));
   }, [homeCart]);
 
-  const addToHomeCart = useCallback((product) => {
+  const openHomeCart   = useCallback(() => setIsHomeCartOpen(true), []);
+  const closeHomeCart  = useCallback(() => setIsHomeCartOpen(false), []);
+  const toggleHomeCart = useCallback(() => setIsHomeCartOpen(p => !p), []);
+
+  const addToHomeCart = useCallback((product, quantity = 1) => {
     setHomeCart(prev => {
       const existing = prev.find(i => i.id === product.id);
-      if (existing) return prev.map(i => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
-      return [...prev, { ...product, quantity: 1 }];
+      if (existing) {
+        return prev.map(i => i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i);
+      }
+      return [...prev, { ...product, quantity }];
     });
-  }, []);
+
+    addNotification({
+      title: 'SANCTUARY',
+      message: `${product.name} added to your Home`,
+      image: product.image_url || product.images?.primary,
+      type: 'home',
+      onCloseCart: openHomeCart
+    });
+  }, [addNotification, openHomeCart]);
 
   const removeFromHomeCart = useCallback((id) => {
     setHomeCart(prev => prev.filter(i => i.id !== id));
@@ -37,9 +53,6 @@ export const HomeLivingCartProvider = ({ children }) => {
   }, [removeFromHomeCart]);
 
   const clearHomeCart = useCallback(() => setHomeCart([]), []);
-  const openHomeCart   = useCallback(() => setIsHomeCartOpen(true), []);
-  const closeHomeCart  = useCallback(() => setIsHomeCartOpen(false), []);
-  const toggleHomeCart = useCallback(() => setIsHomeCartOpen(p => !p), []);
 
   const homeCartTotal = homeCart.reduce((t, i) => t + i.price * i.quantity, 0);
   const homeCartCount = homeCart.reduce((t, i) => t + i.quantity, 0);

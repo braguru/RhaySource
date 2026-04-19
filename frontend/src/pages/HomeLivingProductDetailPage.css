@@ -275,6 +275,32 @@
   .hlpdp-related-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+@media (max-width: 600px) {
+  .hlpdp-related-grid { grid-template-columns: repeat(2, 1fr); }
+  .hlpdp-name { font-size: 1.75rem; }
+
+  /* Specification Table Mobile Fix */
+  .hlpdp-spec-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem;
+    padding: 1.25rem;
+  }
+
+  .hlpdp-spec-key {
+    min-width: auto;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+
+  .hlpdp-spec-val {
+    text-align: left;
+    font-size: 0.95rem;
+  }
+}
+
 @media (max-width: 480px) {
   .hlpdp-related-grid { grid-template-columns: 1fr; }
   .hlpdp-name { font-size: 1.5rem; }

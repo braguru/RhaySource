@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSliders, FiX } from 'react-icons/fi';
 import ProductCard from '../components/features/ProductCard';
-import productsData from '../data/products.json';
+import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
+import { useProducts } from '../hooks/useProducts';
 import './ShopPage.css';
 
 const CATEGORIES = ['All', 'Serums', 'Moisturizers', 'Cleansers', 'Eye Care', 'Toners', 'Masks', 'Sunscreen', 'Body Care', 'Sets'];
@@ -32,7 +33,7 @@ export default function ShopPage() {
   const activeCategory = searchParams.get('category') || 'All';
   const activeConcern = searchParams.get('concern') || 'All';
 
-  const { products } = productsData;
+  const { products, loading } = useProducts('skincare');
 
   const categoryCounts = useMemo(() => {
     const counts = { All: products.length };
@@ -47,7 +48,7 @@ export default function ShopPage() {
     const counts = { All: products.length };
     SKIN_TYPES.forEach(type => {
       if (type === 'All') return;
-      counts[type] = products.filter(p => p.skinType.includes(type)).length;
+      counts[type] = products.filter(p => p.specs?.skinType?.includes(type)).length;
     });
     return counts;
   }, [products]);
@@ -55,10 +56,19 @@ export default function ShopPage() {
   const filtered = useMemo(() => {
     return products.filter(p => {
       const categoryMatch = activeCategory === 'All' || p.category === activeCategory;
-      const concernMatch = activeConcern === 'All' || p.skinType.includes(activeConcern);
+      const concernMatch = activeConcern === 'All' || p.specs?.skinType?.includes(activeConcern);
       return categoryMatch && concernMatch;
     });
   }, [products, activeCategory, activeConcern]);
+
+  // Best Sellers: ALL featured items matching current filters
+  const bestSellers = useMemo(() => {
+    return filtered.filter(p => p.is_featured);
+  }, [filtered]);
+
+  // Main grid: filtered products MINUS any already shown in Best Sellers
+  const bestSellerIds = useMemo(() => new Set(bestSellers.map(p => p.id)), [bestSellers]);
+  const mainProducts = useMemo(() => filtered.filter(p => !bestSellerIds.has(p.id)), [filtered, bestSellerIds]);
 
   function setFilter(key, value) {
     const next = new URLSearchParams(searchParams);
@@ -176,7 +186,31 @@ export default function ShopPage() {
               <span>Filters & Sort</span>
             </button>
           </div>
-          {filtered.length === 0 ? (
+          {/* Best Sellers Section */}
+          {!loading && bestSellers.length > 0 && (
+            <div className="shop-best-sellers">
+              <div className="best-sellers-header">
+                <h2 className="best-sellers-title">Best Sellers</h2>
+                <p className="best-sellers-subtitle">
+                  {activeCategory !== 'All' ? `Top picks in ${activeCategory}` : 'Most-loved products in this collection'}
+                </p>
+              </div>
+              <div className="best-sellers-grid">
+                {bestSellers.map(product => (
+                  <div key={product.id} className="best-seller-item">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+              <hr className="best-sellers-divider" />
+            </div>
+          )}
+
+          {loading ? (
+            <div className="product-grid">
+              {[...Array(8)].map((_, i) => <ProductCardSkeleton key={i} />)}
+            </div>
+          ) : mainProducts.length === 0 && bestSellers.length === 0 ? (
             <motion.div 
               className="shop-empty"
               initial={{ opacity: 0 }}
@@ -196,7 +230,7 @@ export default function ShopPage() {
               layout
             >
               <AnimatePresence>
-                {filtered.map(product => (
+                {mainProducts.map(product => (
                   <motion.div
                     key={product.id}
                     layout
@@ -212,6 +246,7 @@ export default function ShopPage() {
             </motion.div>
           )}
         </main>
+
       </div>
     </div>
   );

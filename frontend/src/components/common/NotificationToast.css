@@ -1,0 +1,141 @@
+.notification-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: none;
+    max-width: 400px;
+}
+
+.notification-toast {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    pointer-events: auto;
+    width: 320px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Progress bar for auto-dismiss */
+.notification-toast::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--toast-accent, #013597);
+    width: 100%;
+    animation: toast-progress 5s linear forwards;
+}
+
+@keyframes toast-progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+.toast-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f8fafc;
+}
+
+.toast-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--toast-accent, #013597);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: #1a1a1b;
+    margin: 0.25rem 0 0.5rem;
+}
+
+.toast-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.toast-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+}
+
+.toast-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* Branded Variations */
+.notification-toast[data-type="skincare"] {
+    border-left: 4px solid #FEBB00;
+    --toast-accent: #D4A000;
+}
+
+.notification-toast[data-type="workspace"] {
+    border-left: 4px solid #013597;
+    --toast-accent: #013597;
+}
+
+.notification-toast[data-type="home"] {
+    border-left: 4px solid #8B735B; /* Warm Stone */
+    --toast-accent: #8B735B;
+}
+
+.notification-toast[data-type="success"] {
+    border-left: 4px solid #10b981;
+    --toast-accent: #10b981;
+}
+
+.notification-toast[data-type="error"] {
+    border-left: 4px solid #ef4444;
+    --toast-accent: #ef4444;
+}
+
+@media (max-width: 480px) {
+    .notification-container {
+        top: auto;
+        bottom: 2rem;
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+    }
+    .notification-toast {
+        width: auto;
+    }
+}

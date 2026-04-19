@@ -141,9 +141,10 @@ Since the current app is a pure React SPA, moving from local JSON to Supabase (f
 - **Risk:** Search engines might see empty pages before JS executes and fetches products.
 - **Recommendation:** Ensure proper meta tags in `index.html` and consider a `sitemap.xml` generator. Long-term, evaluate Vite SSR or Next.js if SEO becomes critical.
 
-### Loading UX
+### Loading UX & Perception
 Local JSON has effectively 0ms latency. DB fetches introduce a 200ms–800ms delay.
-- **Recommendation:** Use Skeleton Loaders instead of simple "Loading..." spinners to maintain the premium, editorial feel during the shift.
+- **Recommendation:** Implement **Skeleton Loaders** (UI placeholders that mimic content structure) *before* flipping the switch to the live DB. This prevents the "blank screen jump" and maintains the premium feel.
+- **Priority:** These should be built in Phase 3/4 so they are ready as soon as the data fetch logic changes.
 
 ### Data fetching pattern (before)
 ```js
@@ -214,9 +215,10 @@ No template changes needed — `product.image_url` replaces `product.images.prim
 - [ ] Delete `src/data/*.json` files once all pages are migrated and verified
 - [ ] Upload all existing product images to Cloudinary, update DB records with URLs
 
-### Phase 5 — Data migration
+### Phase 5 — Data migration & Validation
 - [ ] Upload all product images to Cloudinary (can use Cloudinary's bulk upload tool)
 - [ ] Insert all current JSON product data into Supabase `products` table
+- [ ] **Data Validation Step:** Run a script to compare Supabase `jsonb` specs against existing JSON files to ensure no keys were lost or renamed during migration.
 - [ ] Verify all product pages render correctly from DB
 - [ ] Remove JSON data files from repo
 
