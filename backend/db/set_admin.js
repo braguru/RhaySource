@@ -12,8 +12,8 @@ const supabase = createClient(
 );
 
 async function setAdminPasswords() {
-  const admins = ['rhaysource@gmail.com', 'sabastainofori@gmail.com'];
-  const password = 'RhaySourceStudio2024!';
+  const admins = [process.env.ADMIN_EMAIL_1, process.env.ADMIN_EMAIL_2].filter(Boolean);
+  const password = process.env.ADMIN_INITIAL_PASSWORD || 'ChangeMeImmediately123!';
 
   for (const email of admins) {
     console.log(`\n📡 Processing ${email}...`);
