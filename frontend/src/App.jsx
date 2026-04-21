@@ -34,6 +34,7 @@ import StudioSettingsPage from './pages/studio/StudioSettingsPage';
 import { NotificationProvider } from './context/NotificationContext';
 import { NotificationToastContainer } from './components/common/NotificationToast.jsx';
 import './App.css';
+import StoreSpotlight from './components/layout/StoreSpotlight';
 
 import { useSettings } from './hooks/useSettings';
 
@@ -133,6 +134,7 @@ function AppContent() {
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
       <WorkspaceCartDrawer />
       <HomeLivingCartDrawer />
+      <StoreSpotlight />
       <NotificationToastContainer />
       <ScrollToTopButton />
     </>
