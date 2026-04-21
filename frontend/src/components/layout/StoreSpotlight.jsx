@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiArrowRight, FiShoppingBag, FiStar } from 'react-icons/fi';
+import { FiX, FiArrowRight, FiStar } from 'react-icons/fi';
 import './StoreSpotlight.css';
 
 const STORES = [
@@ -9,7 +9,7 @@ const STORES = [
     name: 'Skincare', 
     slug: 'skincare', 
     path: '/', 
-    description: 'Pure, plant-powered formulas for your skin ritual.',
+    description: 'Pure, organic formulas for your skin ritual.',
     accent: '#FEBB00',
     icon: '✨'
   },
@@ -17,7 +17,7 @@ const STORES = [
     name: 'Home & Living', 
     slug: 'home-living', 
     path: '/home-living', 
-    description: 'Curated essentials for a modern, elevated home.',
+    description: 'Curated essentials for an elevated home.',
     accent: '#7c9e85',
     icon: '🏠'
   },
@@ -25,7 +25,7 @@ const STORES = [
     name: 'Workspace', 
     slug: 'workspace', 
     path: '/workspace', 
-    description: 'Precision hardware for high-performance workflows.',
+    description: 'Precision hardware for high-performance setups.',
     accent: '#38bdf8',
     icon: '💻'
   }
@@ -36,79 +36,119 @@ export default function StoreSpotlight() {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [currentAdIndex, setCurrentAdIndex] = useState(0);
+  
+  const timerRef = useRef(null);
+  const lastActivityRef = useRef(Date.now());
 
+  // Determine current store context
   const activeStoreSlug = useMemo(() => {
     if (pathname.startsWith('/workspace')) return 'workspace';
     if (pathname.startsWith('/home-living')) return 'home-living';
     return 'skincare';
   }, [pathname]);
 
-  // Only show on main entry pages (Home and Shop)
   const isAllowedPage = useMemo(() => {
-    const mainPaths = [
-      '/', '/shop', 
-      '/workspace', '/workspace/shop', 
-      '/home-living', '/home-living/shop'
-    ];
+    const mainPaths = ['/', '/shop', '/workspace', '/workspace/shop', '/home-living', '/home-living/shop'];
     return mainPaths.includes(pathname);
   }, [pathname]);
 
-  // Identify which store is currently active
-  const otherStores = useMemo(() => {
-    return STORES.filter(s => s.slug !== activeStoreSlug);
-  }, [activeStoreSlug]);
+  const otherStores = useMemo(() => STORES.filter(s => s.slug !== activeStoreSlug), [activeStoreSlug]);
+
+  // Activity tracking logic
+  useEffect(() => {
+    const handleActivity = () => {
+      lastActivityRef.current = Date.now();
+      // If the ad is already visible, we don't hide it instantly, 
+      // but if it's waiting to show, we reset the check.
+    };
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('scroll', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('scroll', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+    };
+  }, []);
 
   useEffect(() => {
-    // Hide if not on an allowed page or if user dismissed it globally for this session
-    if (!isAllowedPage || isDismissed) {
-      setIsVisible(false);
-      return;
-    }
-
-    // Reset visibility to false on path change to start the delay fresh
+    // Reset and start monitor
     setIsVisible(false);
+    if (timerRef.current) clearInterval(timerRef.current);
 
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 10000); // Increased to 10s for better user focus
+    if (!isAllowedPage || isDismissed) return;
 
-    return () => clearTimeout(timer);
-  }, [isDismissed, pathname, isAllowedPage]);
+    // Monitor for idleness
+    // The ad will only show if:
+    // 1. We are on an allowed page
+    // 2. We haven't been dismissed
+    // 3. The user has been IDLE for at least 15 seconds
+    // 4. At least 40 seconds have passed since the page load (Initial Buffer)
+    
+    let initialBufferPassed = false;
+    setTimeout(() => { initialBufferPassed = true; }, 30000); // 30s initial wait
 
-  // Rotate through other stores every time the component re-mounts or path changes
+    timerRef.current = setInterval(() => {
+      const idleTime = Date.now() - lastActivityRef.current;
+      
+      if (initialBufferPassed && idleTime > 15000 && !isVisible) {
+        // Show Ad
+        setCurrentAdIndex(prev => (prev + 1) % otherStores.length);
+        setIsVisible(true);
+      }
+    }, 5000); // Check idle status every 5 seconds
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [pathname, isDismissed, isAllowedPage, otherStores.length]);
+
+  // Handle re-showing after auto-hide
   useEffect(() => {
-    setCurrentAdIndex(Math.floor(Math.random() * otherStores.length));
-  }, [pathname, otherStores.length]);
+    if (!isVisible && !isDismissed && isAllowedPage) {
+      // When it hides, reset the activity clock to force another 2-minute "quiet period"
+      lastActivityRef.current = Date.now() + 120000; // Push next appearance 2 mins into the future
+    }
+  }, [isVisible, isDismissed, isAllowedPage]);
 
   if (isDismissed || otherStores.length === 0) return null;
 
-  const ad = otherStores[currentAdIndex];
+  const ad = otherStores[currentAdIndex] || otherStores[0];
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div 
           className="store-spotlight-container"
-          initial={{ opacity: 0, scale: 0.8, y: 50, x: 50 }}
-          animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         >
           <div className="spotlight-card glass" style={{ '--accent': ad.accent }}>
-            <button className="spotlight-close" onClick={() => setIsDismissed(true)}>
+            <button 
+              className="spotlight-close" 
+              onClick={() => {
+                setIsVisible(false);
+                setIsDismissed(true);
+              }}
+              title="Dismiss for this session"
+            >
               <FiX />
             </button>
             
             <div className="spotlight-content">
               <div className="spotlight-badge">
                 <FiStar className="star-icon" />
-                <span>Eco-System Discovery</span>
+                <span>Discovery</span>
               </div>
               
               <div className="spotlight-header">
                 <span className="spotlight-icon">{ad.icon}</span>
                 <div className="spotlight-title-group">
-                  <h3>Browse {ad.name}</h3>
+                  <h3>Explore {ad.name}</h3>
                   <p>{ad.description}</p>
                 </div>
               </div>
@@ -118,12 +158,11 @@ export default function StoreSpotlight() {
                 className="spotlight-cta"
                 onClick={() => setIsVisible(false)}
               >
-                <span>Switch to {ad.name}</span>
+                <span>Visit Store</span>
                 <FiArrowRight />
               </Link>
             </div>
 
-            {/* Subtle progress bar timer to indicate it's a "momentary" suggestion */}
             <motion.div 
               className="spotlight-timer-bar"
               initial={{ width: '100%' }}
