@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch } from 'react-icons/fi';
 import ProductCard from '../components/features/ProductCard';
@@ -29,7 +29,9 @@ const TechCard = ({ product }) => {
             alt={product.name} 
             onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
           />
-          <div className="tech-badge">{product.category}</div>
+          <div className="tech-badge">
+            {typeof product.category === 'object' ? (product.category?.name || 'Workspace') : (product.category || 'Workspace')}
+          </div>
         </div>
 
         <div className="tech-card-body">
@@ -45,16 +47,16 @@ const TechCard = ({ product }) => {
 
           <div className="tech-specs-grid">
             <div className="spec-item">
-              <FiCpu /> <span>{product.specs.cpu}</span>
+              <FiCpu /> <span>{product.specs?.cpu || 'N/A'}</span>
             </div>
             <div className="spec-item">
-              <FiRam /> <span>{product.specs.ram}</span>
+              <FiRam /> <span>{product.specs?.ram || 'N/A'}</span>
             </div>
             <div className="spec-item">
-              <FiHardDrive /> <span>{product.specs.storage}</span>
+              <FiHardDrive /> <span>{product.specs?.storage || 'N/A'}</span>
             </div>
             <div className="spec-item">
-              <FiMonitor /> <span>{product.specs.display}</span>
+              <FiMonitor /> <span>{product.specs?.display || 'N/A'}</span>
             </div>
           </div>
 
@@ -71,8 +73,10 @@ const TechCard = ({ product }) => {
 };
 
 export default function WorkspaceShopPage() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [activeBrand, setActiveBrand] = useState('All');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeCategory = searchParams.get('category') || 'All';
+  const activeBrand = searchParams.get('brand') || 'All';
+  
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { products, store, loading } = useProducts('workspace');
 
@@ -95,14 +99,25 @@ export default function WorkspaceShopPage() {
     };
   }, [isFilterOpen]);
 
-  const categories = useMemo(() => ['All', ...new Set(products.map(p => p.category))], [products]);
-  const brands = useMemo(() => ['All', ...new Set(products.map(p => p.brand))], [products]);
+  // Robust category and brand extraction (handles strings and objects)
+  const categories = useMemo(() => {
+    const raw = products.map(p => typeof p.category === 'object' ? p.category?.name : p.category);
+    return ['All', ...new Set(raw.filter(Boolean))];
+  }, [products]);
+
+  const brands = useMemo(() => {
+    const raw = products.map(p => p.brand);
+    return ['All', ...new Set(raw.filter(Boolean))];
+  }, [products]);
 
   const categoryCounts = useMemo(() => {
     const counts = { All: products.length };
     categories.forEach(cat => {
       if (cat === 'All') return;
-      counts[cat] = products.filter(p => p.category === cat).length;
+      counts[cat] = products.filter(p => {
+        const pCat = typeof p.category === 'object' ? p.category?.name : p.category;
+        return pCat?.toLowerCase() === cat.toLowerCase();
+      }).length;
     });
     return counts;
   }, [products, categories]);
@@ -118,20 +133,32 @@ export default function WorkspaceShopPage() {
 
   const filteredProducts = useMemo(() => {
     return products.filter(p => {
-      const matchCat = activeCategory === 'All' || p.category === activeCategory;
-      const matchBrand = activeBrand === 'All' || p.brand === activeBrand;
+      const pCat = typeof p.category === 'object' ? p.category?.name : p.category;
+      const matchCat = activeCategory === 'All' || pCat?.toLowerCase() === activeCategory.toLowerCase();
+      const matchBrand = activeBrand === 'All' || p.brand?.toLowerCase() === activeBrand.toLowerCase();
       return matchCat && matchBrand;
     });
   }, [activeCategory, activeBrand, products]);
 
-  // Best Sellers: ALL featured items matching current filters
+  // Best Sellers
   const bestSellers = useMemo(() => {
     return filteredProducts.filter(p => p.is_featured);
   }, [filteredProducts]);
 
-  // Main grid: deduplicated — excludes products already shown in Best Sellers
+  // Main grid: deduplicated
   const bestSellerIds = useMemo(() => new Set(bestSellers.map(p => p.id)), [bestSellers]);
   const mainProducts = useMemo(() => filteredProducts.filter(p => !bestSellerIds.has(p.id)), [filteredProducts, bestSellerIds]);
+
+  const setFilter = (key, value) => {
+    const next = new URLSearchParams(searchParams);
+    if (value === 'All') {
+      next.delete(key);
+    } else {
+      next.set(key, value);
+    }
+    setSearchParams(next);
+    if (isFilterOpen) setIsFilterOpen(false);
+  };
 
   const FilterContent = () => (
     <>
@@ -142,11 +169,9 @@ export default function WorkspaceShopPage() {
             <button
               key={cat}
               className={`tech-filter-link ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => setFilter('category', cat)}
             >
-              <span className="filter-text">
-                {typeof cat === 'object' ? (cat?.name || 'Workspace') : cat}
-              </span>
+              <span className="filter-text">{cat}</span>
               <span className="filter-count">[{categoryCounts[cat] || 0}]</span>
             </button>
           ))}
@@ -160,7 +185,7 @@ export default function WorkspaceShopPage() {
             <button
               key={brand}
               className={`tech-filter-link ${activeBrand === brand ? 'active' : ''}`}
-              onClick={() => setActiveBrand(brand)}
+              onClick={() => setFilter('brand', brand)}
             >
               <span className="filter-text">{brand}</span>
               <span className="filter-count">[{brandCounts[brand] || 0}]</span>
@@ -226,7 +251,7 @@ export default function WorkspaceShopPage() {
             </button>
           </div>
 
-          {/* Best Sellers Section — sits OUTSIDE the product grid */}
+          {/* Best Sellers Section */}
           {!loading && bestSellers.length > 0 && (
             <div className="shop-best-sellers tech-best-sellers">
               <div className="best-sellers-header">
@@ -267,7 +292,7 @@ export default function WorkspaceShopPage() {
                     <FiSearch />
                     <h3>No matching workstations found</h3>
                     <p>Try adjusting your brand or category filters to find the perfect setup.</p>
-                    <button onClick={() => { setActiveCategory('All'); setActiveBrand('All'); }} className="reset-filters-btn">
+                    <button onClick={() => { setSearchParams({}); }} className="reset-filters-btn">
                       Reset All Filters
                     </button>
                   </div>

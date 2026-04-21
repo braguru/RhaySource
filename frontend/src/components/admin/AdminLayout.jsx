@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FiGrid, FiPackage, FiLogOut, FiExternalLink, FiUser, FiSettings, FiLayers, FiArchive } from 'react-icons/fi';
+import logoFull from '../../assets/logos/logo-full.png';
 import '../../styles/admin.css';
 
 const AdminLayout = ({ children, title }) => {
@@ -36,7 +37,7 @@ const AdminLayout = ({ children, title }) => {
         zIndex: 100
       }}>
         <div style={{ padding: '2.5rem 2rem', borderBottom: '1px solid var(--studio-border)', textAlign: 'center' }}>
-          <img src="/src/assets/logos/logo-full.png" alt="RhaySource" style={{ width: '100%', maxWidth: '160px' }} />
+          <img src={logoFull} alt="RhaySource" style={{ width: '100%', maxWidth: '160px' }} />
           <p className="studio-subtitle" style={{ color: 'var(--studio-sidebar-text)', marginTop: '1rem', fontSize: '0.6rem', opacity: 0.5 }}>Studio Manager</p>
         </div>
 

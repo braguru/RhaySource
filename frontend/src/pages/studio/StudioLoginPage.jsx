@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import { supabase } from '../../lib/supabase';
 import { FcGoogle } from 'react-icons/fc';
+import logoFull from '../../assets/logos/logo-full.png';
 import '../../styles/admin.css';
 
 export default function StudioLoginPage() {
@@ -65,7 +66,7 @@ export default function StudioLoginPage() {
     <div className="studio-main" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#fcfcfc' }}>
       <div className="studio-glass" style={{ padding: '4rem 3rem', width: '100%', maxWidth: '440px', border: '1px solid #eee' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <img src="/src/assets/logos/logo-full.png" alt="RhaySource" style={{ width: '100%', maxWidth: '180px', marginBottom: '1.5rem' }} />
+          <img src={logoFull} alt="RhaySource" style={{ width: '100%', maxWidth: '180px', marginBottom: '1.5rem' }} />
           <p className="studio-subtitle" style={{ fontSize: '0.65rem' }}>Administrative Gateway</p>
         </div>
 
