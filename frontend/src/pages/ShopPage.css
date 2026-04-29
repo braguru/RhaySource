@@ -355,28 +355,28 @@
 
 /* Tech Store Overrides */
 .tech-best-sellers .best-sellers-title {
-  color: #f8fafc;
+  color: var(--ws-text-main, #191c1e);
 }
 
 .tech-best-sellers .best-sellers-title::before {
-  color: #38bdf8;
+  color: var(--ws-primary, #0ea5e9);
 }
 
 .tech-best-sellers .best-sellers-subtitle {
-  color: #94a3b8;
+  color: var(--ws-text-muted, #475569);
 }
 
 .tech-best-sellers .best-sellers-header {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 .tech-divider {
-  border-top-color: rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(0, 0, 0, 0.08);
 }
 
 .tech-best-sellers .best-seller-item::before {
-  background: #38bdf8;
-  color: #0a0b0c;
+  background: var(--ws-primary, #0ea5e9);
+  color: #ffffff;
 }
 
 /* Home & Living Store Overrides */

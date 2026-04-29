@@ -1,15 +1,21 @@
+/*
+  WORKSPACE ABOUT PAGE — LIGHT THEME
+  Converted from dark navy to the Luminous Laboratory white-tech aesthetic.
+*/
+
 .wsa-page {
-  background-color: #0c0d12;
-  color: #e2e8f0;
+  background-color: #ffffff;
+  color: #1a1a1a;
   min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* Hero */
 .wsa-hero {
   padding: 8rem 0 6rem;
-  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.08), transparent),
-              linear-gradient(to bottom, #0c0d12, #111827);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.07), transparent),
+              linear-gradient(to bottom, #ffffff, #f8fafc);
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .wsa-hero-content {
@@ -17,33 +23,35 @@
 }
 
 .wsa-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #38bdf8;
+  letter-spacing: 0.3em;
+  color: #0ea5e9;
   margin-bottom: 1.5rem;
+  display: block;
 }
 
 .wsa-title {
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 4rem;
   font-weight: 800;
   line-height: 1.1;
-  color: #f8fafc;
+  color: #0f172a;
   margin-bottom: 2rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .wsa-intro {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  color: #94a3b8;
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: #64748b;
 }
 
 /* Vision */
 .wsa-vision {
   padding: 6rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .wsa-vision-grid {
@@ -54,9 +62,10 @@
 }
 
 .wsa-accent-heading {
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 2.25rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #0f172a;
   margin-bottom: 2rem;
   position: relative;
   display: inline-block;
@@ -69,25 +78,25 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: #38bdf8;
+  background: #0ea5e9;
 }
 
 .wsa-vision-text p {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #94a3b8;
+  color: #64748b;
   margin-bottom: 1.5rem;
 }
 
 .wsa-stat-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   padding: 3rem;
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
 }
 
 .wsa-stat-item {
@@ -97,24 +106,26 @@
 }
 
 .wsa-stat-number {
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 3.5rem;
   font-weight: 800;
   line-height: 1;
-  color: #38bdf8;
+  color: #0ea5e9;
 }
 
 .wsa-stat-label {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #64748b;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+  font-weight: 600;
 }
 
 /* Values */
 .wsa-values {
   padding: 6rem 0;
-  background: #0f1117;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .wsa-section-header {
@@ -123,10 +134,12 @@
 }
 
 .wsa-section-header h2 {
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #0f172a;
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .wsa-section-header p {
@@ -141,47 +154,49 @@
 
 .wsa-value-card {
   padding: 2.5rem;
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  transition: all 0.35s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
 .wsa-value-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 20px 48px rgba(14, 165, 233, 0.08);
 }
 
 .wsa-value-icon {
   width: 48px;
   height: 48px;
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(14, 165, 233, 0.09);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  color: #38bdf8;
+  color: #0ea5e9;
   margin-bottom: 1.5rem;
 }
 
 .wsa-value-card h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #f8fafc;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
   margin-bottom: 0.75rem;
 }
 
 .wsa-value-card p {
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: #64748b;
 }
 
 /* Contact */
 .wsa-contact {
   padding: 6rem 0;
+  background: #ffffff;
 }
 
 .wsa-contact-split {
@@ -192,16 +207,17 @@
 }
 
 .wsa-contact-details h2 {
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #0f172a;
   margin-bottom: 1rem;
 }
 
 .wsa-contact-details p {
   font-size: 1rem;
-  line-height: 1.7;
-  color: #94a3b8;
+  line-height: 1.75;
+  color: #64748b;
 }
 
 /* Responsive */
@@ -213,11 +229,6 @@
     gap: 3rem;
   }
 
-  .wsa-title {
-    font-size: 2.75rem;
-  }
-
-  .wsa-hero {
-    padding: 6rem 0 4rem;
-  }
+  .wsa-title { font-size: 2.75rem; }
+  .wsa-hero { padding: 6rem 0 4rem; }
 }

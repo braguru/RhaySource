@@ -1,24 +1,204 @@
-.workspace-shop-page {
-  padding-bottom: 8rem;
+/* 
+  WORKSPACE SHOP PAGE - CLINICAL TECH SPECIFIC STYLES
+  Complementing the core Lumina Clinical design system.
+*/
+
+.workspace-shop-hero {
+  height: 60vh !important;
+  min-height: 400px !important;
 }
 
-.workspace-shop-header {
-  padding: 4rem 0 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(to bottom, #0c0d12, #111827);
+.tech-mobile-controls {
   margin-bottom: 3rem;
+  display: none; /* Flex on mobile */
+  justify-content: center;
 }
 
-.workspace-shop-title {
-  font-size: 2.5rem;
+.tech-mobile-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 2.5rem;
+  background: var(--ws-bg);
+  border: 1px solid var(--ws-surface-high);
+  border-radius: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  color: var(--ws-text-main);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tech-mobile-filter-btn:hover {
+  border-color: var(--ws-primary);
+  color: var(--ws-primary);
+}
+
+/* ── Best Sellers Section (Editorial) ─────────────────────── */
+.tech-best-sellers {
+  margin-bottom: 8rem;
+}
+
+.best-sellers-header {
+  margin-bottom: 4rem;
+}
+
+.best-sellers-title {
+  font-family: var(--ws-font-head);
+  font-size: 3rem;
   font-weight: 800;
-  color: #f8fafc;
-  margin-bottom: 0.25rem;
+  color: var(--ws-text-main);
+  margin-bottom: 1rem;
+  letter-spacing: -0.03em;
 }
 
-.workspace-shop-subtitle {
-  font-size: 0.9rem;
-  color: #94a3b8;
+.best-sellers-title span {
+  background: linear-gradient(135deg, var(--ws-primary), var(--ws-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.best-sellers-subtitle {
+  font-size: 1.1rem;
+  color: var(--ws-text-muted);
+}
+
+.best-sellers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+
+.tech-divider {
+  border: none;
+  height: 1px;
+  background: var(--ws-surface-high);
+  margin: 6rem 0;
+  opacity: 0.3;
+}
+
+/* ── Filter Drawer (Mobile) ────────────────────────────────── */
+.tech-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 28, 30, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+}
+
+.tech-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  max-width: 400px;
+  background: var(--ws-bg);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 20px 0 60px rgba(0,0,0,0.1);
+}
+
+.tech-drawer .drawer-header {
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--ws-surface-low);
+}
+
+.tech-drawer .drawer-header h3 {
+  font-family: var(--ws-font-head);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ws-text-main);
+}
+
+.tech-drawer .drawer-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--ws-text-light);
+  cursor: pointer;
+  display: flex;
+}
+
+.tech-drawer .drawer-body {
+  padding: 2.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.tech-drawer .drawer-footer {
+  padding: 2rem 2.5rem;
+  background: var(--ws-surface-low);
+}
+
+.apply-filters-btn {
+  width: 100%;
+  padding: 1.5rem;
+  background: var(--ws-text-main);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--ws-radius-md);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+/* ── Results Handling ──────────────────────────────────────── */
+.no-tech-results {
+  grid-column: 1 / -1;
+  padding: 8rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-results-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.no-results-content svg {
+  font-size: 4rem;
+  color: var(--ws-text-light);
+  margin-bottom: 2rem;
+  opacity: 0.3;
+}
+
+.no-results-content h3 {
+  font-family: var(--ws-font-head);
+  font-size: 1.5rem;
+  color: var(--ws-text-main);
+  margin-bottom: 1rem;
+}
+
+.no-results-content p {
+  color: var(--ws-text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.reset-filters-btn {
+  padding: 1rem 2rem;
+  background: var(--ws-surface-low);
+  border: 1px solid var(--ws-surface-high);
+  border-radius: 100px;
+  font-weight: 700;
+  color: var(--ws-text-main);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-filters-btn:hover {
+  background: var(--ws-primary);
+  border-color: var(--ws-primary);
+  color: #ffffff;
 }
 
 /* Whole card is a link */
@@ -26,4 +206,16 @@
   display: block;
   text-decoration: none;
   color: inherit;
+  height: 100%;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .best-sellers-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; }
+}
+
+@media (max-width: 768px) {
+  .tech-mobile-controls { display: flex; }
+  .best-sellers-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .best-sellers-title { font-size: 2.5rem; }
 }

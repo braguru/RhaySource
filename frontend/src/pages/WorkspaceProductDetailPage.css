@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #94a3b8;
+  color: var(--ws-text-muted);
   font-size: 0.9rem;
   background: none;
   border: none;
@@ -13,7 +13,7 @@
 }
 
 .wpdp-back-link:hover {
-  color: #38bdf8;
+  color: var(--ws-primary);
 }
 
 /* Main Grid */
@@ -31,27 +31,25 @@
 }
 
 .wpdp-image-wrap {
-  background: linear-gradient(135deg, #111827, #1e293b);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 20px;
+  background: var(--ws-surface-low);
+  border: 1px solid var(--ws-surface-high);
+  border-radius: 0;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem;
+  padding: 0;
 }
 
 .wpdp-image-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  mix-blend-mode: luminosity;
-  transition: mix-blend-mode 0.3s, transform 0.4s ease;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
 .wpdp-image-wrap:hover img {
-  mix-blend-mode: normal;
   transform: scale(1.03);
 }
 
@@ -59,20 +57,20 @@
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  color: #38bdf8;
+  background: var(--ws-surface-high);
+  border: 1px solid rgba(0,0,0,0.05);
+  color: var(--ws-primary);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   padding: 5px 14px;
-  border-radius: 20px;
+  border-radius: 0;
 }
 
 /* Info Panel */
 .wpdp-brand {
-  color: #38bdf8;
+  color: var(--ws-text-muted);
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -83,7 +81,7 @@
 .wpdp-name {
   font-size: 2.2rem;
   font-weight: 800;
-  color: #f8fafc;
+  color: var(--ws-text-main);
   line-height: 1.15;
   margin-bottom: 1rem;
 }
@@ -91,15 +89,15 @@
 .wpdp-price {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ws-text-main);
   margin-bottom: 1.75rem;
   padding-bottom: 1.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 .wpdp-description {
   font-size: 1rem;
-  color: #94a3b8;
+  color: var(--ws-text-muted);
   line-height: 1.75;
   margin-bottom: 2.5rem;
 }
@@ -110,13 +108,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #38bdf8;
+  color: var(--ws-text-main);
   margin-bottom: 1.25rem;
 }
 
 .wpdp-specs-table {
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
+  border: 1px solid var(--ws-surface-high);
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 2.5rem;
 }
@@ -126,7 +124,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--ws-surface-high);
   gap: 1rem;
 }
 
@@ -135,27 +133,27 @@
 }
 
 .wpdp-spec-row:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--ws-surface-low);
 }
 
 .wpdp-spec-label {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: #64748b;
+  color: var(--ws-text-muted);
   font-size: 0.85rem;
   font-weight: 500;
   min-width: 120px;
 }
 
 .wpdp-spec-label svg {
-  color: #38bdf8;
+  color: var(--ws-primary);
   font-size: 1rem;
   flex-shrink: 0;
 }
 
 .wpdp-spec-value {
-  color: #e2e8f0;
+  color: var(--ws-text-main);
   font-size: 0.9rem;
   font-weight: 600;
   text-align: right;
@@ -173,19 +171,19 @@
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  background: #38bdf8;
-  color: #0c0d12;
+  background: var(--ws-text-main);
+  color: #ffffff;
   font-weight: 700;
   font-size: 1rem;
   padding: 1rem 2rem;
-  border-radius: 10px;
+  border-radius: 0;
   text-decoration: none;
   transition: background 0.2s, transform 0.2s;
   letter-spacing: 0.01em;
 }
 
 .wpdp-whatsapp-btn:hover {
-  background: #7dd3fc;
+  background: var(--ws-text-muted);
   transform: translateY(-2px);
 }
 
@@ -193,33 +191,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  color: #38bdf8;
+  background: linear-gradient(135deg, var(--ws-primary), var(--ws-secondary));
+  border: none;
+  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 600;
   padding: 0.9rem 2rem;
-  border-radius: 10px;
+  border-radius: 0;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition: opacity 0.2s;
   letter-spacing: 0.01em;
 }
 
 .wpdp-cart-btn:hover {
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.6);
+  opacity: 0.9;
 }
 
 /* Related Products */
 .wpdp-related {
   padding: 4rem 0 6rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .wpdp-related-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: var(--ws-text-main);
   margin-bottom: 2.5rem;
 }
 
@@ -236,33 +233,33 @@
 }
 
 .wpdp-related-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
+  background: var(--ws-bg);
+  border: 1px solid var(--ws-surface-high);
+  border-radius: 0;
   overflow: hidden;
   text-decoration: none;
   transition: border-color 0.2s, transform 0.2s;
 }
 
 .wpdp-related-card:hover {
-  border-color: rgba(56, 189, 248, 0.3);
+  border-color: var(--ws-primary);
   transform: translateY(-4px);
 }
 
 .wpdp-related-image {
-  background: linear-gradient(135deg, #1e293b, #0f172a);
+  background: var(--ws-surface-low);
   aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  border-bottom: 1px solid var(--ws-surface-high);
 }
 
 .wpdp-related-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  mix-blend-mode: luminosity;
+  object-fit: cover;
 }
 
 .wpdp-related-info {
@@ -270,7 +267,7 @@
 }
 
 .wpdp-related-brand {
-  color: #38bdf8;
+  color: var(--ws-text-muted);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -279,7 +276,7 @@
 }
 
 .wpdp-related-name {
-  color: #e2e8f0;
+  color: var(--ws-text-main);
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.6rem;
@@ -287,7 +284,7 @@
 }
 
 .wpdp-related-price {
-  color: #94a3b8;
+  color: var(--ws-text-main);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -296,7 +293,7 @@
 .wpdp-not-found {
   padding: 8rem 0;
   text-align: center;
-  color: #64748b;
+  color: var(--ws-text-muted);
 }
 
 /* Responsive */
@@ -342,7 +339,7 @@
 
   .wpdp-spec-value {
     text-align: left;
-    color: #f8fafc;
+    color: var(--ws-text-main);
     font-size: 0.95rem;
     padding-left: 1.6rem; /* Align with text under icon */
   }
