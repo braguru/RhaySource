@@ -543,8 +543,39 @@
 .ws-editorial-nav {
   display: flex;
   align-items: center;
+}
+
+.ws-nav-container {
+  display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
+
+.ws-nav-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 70px;
+}
+
+.ws-nav-progress-bg {
+  width: 100%;
+  height: 2px;
+  background: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.ws-nav-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #0ea5e9;
+}
+
 
 .ws-nav-btn {
   background: #ffffff;
@@ -590,7 +621,8 @@
   flex: 1;
   position: relative;
   height: 680px;
-  border-radius: 0;
+  border-radius: 20px;
+
   /* Remove overflow hidden to let cards peek entirely if we wanted, 
      but keeping it to constrain the carousel is cleaner */
   overflow: hidden;
@@ -608,7 +640,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 0;
+  border-radius: 20px;
+
   overflow: hidden;
   background: #ffffff;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);

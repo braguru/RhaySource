@@ -79,16 +79,24 @@ export default function WorkspacePage() {
 
   // ── Accordion Showcase ──────────────────────────────────────────────────
   const [activeIndex, setActiveIndex] = useState(0);
+  const AUTO_PLAY_INTERVAL = 6000; // 6 seconds
 
   const carouselItems = bestSellers.length > 0 ? bestSellers : FALLBACK_ITEMS;
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % carouselItems.length);
-  };
+  }, [carouselItems.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
-  };
+  }, [carouselItems.length]);
+
+  useEffect(() => {
+    const interval = setInterval(handleNext, AUTO_PLAY_INTERVAL);
+    return () => clearInterval(interval);
+  }, [handleNext, activeIndex]); // Reset timer whenever activeIndex changes
+
+
 
   if (isMaintenance) {
     return (
@@ -329,9 +337,37 @@ export default function WorkspacePage() {
                 
                 {/* Navigation controls moved below the text for easy access */}
                 <div className="ws-editorial-nav">
-                  <button onClick={handlePrev} className="ws-nav-btn"><FiArrowLeft /></button>
-                  <span className="ws-nav-indicator">0{activeIndex + 1} <span className="ws-nav-divider">/</span> 0{carouselItems.length}</span>
-                  <button onClick={handleNext} className="ws-nav-btn"><FiArrowRight /></button>
+                  <div className="ws-nav-container">
+                    <button 
+                      onClick={() => handlePrev()} 
+                      className="ws-nav-btn"
+                    >
+                      <FiArrowLeft />
+                    </button>
+                    <div className="ws-nav-info">
+                      <span className="ws-nav-indicator">
+                        0{activeIndex + 1} <span className="ws-nav-divider">/</span> 0{carouselItems.length}
+                      </span>
+                      {/* Automated Progress Bar */}
+                      <div className="ws-nav-progress-bg">
+                        <motion.div 
+                          key={activeIndex}
+                          className="ws-nav-progress-bar"
+                          initial={{ width: 0 }}
+                          animate={{ width: '100%' }}
+                          transition={{ duration: AUTO_PLAY_INTERVAL / 1000, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => handleNext()} 
+                      className="ws-nav-btn"
+                    >
+                      <FiArrowRight />
+                    </button>
+
+                  </div>
+
                 </div>
               </motion.div>
             </div>

@@ -152,7 +152,7 @@ export default function WorkspaceShopPage() {
   }
 
   return (
-    <div className="workspace-page">
+    <div className="workspace-page workspace-shop-container">
       {/* Tech Shop Header */}
       <section className="workspace-hero workspace-shop-hero">
         <div className="container">

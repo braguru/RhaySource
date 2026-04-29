@@ -38,6 +38,9 @@
   min-height: 100vh;
   font-family: var(--ws-font-body);
   overflow-x: hidden;
+}
+
+.workspace-shop-container {
   padding-bottom: 15rem;
 }
 

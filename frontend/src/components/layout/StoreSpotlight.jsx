@@ -84,32 +84,33 @@ export default function StoreSpotlight() {
     // The ad will only show if:
     // 1. We are on an allowed page
     // 2. We haven't been dismissed
-    // 3. The user has been IDLE for at least 15 seconds
-    // 4. At least 40 seconds have passed since the page load (Initial Buffer)
+    // 3. The user has been IDLE for at least 45 seconds
+    // 4. At least 90 seconds have passed since the page load (Initial Buffer)
     
     let initialBufferPassed = false;
-    setTimeout(() => { initialBufferPassed = true; }, 30000); // 30s initial wait
+    const bufferTimer = setTimeout(() => { initialBufferPassed = true; }, 90000); // 90s initial wait
 
     timerRef.current = setInterval(() => {
       const idleTime = Date.now() - lastActivityRef.current;
       
-      if (initialBufferPassed && idleTime > 15000 && !isVisible) {
+      if (initialBufferPassed && idleTime > 45000 && !isVisible) {
         // Show Ad
         setCurrentAdIndex(prev => (prev + 1) % otherStores.length);
         setIsVisible(true);
       }
-    }, 5000); // Check idle status every 5 seconds
+    }, 10000); // Check idle status every 10 seconds
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      clearTimeout(bufferTimer);
     };
   }, [pathname, isDismissed, isAllowedPage, otherStores.length]);
 
   // Handle re-showing after auto-hide
   useEffect(() => {
     if (!isVisible && !isDismissed && isAllowedPage) {
-      // When it hides, reset the activity clock to force another 2-minute "quiet period"
-      lastActivityRef.current = Date.now() + 120000; // Push next appearance 2 mins into the future
+      // When it hides, reset the activity clock to force another 5-minute "quiet period"
+      lastActivityRef.current = Date.now() + 300000; // Push next appearance 5 mins into the future
     }
   }, [isVisible, isDismissed, isAllowedPage]);
 
