@@ -70,6 +70,8 @@ const { product, loading } = useProduct(idOrSlug);             // single product
 ### Global utilities (`src/styles/global.css`)
 - `.container` — `max-width: var(--layout-max-width)`, centered, `padding: 0 2rem`
 - `.desktop-only` / `.mobile-only` — responsive visibility helpers
+- **Sharp Borders** — Core navigational elements (Navbar) and store category cards use `border-radius: 0` to achieve a premium editorial and clinical "White Tech" look.
+
 
 ### Workspace design system (`WorkspacePage.css` `:root`)
 All Workspace components must use these tokens — never hardcode colours:
@@ -115,8 +117,8 @@ components/layout/
 ### Mouse parallax (WorkspacePage hero)
 Uses Framer Motion `useMotionValue` → `useSpring` (stiffness 150, damping 25) → `useTransform`. CSS `@keyframes` handle the continuous float animation on inner divs — do not mix Framer Motion `animate` y-values with CSS float on the same element.
 
-### 3D carousel (WorkspacePage)
-Scroll-listener sets `activeIndex`; Framer Motion `animate={{ scale, opacity }}` applies depth based on distance from active card. Padding is JS-calculated: `Math.max(32, (containerWidth - CARD_WIDTH) / 2)` so first/last cards can center-snap.
+### 3D Carousel & Automated Pagination (WorkspacePage)
+Scroll-listener sets `activeIndex`; Framer Motion `animate={{ scale, opacity }}` applies depth based on distance from active card. Includes an **auto-advance timer (6s)** with a synchronized **pagination progress bar**. Manual interaction resets the timer to ensure continuous playback.
 
 ### Cart persistence
 All three carts persist to `localStorage` (`rhaysource_tech_cart`, etc.). Carts are cleared on route change via the `useEffect` in `AppContent`.
@@ -133,3 +135,8 @@ All three carts persist to `localStorage` (`rhaysource_tech_cart`, etc.). Carts 
 - Do not use dark backgrounds (`#0f172a`, `#111827`, etc.) in any Workspace page or component.
 - Do not use `ProductCard` inside Workspace pages — use `TechCard`.
 - Do not fetch from Supabase directly in page components — use `useProducts` / `useProduct`.
+
+## Active Development
+- **Branch**: `feature/product-ui-refinement`
+- **Focus**: Harmonizing Product Cards and Product Detail Pages across all stores. Implementing premium clinical design system (sharp borders, precise spacing, typography hierarchy).
+
