@@ -80,7 +80,9 @@ const ProductCard = ({ product }) => {
           className="add-to-bag-btn"
           onClick={handleAddToCart}
         >
-          Add to Bag
+          {product.stores?.slug === 'workspace' ? 'Equip Workspace' : 
+           product.stores?.slug === 'home-living' ? 'Add to Cart' : 
+           'Add to Bag'}
         </Button>
       </div>
     </motion.article>

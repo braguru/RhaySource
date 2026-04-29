@@ -1,0 +1,92 @@
+/* ── Workspace / Tech Specific Adjustments ──────────────────────── */
+
+.navbar-workspace {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(30px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  position: absolute !important;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-workspace .navbar {
+  background: transparent !important;
+  border: none !important;
+}
+
+.navbar-workspace .navbar-links a {
+  color: #64748b;
+}
+
+.navbar-workspace .navbar-links a:hover {
+  color: #0066ff;
+}
+
+
+.logo-tech {
+  filter: none;
+}
+
+.cart-btn-tech {
+  color: #0f172a !important;
+}
+
+.cart-btn-tech:hover {
+  color: #0066ff !important;
+}
+
+.badge-tech {
+  background: #0066ff !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.navbar-workspace .icon-btn {
+  color: #64748b;
+}
+
+.navbar-workspace .icon-btn:hover {
+  color: #0066ff;
+}
+
+.navbar-workspace .search-overlay {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border-color: rgba(0, 102, 255, 0.1);
+  color: #0f172a;
+}
+
+.navbar-workspace .search-input-wrapper {
+  background: #f8fafc;
+  border-color: rgba(0, 102, 255, 0.1);
+}
+
+.navbar-workspace .search-input-wrapper input {
+  color: #0f172a;
+}
+
+.navbar-workspace .search-results-dropdown {
+  background: #ffffff;
+  border-color: rgba(0, 102, 255, 0.1);
+}
+
+.navbar-workspace .search-result-item:hover {
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.navbar-workspace .result-name {
+  color: #0f172a;
+}
+
+.navbar-workspace .result-category {
+  color: #0066ff;
+}
+
+.navbar-workspace .no-results-title {
+  color: #0f172a;
+}
+
+.navbar-workspace .no-results-icon {
+  color: #0066ff;
+}

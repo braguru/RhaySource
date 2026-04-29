@@ -6,71 +6,9 @@ import ProductCard from '../components/features/ProductCard';
 import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
 import { useProducts } from '../hooks/useProducts';
 import { useTechCart } from '../context/TechCartContext';
+import './ShopPage.css';
 import './WorkspacePage.css';
 import './WorkspaceShopPage.css';
-import './ShopPage.css';
-
-const TechCard = ({ product }) => {
-  const { addToTechCart } = useTechCart();
-
-  return (
-    <Link to={`/workspace/products/${product.id}`} className="tech-card-link">
-      <motion.div
-        className="tech-card"
-        layout
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="tech-card-image">
-          <img 
-            src={product.image_url || product.images?.primary || 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'} 
-            alt={product.name} 
-            onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
-          />
-          <div className="tech-badge">
-            {typeof product.category === 'object' ? (product.category?.name || 'Workspace') : (product.category || 'Workspace')}
-          </div>
-        </div>
-
-        <div className="tech-card-body">
-          <div className="tech-card-header">
-            <div>
-              <p className="tech-brand">{product.brand}</p>
-              <h3 className="tech-name">{product.name}</h3>
-            </div>
-            <p className="tech-price">GH₵{product.price.toLocaleString()}</p>
-          </div>
-
-          <p className="tech-description">{product.description}</p>
-
-          <div className="tech-specs-grid">
-            <div className="spec-item">
-              <FiCpu /> <span>{product.specs?.cpu || 'N/A'}</span>
-            </div>
-            <div className="spec-item">
-              <FiRam /> <span>{product.specs?.ram || 'N/A'}</span>
-            </div>
-            <div className="spec-item">
-              <FiHardDrive /> <span>{product.specs?.storage || 'N/A'}</span>
-            </div>
-            <div className="spec-item">
-              <FiMonitor /> <span>{product.specs?.display || 'N/A'}</span>
-            </div>
-          </div>
-
-          <button
-            className="tech-add-btn"
-            onClick={(e) => { e.preventDefault(); addToTechCart(product); }}
-          >
-            Equip Workspace
-          </button>
-        </div>
-      </motion.div>
-    </Link>
-  );
-};
 
 export default function WorkspaceShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -214,7 +152,7 @@ export default function WorkspaceShopPage() {
   }
 
   return (
-    <div className="workspace-page">
+    <div className="workspace-page workspace-shop-container">
       {/* Tech Shop Header */}
       <section className="workspace-hero workspace-shop-hero">
         <div className="container">
@@ -262,9 +200,7 @@ export default function WorkspaceShopPage() {
               </div>
               <div className="best-sellers-grid">
                 {bestSellers.map(product => (
-                  <div key={product.id} className="best-seller-item">
-                    <ProductCard product={product} />
-                  </div>
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
               <hr className="best-sellers-divider tech-divider" />
