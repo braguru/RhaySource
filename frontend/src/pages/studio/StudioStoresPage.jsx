@@ -78,22 +78,37 @@ export default function StudioStoresPage() {
     e.preventDefault();
     setSaveLoading(true);
 
-    const { error } = editingStore
-      ? await supabase.from('stores').update(formData).eq('id', editingStore.id)
-      : await supabase.from('stores').insert([formData]);
+    const payload = {
+      name: formData.name.trim(),
+      label: formData.label.trim(),
+      accent_color: formData.accent_color,
+      slug: formData.slug.trim() || toSlug(formData.name),
+      is_active: formData.is_active
+    };
 
-    if (!error) {
-      await fetchStores();
-      setIsDrawerOpen(false);
-      setToast({ 
-        isOpen: true, 
-        message: editingStore ? 'Store configuration updated successfully.' : 'New storefront identity established.', 
-        type: 'success' 
-      });
-    } else {
-      setToast({ isOpen: true, message: 'Database Error: ' + error.message, type: 'error' });
+    try {
+      const { data, error } = editingStore
+        ? await supabase.from('stores').update(payload).eq('id', editingStore.id).select()
+        : await supabase.from('stores').insert([payload]).select();
+
+      if (!error) {
+        await fetchStores();
+        setIsDrawerOpen(false);
+        setToast({ 
+          isOpen: true, 
+          message: editingStore ? 'Store configuration updated successfully.' : 'New storefront identity established.', 
+          type: 'success' 
+        });
+      } else {
+        console.error('Store Save Error:', error);
+        setToast({ isOpen: true, message: 'Database Error: ' + error.message, type: 'error' });
+      }
+    } catch (err) {
+      console.error('Store Submit Exception:', err);
+      setToast({ isOpen: true, message: 'Critical Exception: ' + err.message, type: 'error' });
+    } finally {
+      setSaveLoading(false);
     }
-    setSaveLoading(false);
   };
 
   const handleStatusToggle = async (store) => {

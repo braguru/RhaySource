@@ -219,3 +219,165 @@
   .best-sellers-grid { grid-template-columns: 1fr; gap: 3rem; }
   .best-sellers-title { font-size: 2.5rem; }
 }
+
+/* ── Shop by Brand Quick Nav ──────────────────────────────── */
+.tech-brand-nav {
+  margin-bottom: 5rem;
+  padding: 3rem;
+  background: var(--ws-surface-low);
+  border-radius: var(--ws-radius-lg);
+  border: 1px solid var(--ws-surface-high);
+}
+
+.brand-nav-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.brand-nav-title {
+  font-family: var(--ws-font-head);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--ws-text-main);
+  margin-bottom: 0.5rem;
+}
+
+.brand-nav-subtitle {
+  font-size: 0.95rem;
+  color: var(--ws-text-muted);
+}
+
+.brand-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+}
+
+.brand-nav-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 1rem;
+  background: var(--ws-bg);
+  border: 1px solid var(--ws-surface-high);
+  border-radius: var(--ws-radius-md);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-nav-card .brand-icon {
+  font-size: 2.5rem;
+  color: var(--ws-text-light);
+  transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+.brand-nav-card .brand-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ws-text-muted);
+  transition: all 0.3s ease;
+}
+
+.brand-nav-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--ws-primary);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.brand-nav-card:hover .brand-icon {
+  color: var(--ws-primary);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.brand-nav-card:hover .brand-name {
+  color: var(--ws-text-main);
+}
+
+.brand-nav-card.active {
+  background: var(--ws-primary);
+  border-color: var(--ws-primary);
+}
+
+.brand-nav-card.active .brand-icon,
+.brand-nav-card.active .brand-name {
+  color: #ffffff;
+  opacity: 1;
+}
+
+@media (max-width: 992px) {
+  .tech-brand-nav { padding: 2rem; }
+  .brand-nav-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .brand-nav-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Refined Brand Card Styles ────────────────────────────── */
+.brand-nav-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.brand-count {
+  font-size: 0.7rem;
+  color: var(--ws-text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.brand-nav-card.active .brand-count {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.brand-active-dot {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.brand-nav-card.empty {
+  opacity: 0.7;
+}
+
+.brand-nav-card.empty:hover {
+  opacity: 1;
+}
+
+.brand-nav-card.empty .brand-count {
+  color: #ef4444; /* Alert that no models are available */
+  opacity: 0.6;
+}
+
+.brand-nav-card.active {
+  background: linear-gradient(135deg, var(--ws-primary), var(--ws-secondary));
+  border-color: transparent;
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+}
+
+.brand-nav-card.active .brand-icon {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.brand-nav-card.active .brand-name {
+  color: #ffffff;
+}

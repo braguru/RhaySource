@@ -8,6 +8,7 @@ import { useSettings } from '../../hooks/useSettings';
 
 import { toSlug } from '../../utils/slug';
 import logoFull from '../../assets/logos/logo-full.png';
+import logoFullWorkspace from '../../assets/logo-full.svg';
 import logoIcon from '../../assets/logos/logo-icon.png';
 import { supabase } from '../../lib/supabase';
 import './Navbar.css';
@@ -154,8 +155,8 @@ const Navbar = () => {
                 <img src={settings.branding.brand_logo_url} alt={brandName} className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} style={{ objectFit: 'contain' }} />
               ) : (
                 <>
-                  <img src={logoFull} alt={brandName} className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} />
-                  <img src={logoIcon} alt={brandName}      className={`navbar-logo-icon ${isWorkspace ? 'logo-tech' : ''}`} />
+                  <img src={isWorkspace ? logoFullWorkspace : logoFull} alt={brandName} className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} />
+                  {!isWorkspace && <img src={logoIcon} alt={brandName} className={`navbar-logo-icon`} />}
                 </>
               )}
             </Link>

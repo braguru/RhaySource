@@ -86,6 +86,9 @@
 @media (max-width: 480px) {
   .navbar-logo-full { display: none; }
   .navbar-logo-icon { display: block; }
+  /* Override for Workspace to show the SVG logo even on mobile */
+  .navbar-workspace .navbar-logo-full { display: block; height: 30px; }
+  .navbar-workspace .navbar-logo-icon { display: none; }
 }
 
 
@@ -745,7 +748,6 @@
 }
 
 .logo-tech {
-  filter: grayscale(1) brightness(2) contrast(1.2);
   transition: filter 0.3s ease;
 }
 

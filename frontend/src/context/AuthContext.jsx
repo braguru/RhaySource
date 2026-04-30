@@ -34,9 +34,32 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let mounted = true;
 
-    // The listener fires immediately with the current session state upon subscription
+    // 1. Initial Session Check (Force determining state immediately)
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!mounted) return;
+        
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        
+        if (currentUser) {
+          await fetchProfile(currentUser.email);
+        } else {
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Auth initialization error:', err);
+        if (mounted) setLoading(false);
+      }
+    };
+
+    initAuth();
+
+    // 2. Continuous State Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (mounted) {
+        console.log(`[Auth] State Change: ${event}`);
         const currentUser = session?.user ?? null;
         setUser(currentUser);
 

@@ -324,10 +324,12 @@ export default function StudioProductsPage() {
       </div>
 
       <ProductFormDrawer 
+        key={selectedProduct?.id || 'new-product-entry'}
         isOpen={isDrawerOpen} 
         onClose={() => setIsDrawerOpen(false)}
         product={selectedProduct}
         stores={stores}
+        categories={categories}
         onSave={handleSave}
       />
 

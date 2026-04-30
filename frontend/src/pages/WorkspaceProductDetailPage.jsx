@@ -11,17 +11,27 @@ import './WorkspaceProductDetailPage.css';
 const WHATSAPP = import.meta.env.VITE_WHATSAPP_NUMBER;
 
 const SPEC_ICONS = {
-  cpu:     <FiCpu />,
-  ram:     <FiLayers />,
-  storage: <FiHardDrive />,
-  display: <FiMonitor />,
+  processor: <FiCpu />,
+  cpu:       <FiCpu />,
+  memory:    <FiLayers />,
+  ram:       <FiLayers />,
+  storage:   <FiHardDrive />,
+  display:   <FiMonitor />,
+  gpu:       <FiCpu style={{ color: '#10b981' }} />, 
+  os:        <FiMonitor style={{ color: '#0ea5e9' }} />, 
+  weight:    <FiLayers style={{ color: '#6366f1' }} />, 
 };
 
 const SPEC_LABELS = {
-  cpu:     'Processor',
-  ram:     'Memory',
-  storage: 'Storage',
-  display: 'Display',
+  processor: 'Processor',
+  cpu:       'Processor',
+  memory:    'Memory',
+  ram:       'Memory',
+  storage:   'Storage',
+  display:   'Display',
+  gpu:       'Graphics',
+  os:        'Operating System',
+  weight:    'Weight',
 };
 
 export default function WorkspaceProductDetailPage() {
@@ -31,7 +41,6 @@ export default function WorkspaceProductDetailPage() {
   const { products: allTechProducts } = useProducts('workspace');
   const { addToTechCart } = useTechCart();
 
-  // Define related products based on category
   const related = allTechProducts.filter(p => 
     p.category === product?.category && p.id !== product?.id
   ).slice(0, 4);
@@ -51,10 +60,7 @@ export default function WorkspaceProductDetailPage() {
   }
 
   const mainImage = product.image_url || (product.images && product.images.primary);
-
-  const whatsappMsg = encodeURIComponent(
-    `Hi RhaySource, I'm interested in the ${product.name} (${product.id}). Please share availability and pricing.`
-  );
+  const whatsappMsg = encodeURIComponent(`Hi RhaySource, I'm interested in the ${product.name}. Please share availability.`);
   const whatsappHref = `https://wa.me/${WHATSAPP}?text=${whatsappMsg}`;
 
   return (
@@ -65,105 +71,73 @@ export default function WorkspaceProductDetailPage() {
         </button>
 
         <div className="wpdp-grid">
-          {/* Image Panel */}
-          <motion.div
-            className="wpdp-image-panel"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="tech-detail-image">
-              <img src={mainImage} alt={product.name} />
-            </div>
+          <motion.div className="wpdp-image-panel" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+            <div className="tech-detail-image"><img src={mainImage} alt={product.name} /></div>
             <div className="wpdp-category-pill">
-              {typeof product.category === 'object' ? (product.category?.name || 'Workspace') : product.category}
+              {typeof product.category === 'object' ? product.category?.name : product.category}
             </div>
           </motion.div>
 
-          {/* Info Panel */}
-          <motion.div
-            className="wpdp-info-panel"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
+          <motion.div className="wpdp-info-panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <p className="wpdp-brand">{product.brand}</p>
             <h1 className="wpdp-name">{product.name}</h1>
-            <p className="wpdp-price">GH₵{product.price.toLocaleString()}</p>
-
+            <p className="wpdp-price">GH₵{product.price?.toLocaleString()}</p>
             <p className="wpdp-description">{product.description}</p>
 
-            {/* Specs Table */}
             <div className="wpdp-specs-block">
               <h2 className="wpdp-specs-title">Technical Specifications</h2>
               <div className="wpdp-specs-table">
                 {(() => {
-                  const rawSpecs = product.specs || {};
-                  // If specs contains a nested specs object, use that (fixes data structure bugs)
-                  const displaySpecs = rawSpecs.specs && typeof rawSpecs.specs === 'object' ? rawSpecs.specs : rawSpecs;
+                  const raw = product.specs || {};
                   
-                  return Object.entries(displaySpecs)
-                    .filter(([key]) => !['brand', 'store_slug', 'id', 'created_at'].includes(key))
-                    .map(([key, value]) => (
-                      <div key={key} className="wpdp-spec-row">
-                        <div className="wpdp-spec-label">
-                          {SPEC_ICONS[key]}
-                          <span>{SPEC_LABELS[key] || key}</span>
-                        </div>
-                        <div className="wpdp-spec-value">
-                          {typeof value === 'object' ? JSON.stringify(value) : value}
-                        </div>
+                  // DETECT NESTED DATA ISSUES:
+                  // Some products have a nested 'specs' object with incorrect placeholder data (e.g. M4 Max on a Dell).
+                  // We prioritize the top-level keys (processor, memory, storage, display) over the nested ones.
+                  const displaySpecs = {
+                    // Start with nested specs if they exist (lowest priority)
+                    ...(raw.specs && typeof raw.specs === 'object' ? raw.specs : {}),
+                    // Overwrite with top-level keys (highest priority)
+                    ...raw
+                  };
+
+                  // Filter out metadata and the nested object itself
+                  const filteredEntries = Object.entries(displaySpecs)
+                    .filter(([key, val]) => 
+                      !['specs', 'brand', 'store_slug', 'id', 'created_at'].includes(key) && 
+                      val !== null && val !== ''
+                    );
+
+                  // Deduplicate by Label (e.g., if both 'cpu' and 'processor' exist, only show one)
+                  const uniqueSpecs = {};
+                  filteredEntries.forEach(([key, val]) => {
+                    const label = SPEC_LABELS[key] || key;
+                    // We prioritize the new labels (processor/memory) over the old ones (cpu/ram) if both are present
+                    if (!uniqueSpecs[label] || ['processor', 'memory', 'storage', 'display'].includes(key)) {
+                      uniqueSpecs[label] = { key, val };
+                    }
+                  });
+
+                  return Object.entries(uniqueSpecs).map(([label, { key, val }]) => (
+                    <div key={label} className="wpdp-spec-row">
+                      <div className="wpdp-spec-label">
+                        {SPEC_ICONS[key] || <FiCpu />}
+                        <span>{label}</span>
                       </div>
-                    ));
+                      <div className="wpdp-spec-value">
+                        {typeof val === 'object' ? JSON.stringify(val) : val}
+                      </div>
+                    </div>
+                  ));
                 })()}
               </div>
             </div>
 
-            {/* CTAs */}
             <div className="wpdp-actions">
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="wpdp-whatsapp-btn"
-              >
-                <FiMessageSquare />
-                Order via WhatsApp
-              </a>
-              <button
-                className="wpdp-cart-btn"
-                onClick={() => addToTechCart(product)}
-              >
-                Add to Workspace Bag
-              </button>
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="wpdp-whatsapp-btn"><FiMessageSquare /> Order via WhatsApp</a>
+              <button className="wpdp-cart-btn" onClick={() => addToTechCart(product)}>Add to Workspace Bag</button>
             </div>
           </motion.div>
         </div>
-
-        {/* Related Products */}
-        {related && related.length > 0 && (
-          <section className="wpdp-related">
-            <h2 className="wpdp-related-title">More in <span>{typeof product.category === 'object' ? (product.category?.name || 'Collection') : product.category}</span></h2>
-            <div className="wpdp-related-grid">
-              {related.map(p => (
-                <Link key={p.id} to={`/workspace/products/${p.id}`} className="wpdp-related-card">
-                  <div className="related-product-image">
-                    <img 
-                      src={p.image_url || p.images?.primary || 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'} 
-                      alt={p.name} 
-                      onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
-                    />
-                  </div>
-                  <div className="wpdp-related-info">
-                    <p className="wpdp-related-brand">{p.brand}</p>
-                    <p className="wpdp-related-name">{p.name}</p>
-                    <p className="wpdp-related-price">GH₵{p.price.toLocaleString()}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );
