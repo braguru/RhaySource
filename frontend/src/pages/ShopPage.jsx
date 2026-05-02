@@ -1,18 +1,51 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSliders, FiX } from 'react-icons/fi';
+import { FiSliders, FiX, FiSearch, FiChevronDown } from 'react-icons/fi';
 import ProductCard from '../components/features/ProductCard';
 import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
 import { useProducts } from '../hooks/useProducts';
 import './ShopPage.css';
 
-const CATEGORIES = ['All', 'Serums', 'Moisturizers', 'Cleansers', 'Eye Care', 'Toners', 'Masks', 'Sunscreen', 'Body Care', 'Sets'];
-const SKIN_TYPES = ['All', 'Dry', 'Oily', 'Sensitive', 'Normal', 'Combination'];
+const FilterGroup = ({ title, children, defaultOpen = true }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  return (
+    <div className="filter-group">
+      <button 
+        className="filter-group-header" 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="filter-label">{title}</h3>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <FiChevronDown />
+        </motion.div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="filter-group-content"
+          >
+            <div className="filter-options">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   
   // Scroll Lock Logic
   useEffect(() => {
@@ -32,8 +65,30 @@ export default function ShopPage() {
   
   const activeCategory = searchParams.get('category') || 'All';
   const activeConcern = searchParams.get('concern') || 'All';
+  const activeBrand = searchParams.get('brand') || 'All';
 
   const { products, loading } = useProducts('skincare');
+
+  // Dynamic Metadata Discovery
+  const CATEGORIES = useMemo(() => {
+    const c = new Set(products.map(p => p.category).filter(cat => cat && cat !== 'All'));
+    return ['All', ...Array.from(c).sort()];
+  }, [products]);
+
+  const BRANDS = useMemo(() => {
+    const b = new Set(products.map(p => p.brand).filter(brand => brand && brand !== 'All'));
+    return ['All', ...Array.from(b).sort()];
+  }, [products]);
+
+  const SKIN_TYPES = useMemo(() => {
+    const types = new Set();
+    products.forEach(p => {
+      p.specs?.skinType?.forEach(t => {
+        if (t && t !== 'All') types.add(t);
+      });
+    });
+    return ['All', ...Array.from(types).sort()];
+  }, [products]);
 
   const categoryCounts = useMemo(() => {
     const counts = { All: products.length };
@@ -42,7 +97,16 @@ export default function ShopPage() {
       counts[cat] = products.filter(p => p.category === cat).length;
     });
     return counts;
-  }, [products]);
+  }, [products, CATEGORIES]);
+
+  const brandCounts = useMemo(() => {
+    const counts = { All: products.length };
+    BRANDS.forEach(brand => {
+      if (brand === 'All') return;
+      counts[brand] = products.filter(p => p.brand === brand).length;
+    });
+    return counts;
+  }, [products, BRANDS]);
 
   const skinTypeCounts = useMemo(() => {
     const counts = { All: products.length };
@@ -51,22 +115,26 @@ export default function ShopPage() {
       counts[type] = products.filter(p => p.specs?.skinType?.includes(type)).length;
     });
     return counts;
-  }, [products]);
+  }, [products, SKIN_TYPES]);
 
   const filtered = useMemo(() => {
     return products.filter(p => {
       const categoryMatch = activeCategory === 'All' || p.category === activeCategory;
       const concernMatch = activeConcern === 'All' || p.specs?.skinType?.includes(activeConcern);
-      return categoryMatch && concernMatch;
-    });
-  }, [products, activeCategory, activeConcern]);
+      const brandMatch = activeBrand === 'All' || p.brand === activeBrand;
+      const searchMatch = !searchQuery || 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.brand?.toLowerCase().includes(searchQuery.toLowerCase());
 
-  // Best Sellers: ALL featured items matching current filters
+      return categoryMatch && concernMatch && brandMatch && searchMatch;
+    });
+  }, [products, activeCategory, activeConcern, activeBrand, searchQuery]);
+
+  // Best Sellers
   const bestSellers = useMemo(() => {
     return filtered.filter(p => p.is_featured);
   }, [filtered]);
 
-  // Main grid: filtered products MINUS any already shown in Best Sellers
   const bestSellerIds = useMemo(() => new Set(bestSellers.map(p => p.id)), [bestSellers]);
   const mainProducts = useMemo(() => filtered.filter(p => !bestSellerIds.has(p.id)), [filtered, bestSellerIds]);
 
@@ -81,39 +149,48 @@ export default function ShopPage() {
   }
 
   const FilterContent = () => (
-    <>
-      <div className="filter-group">
-        <h3 className="filter-label">Category</h3>
-        <div className="filter-options">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat}
-              className={`filter-link ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setFilter('category', cat)}
-            >
-              <span className="filter-text">{cat}</span>
-              <span className="filter-count">({categoryCounts[cat] || 0})</span>
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="filter-container">
+      <FilterGroup title="Category">
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat}
+            className={`filter-link ${activeCategory === cat ? 'active' : ''}`}
+            onClick={() => setFilter('category', cat)}
+          >
+            <span className="filter-text">{cat}</span>
+            <span className="filter-count">({categoryCounts[cat] || 0})</span>
+          </button>
+        ))}
+      </FilterGroup>
 
-      <div className="filter-group">
-        <h3 className="filter-label">Target Skin Type</h3>
-        <div className="filter-options">
-          {SKIN_TYPES.map(type => (
+      <FilterGroup title="Shop by Brand" defaultOpen={false}>
+        <div className="scrollable-filters">
+          {BRANDS.map(brand => (
             <button
-              key={type}
-              className={`filter-link ${activeConcern === type ? 'active' : ''}`}
-              onClick={() => setFilter('concern', type)}
+              key={brand}
+              className={`filter-link ${activeBrand === brand ? 'active' : ''}`}
+              onClick={() => setFilter('brand', brand)}
             >
-              <span className="filter-text">{type}</span>
-              <span className="filter-count">({skinTypeCounts[type] || 0})</span>
+              <span className="filter-text">{brand}</span>
+              <span className="filter-count">({brandCounts[brand] || 0})</span>
             </button>
           ))}
         </div>
-      </div>
-    </>
+      </FilterGroup>
+
+      <FilterGroup title="Target Skin Type">
+        {SKIN_TYPES.map(type => (
+          <button
+            key={type}
+            className={`filter-link ${activeConcern === type ? 'active' : ''}`}
+            onClick={() => setFilter('concern', type)}
+          >
+            <span className="filter-text">{type}</span>
+            <span className="filter-count">({skinTypeCounts[type] || 0})</span>
+          </button>
+        ))}
+      </FilterGroup>
+    </div>
   );
 
   return (
@@ -130,6 +207,18 @@ export default function ShopPage() {
       <div className="container shop-body">
         {/* Desktop Sidebar */}
         <aside className="shop-filters desktop-only">
+          <div className="search-container">
+            <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                className="shop-search-input"
+                placeholder="Search products or brands..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
           <FilterContent />
         </aside>
 
@@ -159,6 +248,19 @@ export default function ShopPage() {
                 </div>
                 
                 <div className="drawer-body">
+                  <div className="search-container" style={{ marginBottom: '2rem' }}>
+                    <div className="search-input-wrapper">
+                      <FiSearch className="search-icon" />
+                      <input
+                        type="text"
+                        className="shop-search-input"
+                        placeholder="Search products..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{ background: '#f8f8f8' }}
+                      />
+                    </div>
+                  </div>
                   <FilterContent />
                 </div>
 
