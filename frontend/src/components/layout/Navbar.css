@@ -574,7 +574,7 @@
   gap: 1rem;
   background: #f9fafb;
   padding: 0.75rem 1.25rem;
-  border-radius: 50px;
+  border-radius: 0;
   border: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -606,7 +606,7 @@
 .search-close:hover {
   color: var(--color-blue);
   background: rgba(1, 53, 151, 0.05);
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 /* ── Search Results ─────────────────────────────────── */
@@ -616,7 +616,7 @@
   left: 2rem;
   right: 2rem;
   background: #ffffff; /* Use solid white for search results dropdown */
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1.5rem;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -641,7 +641,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: var(--transition-fast);
 }
