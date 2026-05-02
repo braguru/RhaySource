@@ -83,9 +83,21 @@
   display: none;
 }
 
+.navbar-logo-mobile {
+  height: 35px;
+  width: auto;
+  display: none;
+}
+
+
+@media (max-width: 900px) {
+  .navbar-logo-full.desktop-only { display: none !important; }
+  .navbar-logo-mobile.mobile-only { display: block !important; }
+  .navbar-logo-icon.desktop-only { display: none !important; }
+}
+
 @media (max-width: 480px) {
-  .navbar-logo-full { display: none; }
-  .navbar-logo-icon { display: block; }
+  .navbar-logo-mobile { height: 30px; }
 }
 
 
@@ -745,7 +757,6 @@
 }
 
 .logo-tech {
-  filter: grayscale(1) brightness(2) contrast(1.2);
   transition: filter 0.3s ease;
 }
 

@@ -99,24 +99,56 @@ export default function StudioCategoriesPage() {
     e.preventDefault();
     setSaving(true);
 
-    const payload = { ...formData };
-    
-    const { error } = selectedCategory
-      ? await supabase.from('categories').update(payload).eq('id', selectedCategory.id)
-      : await supabase.from('categories').insert([payload]);
+    const payload = {
+      name: formData.name.trim(),
+      description: formData.description.trim(),
+      icon: formData.icon,
+      store_id: formData.store_id && formData.store_id !== '' ? formData.store_id : null
+    };
 
-    if (!error) {
-      await fetchCategories();
-      setIsDrawerOpen(false);
-      setToast({ 
-        isOpen: true, 
-        message: selectedCategory ? 'Taxonomy entry updated.' : 'New category established.', 
-        type: 'success' 
-      });
-    } else {
-      setToast({ isOpen: true, message: 'Database Error: ' + error.message, type: 'error' });
+    if (!payload.store_id) {
+      setToast({ isOpen: true, message: 'Taxonomy Error: Store assignment is mandatory.', type: 'error' });
+      setSaving(false);
+      return;
     }
-    setSaving(false);
+    
+    try {
+      const { data, error } = selectedCategory
+        ? await supabase.from('categories').update(payload).eq('id', selectedCategory.id).select()
+        : await supabase.from('categories').insert([payload]).select();
+
+      if (!error) {
+        // Cascade Update: If the name was changed, sync it to the denormalized 'category' column in products table
+        if (selectedCategory && selectedCategory.name !== payload.name) {
+          console.log(`Cascading name change from "${selectedCategory.name}" to "${payload.name}" for all linked products...`);
+          const { error: cascadeError } = await supabase
+            .from('products')
+            .update({ category: payload.name })
+            .eq('category_id', selectedCategory.id);
+            
+          if (cascadeError) {
+            console.error('Cascade Update Error:', cascadeError);
+            // We don't block the UI here, but we log it. The main category update succeeded.
+          }
+        }
+
+        await fetchCategories();
+        setIsDrawerOpen(false);
+        setToast({ 
+          isOpen: true, 
+          message: selectedCategory ? 'Taxonomy entry updated.' : 'New category established.', 
+          type: 'success' 
+        });
+      } else {
+        console.error('Category Save Error:', error);
+        setToast({ isOpen: true, message: 'Database Error: ' + error.message, type: 'error' });
+      }
+    } catch (err) {
+      console.error('Category Submit Exception:', err);
+      setToast({ isOpen: true, message: 'Critical Exception: ' + err.message, type: 'error' });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = (category) => {

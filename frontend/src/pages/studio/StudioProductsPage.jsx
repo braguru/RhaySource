@@ -38,24 +38,34 @@ export default function StudioProductsPage() {
     fetchInitialData();
   }, []);
 
-  async function fetchInitialData() {
+  async function fetchInitialData({ refreshAll = true } = {}) {
     setLoading(true);
-    
-    // Fetch products, stores, and categories in parallel
-    const [
-      { data: productsData, error: productsError },
-      { data: storesData, error: storesError },
-      { data: categoriesData, error: categoriesError }
-    ] = await Promise.all([
+
+    // On subsequent saves, stores and categories don't change — only re-fetch
+    // them on the initial page load to avoid 3 concurrent connections every time
+    // a product is saved.
+    const queries = [
       supabase.from('products').select('*, stores(name, accent_color), categories(name)').order('created_at', { ascending: false }),
-      supabase.from('stores').select('*').order('name', { ascending: true }),
-      supabase.from('categories').select('*').order('name', { ascending: true })
-    ]);
+      ...(refreshAll ? [
+        supabase.from('stores').select('*').order('name', { ascending: true }),
+        supabase.from('categories').select('*').order('name', { ascending: true }),
+      ] : []),
+    ];
+
+    const results = await Promise.all(queries);
+    const [{ data: productsData, error: productsError }] = results;
+    const storesError = refreshAll ? results[1]?.error : null;
+    const categoriesError = refreshAll ? results[2]?.error : null;
 
     if (!productsError) setProducts(productsData || []);
-    if (!storesError) setStores(storesData || []);
-    if (!categoriesError) setCategories(categoriesData || []);
-    
+    if (refreshAll && !storesError) setStores(results[1]?.data || []);
+    if (refreshAll && !categoriesError) setCategories(results[2]?.data || []);
+
+    const firstError = productsError || storesError || categoriesError;
+    if (firstError) {
+      setToast({ isOpen: true, message: 'Failed to load catalog data. Check your connection and refresh the page.', type: 'error' });
+    }
+
     setLoading(false);
   }
 
@@ -82,8 +92,18 @@ export default function StudioProductsPage() {
     setIsDrawerOpen(true);
   };
 
-  const handleSave = () => {
-    fetchInitialData();
+  const handleSave = (savedProduct) => {
+    fetchInitialData({ refreshAll: false });
+    if (savedProduct) {
+      setToast({ isOpen: true, message: `"${savedProduct.name}" has been saved to the catalog.`, type: 'success' });
+    } else {
+      // Supabase INSERT succeeded but SELECT was blocked (RLS) — product is saved, list is refreshing
+      setToast({ isOpen: true, message: 'Product saved. The catalog is refreshing...', type: 'success' });
+    }
+  };
+
+  const handleSaveError = (message) => {
+    setToast({ isOpen: true, message, type: 'error' });
   };
 
   const handleDelete = (product) => {
@@ -237,11 +257,19 @@ export default function StudioProductsPage() {
                           background: '#f8f8f8',
                           border: '1px solid var(--studio-border)'
                         }}>
-                          <img 
-                            src={product.image_url || 'https://via.placeholder.com/56'} 
-                            alt={product.name} 
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
+                          {product.image_url ? (
+                            <img
+                              src={product.image_url}
+                              alt={product.name}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                              </svg>
+                            </div>
+                          )}
                         </div>
                         <div>
                           <div style={{ color: 'var(--studio-text)', fontWeight: '600', fontSize: '0.9rem' }}>{product.name}</div>
@@ -324,11 +352,14 @@ export default function StudioProductsPage() {
       </div>
 
       <ProductFormDrawer 
+        key={selectedProduct?.id || 'new-product-entry'}
         isOpen={isDrawerOpen} 
         onClose={() => setIsDrawerOpen(false)}
         product={selectedProduct}
         stores={stores}
+        categories={categories}
         onSave={handleSave}
+        onError={handleSaveError}
       />
 
       <StudioConfirmModal 

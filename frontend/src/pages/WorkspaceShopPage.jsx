@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch } from 'react-icons/fi';
-import ProductCard from '../components/features/ProductCard';
+import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch, FiZap, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { SiApple, SiDell, SiLenovo, SiHp, SiRazer, SiAsus, SiIntel, SiAmd } from 'react-icons/si';
+import TechCard from '../components/features/TechCard';
 import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
 import { useProducts } from '../hooks/useProducts';
 import { useTechCart } from '../context/TechCartContext';
+import { supabase } from '../lib/supabase';
 import './ShopPage.css';
 import './WorkspacePage.css';
 import './WorkspaceShopPage.css';
@@ -17,6 +19,24 @@ export default function WorkspaceShopPage() {
   
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { products, store, loading } = useProducts('workspace');
+  const [allStoreCategories, setAllStoreCategories] = useState([]);
+  const [isBrandNavCollapsed, setIsBrandNavCollapsed] = useState(window.innerWidth < 768);
+
+  // Fetch all taxonomy entries for placeholders
+  useEffect(() => {
+    async function fetchAllCategories() {
+      if (!store?.id) return;
+      const { data, error } = await supabase
+        .from('categories')
+        .select('name')
+        .eq('store_id', store.id)
+        .order('name');
+      if (!error && data) {
+        setAllStoreCategories(data.map(c => c.name));
+      }
+    }
+    fetchAllCategories();
+  }, [store?.id]);
 
   // Maintenance Mode Protection
   const isMaintenance = store && store.is_active === false;
@@ -40,8 +60,11 @@ export default function WorkspaceShopPage() {
   // Robust category and brand extraction (handles strings and objects)
   const categories = useMemo(() => {
     const raw = products.map(p => typeof p.category === 'object' ? p.category?.name : p.category);
-    return ['All', ...new Set(raw.filter(Boolean))];
-  }, [products]);
+    const combined = [...new Set([...raw.filter(Boolean), ...allStoreCategories])];
+    
+    // Sort alphabetically but keep 'All' at top
+    return ['All', ...combined.sort((a, b) => a.localeCompare(b))];
+  }, [products, allStoreCategories]);
 
   const brands = useMemo(() => {
     const raw = products.map(p => p.brand);
@@ -162,9 +185,13 @@ export default function WorkspaceShopPage() {
             transition={{ duration: 0.8 }}
           >
             <p className="workspace-eyebrow">Professional Ecosystem</p>
-            <h1 className="workspace-title">The Master <span>Collection</span></h1>
+            <h1 className="workspace-title">
+              {activeBrand !== 'All' ? activeBrand : 'The Master'} <span>{activeCategory !== 'All' ? activeCategory : 'Collection'}</span>
+            </h1>
             <p className="workspace-subtitle">
-              Curated precision hardware for the high-end professional.
+              {activeBrand !== 'All' || activeCategory !== 'All' 
+                ? `Exploring our premium range of ${activeBrand !== 'All' ? activeBrand : ''} ${activeCategory !== 'All' ? activeCategory.toLowerCase() : 'hardware'}.`
+                : 'Curated precision hardware for the high-end professional.'}
             </p>
           </motion.div>
         </div>
@@ -189,6 +216,67 @@ export default function WorkspaceShopPage() {
             </button>
           </div>
 
+          {/* Shop by Brand Quick Nav */}
+          <div className={`tech-brand-nav ${isBrandNavCollapsed ? 'collapsed' : ''}`}>
+            <div 
+              className="brand-nav-header" 
+              onClick={() => setIsBrandNavCollapsed(!isBrandNavCollapsed)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="brand-nav-header-text">
+                <h2 className="brand-nav-title">Shop by Brand</h2>
+                <p className="brand-nav-subtitle">Quick access to industry-leading manufacturers</p>
+              </div>
+              <div className="brand-nav-toggle mobile-only">
+                {isBrandNavCollapsed ? <FiChevronDown /> : <FiChevronUp />}
+              </div>
+            </div>
+
+            <AnimatePresence>
+              {!isBrandNavCollapsed && (
+                <motion.div 
+                  className="brand-nav-grid"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {[
+                    { name: 'Apple', icon: <SiApple /> },
+                    { name: 'Dell', icon: <SiDell /> },
+                    { name: 'Lenovo', icon: <SiLenovo /> },
+                    { name: 'HP', icon: <SiHp /> },
+                    { name: 'Razer', icon: <SiRazer /> },
+                    { name: 'ASUS', icon: <SiAsus /> },
+                    { name: 'Microsoft', icon: <FiMonitor /> },
+                    { name: 'Intel', icon: <SiIntel /> },
+                    { name: 'AMD', icon: <SiAmd /> }
+                  ].map(brand => {
+                    const count = brandCounts[brand.name] || 0;
+                    return (
+                      <button 
+                        key={brand.name} 
+                        className={`brand-nav-card ${activeBrand === brand.name ? 'active' : ''} ${count === 0 ? 'empty' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFilter('brand', activeBrand === brand.name ? 'All' : brand.name);
+                        }}
+                        disabled={loading}
+                      >
+                        <div className="brand-icon">{brand.icon}</div>
+                        <div className="brand-info">
+                          <span className="brand-name">{brand.name}</span>
+                          <span className="brand-count">{count} {count === 1 ? 'Model' : 'Models'}</span>
+                        </div>
+                        {activeBrand === brand.name && <div className="brand-active-dot" />}
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {/* Best Sellers Section */}
           {!loading && bestSellers.length > 0 && (
             <div className="shop-best-sellers tech-best-sellers">
@@ -200,7 +288,7 @@ export default function WorkspaceShopPage() {
               </div>
               <div className="best-sellers-grid">
                 {bestSellers.map(product => (
-                  <ProductCard key={product.id} product={product} />
+                  <TechCard key={product.id} product={product} />
                 ))}
               </div>
               <hr className="best-sellers-divider tech-divider" />
@@ -215,7 +303,7 @@ export default function WorkspaceShopPage() {
                 </div>
               ) : mainProducts.length > 0 ? (
                 mainProducts.map(product => (
-                  <ProductCard key={product.id} product={product} />
+                  <TechCard key={product.id} product={product} />
                 ))
               ) : bestSellers.length === 0 ? (
                 <motion.div 
