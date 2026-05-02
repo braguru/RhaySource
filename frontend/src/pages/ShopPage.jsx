@@ -208,12 +208,13 @@ export default function ShopPage() {
         {/* Desktop Sidebar */}
         <aside className="shop-filters desktop-only">
           <div className="search-container">
+            <h3 className="filter-label-search">Search Products</h3>
             <div className="search-input-wrapper">
               <FiSearch className="search-icon" />
               <input
                 type="text"
                 className="shop-search-input"
-                placeholder="Search products or brands..."
+                placeholder="Find your ritual..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
