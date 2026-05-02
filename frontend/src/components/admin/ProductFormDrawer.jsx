@@ -11,7 +11,7 @@ import { toSlug } from '../../utils/slug';
  * - Drag-and-drop image ingestion to Cloudinary
  * - Cascading Store -> Category synchronization
  */
-export default function ProductFormDrawer({ isOpen, onClose, product, stores, categories, onSave }) {
+export default function ProductFormDrawer({ isOpen, onClose, product, stores, categories, onSave, onError }) {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
@@ -102,7 +102,7 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
 
   const processFile = async (file) => {
     if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file.');
+      onError?.('Please upload a valid image file (JPG, PNG, WebP, etc.).');
       return;
     }
     try {
@@ -115,33 +115,39 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
       setPreviewUrl(dataUrl);
       setSelectedFile(file);
     } catch (e) {
-      alert('Error previewing image.');
+      onError?.('Could not preview the image. Please try a different file.');
     }
   };
 
   const uploadToCloudinary = async (file) => {
     try {
       setUploading(true);
-      const signResponse = await fetch('/api/images/sign', { method: 'POST' });
+      // Use query params so the server signs the exact same folder/upload_preset we will send
+      const signResponse = await fetch(
+        '/api/images/sign?folder=rhaysource/products&upload_preset=rhaysource_products',
+        { method: 'POST' }
+      );
       
       if (!signResponse.ok) {
         const errText = await signResponse.text();
         throw new Error(`Failed to get upload signature: ${errText}`);
       }
 
-      const { signature, timestamp, cloud_name, api_key } = await signResponse.json();
+      const { signature, timestamp, cloud_name, api_key, folder, upload_preset } = await signResponse.json();
       
       if (!signature || !cloud_name || !api_key) {
         throw new Error('Incomplete signature data received from server.');
       }
 
+      // Use the folder and upload_preset echoed back by the signing endpoint
+      // so the payload exactly matches the signed string.
       const uploadPayload = new FormData();
       uploadPayload.append('file', file);
       uploadPayload.append('signature', signature);
       uploadPayload.append('timestamp', timestamp);
       uploadPayload.append('api_key', api_key);
-      uploadPayload.append('upload_preset', 'rhaysource_products');
-      uploadPayload.append('folder', 'rhaysource/products');
+      uploadPayload.append('upload_preset', upload_preset || 'rhaysource_products');
+      uploadPayload.append('folder', folder || 'rhaysource/products');
 
       const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, { 
         method: 'POST', 
@@ -166,15 +172,27 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // 1. Pre-submission Validation
     if (!formData.name.trim() || !formData.store_id || !formData.brand.trim()) {
-      alert('Please fill in all required fields (Name, Brand, Store).');
+      onError?.('Please fill in all required fields: Name, Brand, and Store.');
       return;
     }
 
     setLoading(true);
     console.log('Starting form submission...', { name: formData.name, mode: product ? 'update' : 'create' });
+
+    // Emergency UI recovery — setTimeout callbacks run in the event loop's task
+    // queue and will fire even if the async function below is permanently stuck
+    // on a hung await. This guarantees the form unfreezes after 15 seconds.
+    let submissionDone = false;
+    const emergencyTimer = setTimeout(() => {
+      if (!submissionDone) {
+        console.warn('Submission timed out — forcing UI recovery.');
+        setLoading(false);
+        onError?.('Could not save product: The request timed out. Supabase did not respond. Please try again.');
+      }
+    }, 15000);
 
     try {
       // 2. Image Handling
@@ -182,16 +200,19 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
       if (selectedFile) {
         console.log('Uploading image to Cloudinary...');
         finalImageUrl = await uploadToCloudinary(selectedFile);
+        // Persist URL immediately so retries don't re-upload if Supabase fails
+        setFormData(prev => ({ ...prev, image_url: finalImageUrl }));
+        setSelectedFile(null);
       }
 
       // 3. Payload Construction
       const parsedPrice = parseFloat(formData.price);
       const safeCategories = Array.isArray(categories) ? categories : [];
       const safeStores = Array.isArray(stores) ? stores : [];
-      
+
       const selectedCategory = safeCategories.find(c => c.id === formData.category_id);
       const selectedStore = safeStores.find(s => s.id === formData.store_id);
-      
+
       const payload = {
         name: formData.name.trim(),
         slug: formData.slug.trim() || toSlug(formData.name),
@@ -212,11 +233,26 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
       console.log('Submitting payload to Supabase:', payload);
 
       // 4. Database Operation
+      // AbortController attempts proper network-level cancellation at 12s
+      // (3s before the emergency timer) so PostgreSQL can also cancel the query.
+      const controller = new AbortController();
+      const abortTimer = setTimeout(() => {
+        console.warn('AbortController: cancelling hung Supabase request.');
+        controller.abort();
+      }, 12000);
+
       let result;
-      if (product) {
-        result = await supabase.from('products').update(payload).eq('id', product.id).select();
-      } else {
-        result = await supabase.from('products').insert([payload]).select();
+      try {
+        if (product) {
+          result = await supabase.from('products').update(payload).eq('id', product.id).select().abortSignal(controller.signal);
+        } else {
+          result = await supabase.from('products').insert([payload]).select().abortSignal(controller.signal);
+        }
+      } catch (innerErr) {
+        if (innerErr.name === 'AbortError') throw new Error('__timeout__');
+        throw innerErr;
+      } finally {
+        clearTimeout(abortTimer);
       }
 
       const { data, error } = result;
@@ -228,6 +264,7 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
 
       if (!data || data.length === 0) {
         console.warn('Database operation succeeded but no data was returned.');
+        onSave(null);
         onClose();
         return;
       }
@@ -237,8 +274,25 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
       onClose();
     } catch (err) {
       console.error('Submission Failure:', err);
-      alert('Error saving product: ' + (err.message || 'Unknown error occurred. Check console for details.'));
+      const msg = err.message || '';
+      let userMessage;
+      if (msg === '__timeout__' || msg.includes('timed out')) {
+        userMessage = 'The request timed out — Supabase did not respond. Please try again.';
+      } else if (msg.includes('row-level security') || msg.includes('violates row')) {
+        userMessage = 'Permission denied. Your account may not have write access to this catalog.';
+      } else if (msg.includes('JWT') || msg.includes('not authenticated') || msg.includes('invalid token')) {
+        userMessage = 'Your session has expired. Please sign out and sign back in.';
+      } else if (msg.includes('duplicate key') || msg.includes('unique')) {
+        userMessage = 'A product with this slug already exists. Please use a different name.';
+      } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+        userMessage = 'Network error. Check your connection and try again.';
+      } else {
+        userMessage = msg || 'An unexpected error occurred. Check the console for details.';
+      }
+      onError?.('Could not save product: ' + userMessage);
     } finally {
+      submissionDone = true;
+      clearTimeout(emergencyTimer);
       setLoading(false);
     }
   };
@@ -251,14 +305,15 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
       background: '#ffffff', borderLeft: '1px solid var(--studio-border)', boxShadow: '-10px 0 30px rgba(0,0,0,0.02)',
       zIndex: 1000, display: 'flex', flexDirection: 'column', animation: 'slideIn 0.3s ease-out'
     }}>
-      <header style={{ padding: '2rem', borderBottom: '1px solid var(--studio-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header style={{ padding: '2rem', borderBottom: '1px solid var(--studio-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <h2 className="studio-title" style={{ fontSize: '1.25rem', margin: 0 }}>
           {product ? 'Modify Specification' : 'New Catalog Entry'}
         </h2>
-        <button onClick={onClose} className="studio-btn-icon"><FiX size={20} /></button>
+        <button type="button" onClick={onClose} className="studio-btn-icon"><FiX size={20} /></button>
       </header>
 
-      <form id="product-form" onSubmit={handleSubmit} style={{ display: 'contents' }}>
+      {/* form is a flex column so that flexGrow/shrink work correctly and the submit button stays in the form */}
+      <form id="product-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minHeight: 0 }}>
         <div style={{ padding: '2rem', flexGrow: 1, overflowY: 'auto' }}>
           {/* Image Area */}
           <div style={{ marginBottom: '2.5rem' }}>
@@ -302,20 +357,7 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
-             <div>
-              <label className="studio-subtitle" style={{ fontSize: '0.65rem' }}>Price (GH₵)</label>
-              <input required type="number" className="studio-input" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={{ marginTop: '0.5rem' }} />
-            </div>
-            <div>
-              <label className="studio-subtitle" style={{ fontSize: '0.65rem' }}>Category</label>
-              <select className="studio-select" required value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} style={{ marginTop: '0.5rem' }}>
-                <option value="">Select Category</option>
-                {availableCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
-            </div>
-          </div>
-
+          {/* Store must come before Category — it determines which categories are available */}
           <div style={{ marginBottom: '1.5rem' }}>
             <label className="studio-subtitle" style={{ fontSize: '0.65rem' }}>Store Assignment</label>
             <select 
@@ -333,6 +375,30 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
               <option value="">Select Store</option>
               {stores.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div>
+              <label className="studio-subtitle" style={{ fontSize: '0.65rem' }}>Price (GH₵)</label>
+              <input required type="number" className="studio-input" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} style={{ marginTop: '0.5rem' }} />
+            </div>
+            <div>
+              <label className="studio-subtitle" style={{ fontSize: '0.65rem' }}>
+                Category
+                {!formData.store_id && <span style={{ marginLeft: '0.5rem', color: 'var(--studio-text-muted)', fontWeight: 400, fontSize: '0.6rem' }}>— select a store first</span>}
+              </label>
+              <select
+                className="studio-select"
+                required
+                value={formData.category_id}
+                onChange={e => setFormData({...formData, category_id: e.target.value})}
+                disabled={!formData.store_id}
+                style={{ marginTop: '0.5rem', opacity: formData.store_id ? 1 : 0.5 }}
+              >
+                <option value="">{formData.store_id ? 'Select Category' : 'Select a store first'}</option>
+                {availableCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
@@ -371,9 +437,9 @@ export default function ProductFormDrawer({ isOpen, onClose, product, stores, ca
           </div>
         </div>
 
-        <footer style={{ padding: '2rem', borderTop: '1px solid var(--studio-border)', display: 'flex', gap: '1rem' }}>
-          <button type="submit" className="studio-btn-primary" style={{ flexGrow: 1 }} disabled={loading || uploading}>
-            {loading ? 'Processing...' : 'Authorize Entry'}
+        <footer style={{ padding: '2rem', borderTop: '1px solid var(--studio-border)', display: 'flex', gap: '1rem', flexShrink: 0 }}>
+          <button type="submit" form="product-form" className="studio-btn-primary" style={{ flexGrow: 1 }} disabled={loading || uploading}>
+            {loading ? 'Processing...' : uploading ? 'Uploading Image...' : 'Authorize Entry'}
           </button>
           <button type="button" onClick={onClose} className="studio-btn-icon" style={{ border: '1px solid var(--studio-border)', padding: '0 1.5rem', borderRadius: '6px' }}>Cancel</button>
         </footer>

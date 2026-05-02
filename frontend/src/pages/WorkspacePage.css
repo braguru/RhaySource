@@ -155,6 +155,10 @@
   margin-bottom: 4rem;
 }
 
+.tech-filter-group:first-child {
+  margin-top: 3rem;
+}
+
 .tech-filter-label {
   font-family: var(--ws-font-head);
   font-size: 0.7rem;

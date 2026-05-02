@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch, FiZap } from 'react-icons/fi';
+import { FiCpu, FiHardDrive, FiMonitor, FiCpu as FiRam, FiSliders, FiX, FiSearch, FiZap, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { SiApple, SiDell, SiLenovo, SiHp, SiRazer, SiAsus, SiIntel, SiAmd } from 'react-icons/si';
 import TechCard from '../components/features/TechCard';
 import ProductCardSkeleton from '../components/features/skeletons/ProductCardSkeleton';
@@ -20,6 +20,7 @@ export default function WorkspaceShopPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { products, store, loading } = useProducts('workspace');
   const [allStoreCategories, setAllStoreCategories] = useState([]);
+  const [isBrandNavCollapsed, setIsBrandNavCollapsed] = useState(window.innerWidth < 768);
 
   // Fetch all taxonomy entries for placeholders
   useEffect(() => {
@@ -216,41 +217,64 @@ export default function WorkspaceShopPage() {
           </div>
 
           {/* Shop by Brand Quick Nav */}
-          <div className="tech-brand-nav">
-            <div className="brand-nav-header">
-              <h2 className="brand-nav-title">Shop by Brand</h2>
-              <p className="brand-nav-subtitle">Quick access to industry-leading manufacturers</p>
+          <div className={`tech-brand-nav ${isBrandNavCollapsed ? 'collapsed' : ''}`}>
+            <div 
+              className="brand-nav-header" 
+              onClick={() => setIsBrandNavCollapsed(!isBrandNavCollapsed)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="brand-nav-header-text">
+                <h2 className="brand-nav-title">Shop by Brand</h2>
+                <p className="brand-nav-subtitle">Quick access to industry-leading manufacturers</p>
+              </div>
+              <div className="brand-nav-toggle mobile-only">
+                {isBrandNavCollapsed ? <FiChevronDown /> : <FiChevronUp />}
+              </div>
             </div>
-            <div className="brand-nav-grid">
-              {[
-                { name: 'Apple', icon: <SiApple /> },
-                { name: 'Dell', icon: <SiDell /> },
-                { name: 'Lenovo', icon: <SiLenovo /> },
-                { name: 'HP', icon: <SiHp /> },
-                { name: 'Razer', icon: <SiRazer /> },
-                { name: 'ASUS', icon: <SiAsus /> },
-                { name: 'Microsoft', icon: <FiMonitor /> },
-                { name: 'Intel', icon: <SiIntel /> },
-                { name: 'AMD', icon: <SiAmd /> }
-              ].map(brand => {
-                const count = brandCounts[brand.name] || 0;
-                return (
-                  <button 
-                    key={brand.name} 
-                    className={`brand-nav-card ${activeBrand === brand.name ? 'active' : ''} ${count === 0 ? 'empty' : ''}`}
-                    onClick={() => setFilter('brand', activeBrand === brand.name ? 'All' : brand.name)}
-                    disabled={loading}
-                  >
-                    <div className="brand-icon">{brand.icon}</div>
-                    <div className="brand-info">
-                      <span className="brand-name">{brand.name}</span>
-                      <span className="brand-count">{count} {count === 1 ? 'Model' : 'Models'}</span>
-                    </div>
-                    {activeBrand === brand.name && <div className="brand-active-dot" />}
-                  </button>
-                );
-              })}
-            </div>
+
+            <AnimatePresence>
+              {!isBrandNavCollapsed && (
+                <motion.div 
+                  className="brand-nav-grid"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {[
+                    { name: 'Apple', icon: <SiApple /> },
+                    { name: 'Dell', icon: <SiDell /> },
+                    { name: 'Lenovo', icon: <SiLenovo /> },
+                    { name: 'HP', icon: <SiHp /> },
+                    { name: 'Razer', icon: <SiRazer /> },
+                    { name: 'ASUS', icon: <SiAsus /> },
+                    { name: 'Microsoft', icon: <FiMonitor /> },
+                    { name: 'Intel', icon: <SiIntel /> },
+                    { name: 'AMD', icon: <SiAmd /> }
+                  ].map(brand => {
+                    const count = brandCounts[brand.name] || 0;
+                    return (
+                      <button 
+                        key={brand.name} 
+                        className={`brand-nav-card ${activeBrand === brand.name ? 'active' : ''} ${count === 0 ? 'empty' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFilter('brand', activeBrand === brand.name ? 'All' : brand.name);
+                        }}
+                        disabled={loading}
+                      >
+                        <div className="brand-icon">{brand.icon}</div>
+                        <div className="brand-info">
+                          <span className="brand-name">{brand.name}</span>
+                          <span className="brand-count">{count} {count === 1 ? 'Model' : 'Models'}</span>
+                        </div>
+                        {activeBrand === brand.name && <div className="brand-active-dot" />}
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Best Sellers Section */}

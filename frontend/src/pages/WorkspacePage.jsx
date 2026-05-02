@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiArrowRight, FiArrowLeft, FiCpu, FiHardDrive, FiMonitor, FiShield } from 'react-icons/fi';
+import { FiArrowRight, FiArrowLeft, FiCpu, FiHardDrive, FiMonitor, FiShield, FiPlus } from 'react-icons/fi';
 import { useProducts } from '../hooks/useProducts';
+import { useTechCart } from '../context/TechCartContext';
 import './WorkspacePage.css';
 import './WorkspaceHome.css';
 
@@ -14,12 +15,7 @@ const CARD_PALETTES = [
   { bg: '#fff1f2', accent: '#f43f5e' },
 ];
 
-const FALLBACK_ITEMS = [
-  { id: 'f1', name: 'ProStation Air', brand: 'RhaySource', price: 4500, image_url: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=600' },
-  { id: 'f2', name: 'UltraBook Pro', brand: 'RhaySource', price: 6200, image_url: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=600' },
-  { id: 'f3', name: 'Workstation X', brand: 'RhaySource', price: 8900, image_url: 'https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&q=80&w=600' },
-  { id: 'f4', name: 'PixelBook Ultra', brand: 'RhaySource', price: 5800, image_url: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600' },
-];
+
 
 const BACKDROP_IMAGE = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1400';
 
@@ -28,6 +24,7 @@ const CARD_WIDTH = 340;
 export default function WorkspacePage() {
   const navigate = useNavigate();
   const { products: liveProducts, store } = useProducts('workspace');
+  const { addToTechCart } = useTechCart();
   const isMaintenance = store && store.is_active === false;
   const displayProducts = liveProducts || [];
   // Ensure we show at least 8 products, prioritizing best sellers/featured
@@ -81,7 +78,7 @@ export default function WorkspacePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const AUTO_PLAY_INTERVAL = 6000; // 6 seconds
 
-  const carouselItems = bestSellers.length > 0 ? bestSellers : FALLBACK_ITEMS;
+  const carouselItems = bestSellers;
 
   const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % carouselItems.length);
@@ -399,11 +396,22 @@ export default function WorkspacePage() {
                       }}
                     >
                       <img
-                        src={product.image_url || product.images?.primary || FALLBACK_ITEMS[0].image_url}
+                        src={product.image_url || product.images?.primary || 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'}
                         alt={product.name}
                         className="ws-editorial-image"
-                        onError={(e) => { e.target.src = FALLBACK_ITEMS[0].image_url; }}
+                        onError={(e) => { e.target.src = 'https://res.cloudinary.com/duhvgnorw/image/upload/v1776510657/rhaysource/placeholders/product-placeholder.jpg'; }}
                       />
+                      {isActive && (
+                        <button 
+                          className="ws-quick-add-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToTechCart(product);
+                          }}
+                        >
+                          <FiPlus />
+                        </button>
+                      )}
                     </motion.div>
                   );
                 })}

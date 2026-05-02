@@ -260,18 +260,18 @@
 
 .hl-featured-image {
   position: relative;
-  background: #f7f5f2;
+  background: transparent;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 0;
 }
 
 .hl-featured-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -489,7 +489,7 @@
   inset: 0;
   border-radius: 20px;
   overflow: hidden;
-  background: #f3f0eb;
+  background: transparent;
   cursor: grab;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
   will-change: transform;

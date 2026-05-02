@@ -11,6 +11,7 @@ export const useProductStore = create((set, get) => ({
   loading: false,
   error: null,
   lastFetched: null,
+  loadingStartedAt: null,
   isRealtimeActive: false,
 
   /**
@@ -18,20 +19,24 @@ export const useProductStore = create((set, get) => ({
    * Forces a refresh if forced=true or if cache is older than TTL.
    */
   fetchAllProducts: async (forced = false) => {
-    const { products, lastFetched, loading } = get();
-    
-    // Skip if already loading
-    if (loading) return;
+    const { products, lastFetched, loading, loadingStartedAt } = get();
 
-    // Use cache if available and not forced (TTL: 5 minutes)
     const now = Date.now();
-    const isCacheValid = lastFetched && (now - lastFetched < 5 * 60 * 1000);
-    
-    if (products.length > 0 && isCacheValid && !forced) {
-      return;
-    }
+    // If loading has been true for more than 10 seconds the request likely hung —
+    // allow a new attempt rather than blocking forever.
+    const isLoadingStuck = loading && loadingStartedAt && (now - loadingStartedAt > 10000);
 
-    set({ loading: true, error: null });
+    if (loading && !isLoadingStuck) return;
+
+    // Cache is only valid if we actually have products AND it's recent (TTL: 2 minutes).
+    // If products is empty we NEVER treat it as a valid cache — empty could mean the
+    // session wasn't ready on first mount (RLS timing race) and we got 0 rows back.
+    const isCacheValid = products.length > 0 && lastFetched && (now - lastFetched < 2 * 60 * 1000);
+    if (isCacheValid && !forced) return;
+
+    // Stamp this request — used to discard the result if a newer request overtook it
+    const fetchStartedAt = now;
+    set({ loading: true, error: null, loadingStartedAt: fetchStartedAt });
 
     try {
       const { data, error: err } = await supabase
@@ -41,17 +46,23 @@ export const useProductStore = create((set, get) => ({
 
       if (err) throw err;
 
-      set({ 
-        products: data, 
-        lastFetched: Date.now(), 
-        loading: false 
-      });
-
-      // Automatically start Realtime if not active
-      get().initializeRealtime();
+      // Discard stale responses if a newer request has already started
+      if (get().loadingStartedAt === fetchStartedAt) {
+        set({
+          products: data ?? [],
+          lastFetched: data && data.length > 0 ? Date.now() : null,
+          loading: false,
+          loadingStartedAt: null
+        });
+      }
     } catch (err) {
       console.error('❌ Store Error: Failed to fetch products:', err.message);
-      set({ error: err.message, loading: false });
+      if (get().loadingStartedAt === fetchStartedAt) {
+        set({ error: err.message, loading: false, loadingStartedAt: null });
+      }
+    } finally {
+      // Always ensure Realtime is running so live changes self-heal a bad initial load
+      get().initializeRealtime();
     }
   },
 
@@ -90,6 +101,11 @@ export const useProductStore = create((set, get) => ({
   initializeRealtime: () => {
     if (get().isRealtimeActive) return;
 
+    // Debounce the refetch so a burst of rapid changes (e.g. an admin save
+    // that immediately triggers Realtime) doesn't compete for pool slots with
+    // the write that caused the event.
+    let realtimeDebounceTimer = null;
+
     const channel = supabase
       .channel('global-catalog-sync')
       .on(
@@ -97,9 +113,10 @@ export const useProductStore = create((set, get) => ({
         { event: '*', schema: 'public', table: 'products' },
         (payload) => {
           console.log('🔄 Session Cache: Realtime update received', payload);
-          // Instead of refetching everything, we could update the array locally,
-          // but for consistency with complex joins, we'll just trigger a refresh.
-          get().fetchAllProducts(true);
+          clearTimeout(realtimeDebounceTimer);
+          realtimeDebounceTimer = setTimeout(() => {
+            get().fetchAllProducts(true);
+          }, 1500);
         }
       )
       .subscribe();

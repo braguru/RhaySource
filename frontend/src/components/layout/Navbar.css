@@ -83,12 +83,21 @@
   display: none;
 }
 
+.navbar-logo-mobile {
+  height: 35px;
+  width: auto;
+  display: none;
+}
+
+
+@media (max-width: 900px) {
+  .navbar-logo-full.desktop-only { display: none !important; }
+  .navbar-logo-mobile.mobile-only { display: block !important; }
+  .navbar-logo-icon.desktop-only { display: none !important; }
+}
+
 @media (max-width: 480px) {
-  .navbar-logo-full { display: none; }
-  .navbar-logo-icon { display: block; }
-  /* Override for Workspace to show the SVG logo even on mobile */
-  .navbar-workspace .navbar-logo-full { display: block; height: 30px; }
-  .navbar-workspace .navbar-logo-icon { display: none; }
+  .navbar-logo-mobile { height: 30px; }
 }
 
 

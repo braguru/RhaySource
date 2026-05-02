@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toSlug } from '../../utils/slug';
+import { useTechCart } from '../../context/TechCartContext';
+import { FiPlus } from 'react-icons/fi';
 import './TechCard.css';
 
 const TechCard = ({ product }) => {
@@ -21,6 +23,14 @@ const TechCard = ({ product }) => {
     : (product.category || 'Technology');
 
   const mainImage = product.image_url || product.images?.primary;
+
+  const { addToTechCart } = useTechCart();
+
+  const handleQuickAdd = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToTechCart(product);
+  };
 
   return (
     <motion.div 
@@ -49,6 +59,14 @@ const TechCard = ({ product }) => {
           <p className="tech-card-price">GH₵ {formattedPrice}</p>
         </div>
       </Link>
+
+      <button 
+        className="tech-quick-add-btn"
+        onClick={handleQuickAdd}
+        title="Add to Workspace Bag"
+      >
+        <FiPlus />
+      </button>
     </motion.div>
   );
 };

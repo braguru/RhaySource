@@ -10,6 +10,7 @@ import { toSlug } from '../../utils/slug';
 import logoFull from '../../assets/logos/logo-full.png';
 import logoFullWorkspace from '../../assets/logo-full.svg';
 import logoIcon from '../../assets/logos/logo-icon.png';
+import logoShort from '../../assets/logo 1.png';
 import { supabase } from '../../lib/supabase';
 import './Navbar.css';
 
@@ -155,8 +156,13 @@ const Navbar = () => {
                 <img src={settings.branding.brand_logo_url} alt={brandName} className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} style={{ objectFit: 'contain' }} />
               ) : (
                 <>
-                  <img src={isWorkspace ? logoFullWorkspace : logoFull} alt={brandName} className={`navbar-logo-full ${isWorkspace ? 'logo-tech' : ''}`} />
-                  {!isWorkspace && <img src={logoIcon} alt={brandName} className={`navbar-logo-icon`} />}
+                  {/* Desktop Logo */}
+                  <img src={isWorkspace ? logoFullWorkspace : logoFull} alt={brandName} className={`navbar-logo-full desktop-only ${isWorkspace ? 'logo-tech' : ''}`} />
+                  
+                  {/* Mobile Logo */}
+                  <img src={logoShort} alt={brandName} className="navbar-logo-mobile mobile-only" />
+                  
+                  {!isWorkspace && <img src={logoIcon} alt={brandName} className={`navbar-logo-icon desktop-only`} />}
                 </>
               )}
             </Link>

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowLeft, FiCpu, FiLayers, FiHardDrive, FiMonitor, FiMessageSquare } from 'react-icons/fi';
@@ -40,6 +40,16 @@ export default function WorkspaceProductDetailPage() {
   const { product, loading, error } = useProduct(id);
   const { products: allTechProducts } = useProducts('workspace');
   const { addToTechCart } = useTechCart();
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
+  const containerRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!containerRef.current) return;
+    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomPos({ x, y });
+  };
 
   const related = allTechProducts.filter(p => 
     p.category === product?.category && p.id !== product?.id
@@ -72,7 +82,17 @@ export default function WorkspaceProductDetailPage() {
 
         <div className="wpdp-grid">
           <motion.div className="wpdp-image-panel" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <div className="tech-detail-image"><img src={mainImage} alt={product.name} /></div>
+            <div 
+              className="wpdp-image-wrap" 
+              ref={containerRef}
+              onMouseMove={handleMouseMove}
+              style={{
+                '--zoom-x': `${zoomPos.x}%`,
+                '--zoom-y': `${zoomPos.y}%`
+              }}
+            >
+              <img src={mainImage} alt={product.name} />
+            </div>
             <div className="wpdp-category-pill">
               {typeof product.category === 'object' ? product.category?.name : product.category}
             </div>
